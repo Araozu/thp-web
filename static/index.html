@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THP: Typed Hypertext Processor</title>
+
+    <!-- Tailwind output -->
+    <link href="/css/out.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed&family=Fugaz+One&family=Inconsolata&family=Inter&display=swap" rel="stylesheet"> 
+</head>
+<body class="bg-c-bg text-c-text">
+    <div class="px-2 grid grid-cols-2 gap-4 relative">
+        <div class="text-center h-screen overflow-hidden sticky top-0 left-0">
+
+            <div class="rounded-md my-4 mx-4 p-4 bg-c-bg-card"
+                style="box-shadow: 0 0 10px -4px var(--c-box-shadow);"
+            >
+                <h1
+                    class="py-8 font-display" 
+                    style="font-size: 10rem; text-shadow: 3px 3px 0 var(--c-bg)"
+                >
+                    thp 23
+                </h1>
+                <h1 class="text-6xl text-center py-8 font-display"
+                    style="text-shadow: 1px 1px 0 var(--c-bg)"
+                >
+                    Typed Hypertext Processor
+                </h1>
+
+                <p class="text-2xl">
+                    A <b>modern, consistent</b> typed language for PHP.
+                </p>
+
+                <button class="m-4 py-2 px-4 rounded font-display text-white
+                        bg-c-purple hover:bg-c-purple-light transition-colors"
+                >
+                    Get started
+                </button>
+
+                <button class="m-4 py-2 px-4 rounded font-display text-white
+                        bg-c-purple hover:bg-c-purple-light transition-colors"
+                >
+                    Learn
+                </button>
+            </div>
+            
+        </div>
+
+
+        <div>
+
+            <div class="rounded-md my-4 mx-2 p-4 bg-c-bg-card"
+                style="box-shadow: 0 0 10px -4px var(--c-box-shadow);"
+            >
+                <h2 class="text-2xl mb-2">
+                    A truly Static Type System
+                </h2>
+                <p>
+                    thp keeps track of the datatype of all variables, and allows
+                    you to have complex types and type inference.
+                </p>
+
+                <pre
+                    class="p-2 my-2 rounded-md bg-c-bg"
+                    style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
+                ><code>type Person = {
+    String name,
+    String lastName,
+    Int age,
+}
+
+Option[Array[Person]] persons = PersonManager::getAll()
+
+print("There are {persons?.length ?? 0} persons registered!")
+</code></pre>
+
+            </div>
+
+            <div class="rounded-md my-4 mx-2 p-4 bg-c-bg-card"
+                style="box-shadow: 0 0 10px -4px var(--c-box-shadow);"
+            >
+                <h2 class="text-2xl mb-2">
+                    Make the PHP stdlib <b>good</b>
+                </h2>
+                <p>
+                    thp groups all global variables and function of PHP into modules,
+                    to allow easy access and organization.
+                    <br>
+                    Function names, parameters and return types are improved, and you
+                    can treat primitive types as objects.
+                </p>
+
+                <pre
+                    class="p-2 my-2 rounded-md bg-c-bg"
+                    style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
+                ><code>val name = "John Doe"
+
+val lastNamePos = name.indexOf("Doe")  // Instead of `strpos`
+val letters = name.split("")  // Instead of `str_split` or `explode`
+
+val notALetters = letters.filter { $ != "a" }  // Instead of `array_filter`
+</code></pre>
+
+            </div>
+
+
+            <div class="rounded-md my-4 mx-2 p-4 bg-c-bg-card"
+                style="box-shadow: 0 0 10px -4px var(--c-box-shadow);"
+            >
+                <h2 class="text-2xl mb-2">
+                    Sound null safety & Pattern Matching
+                </h2>
+                <p>
+                    All null values must be explicitly marked and handled,
+                    avoiding many errors, via the <code>Option</code> ADT.
+                    <br>
+                    <br>
+                    Also, functions that return <code>false</code> as
+                    an error state now return an <code>Option</code>,
+                    and exceptions return a <code>Result</code> instead.
+                </p>
+
+                <pre
+                    class="p-2 my-2 rounded-md bg-c-bg"
+                    style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
+                ><code>val colors = Array("red", "blue", "green")
+
+val response = match colors.search("purple") {
+    Some(_) -> "purple is a color!"
+    None -> "purple is not a color"
+}
+
+print(response)
+</code></pre>
+
+                <pre
+                    class="p-2 my-2 rounded-md bg-c-bg"
+                    style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
+                ><code>use PDO
+use Globals::Env
+
+val #(Some(dbUri), Some(dbUser), Some(dbPassword)) = #(
+    Env::get("DB_URI"),
+    Env::get("DB_USERNAME"),
+    Env::get("DB_PASSWORD"),
+)
+else {
+    die("All 3 db environment variables must be set.")
+}
+
+match PDO(dbUri, dbUser, dbPassword) {
+    Ok(connection) -> { /* db operations */ }
+    Err(pdoException) -> { /* handle exception */ }
+}
+</code></pre>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

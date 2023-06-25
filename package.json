@@ -1,0 +1,18 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "concurrently -k \"pnpm tailwind:watch\" \"serve ./static/ -l 3333\"",
+    "tailwind:watch": "tailwindcss -i ./tailwind.css -o ./static/css/out.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "serve": "^14.2.0",
+    "tailwindcss": "^3.2.7"
+  }
+}

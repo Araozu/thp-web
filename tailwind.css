@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --c-bg: #121212;
+    --c-text: #fdfffc;
+    --c-purple: #7F669D;
+    --c-purple-light: #BA94D1;
+    --c-box-shadow: #FBFACD;
+    --c-bg-card: #374259;
+    --c-pink: #AE508D;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --c-bg: #F7FFE5;
+        --c-text: #121212;
+        --c-purple: #374259;
+        --c-purple-light: #BA94D1;
+        --c-box-shadow: #374259;
+        --c-bg-card: #FFB4B4;
+        --c-pink: #374259;
+    }
+}
+
+body {
+    font-family: 'Fira Sans Extra Condensed', Inter, sans-serif;
+}
+
+pre, code {
+    font-family: Inconsolata, monospace;
+}
