@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "generate": "md-docs",
     "watch": "concurrently -k \"pnpm tailwind:watch\" \"serve ./static/ -l 3333\"",
     "tailwind:watch": "tailwindcss -i ./tailwind.css -o ./static/css/out.css --watch"
   },

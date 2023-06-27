@@ -7,6 +7,7 @@
 
     <!-- Tailwind output -->
     <link href="/css/out.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/xcode-colors.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +17,7 @@
     <div class="px-2 grid grid-cols-2 gap-4 relative">
         <div class="text-center h-screen overflow-hidden sticky top-0 left-0">
 
-            <div class="rounded-md my-4 mx-4 p-4 bg-c-bg-card"
+            <div class="rounded-md m-4 p-4 bg-c-bg-card"
                 style="box-shadow: 0 0 10px -4px var(--c-box-shadow);"
             >
                 <h1
@@ -41,11 +42,12 @@
                     Get started
                 </button>
 
-                <button class="m-4 py-2 px-4 rounded font-display text-white
+                <a class="m-4 py-2 px-4 rounded font-display text-white
                         bg-c-purple hover:bg-c-purple-light transition-colors"
+                    href="/learn/"
                 >
                     Learn
-                </button>
+                </a>
             </div>
             
         </div>
@@ -65,18 +67,17 @@
                 </p>
 
                 <pre
-                    class="p-2 my-2 rounded-md bg-c-bg"
+                    class="p-2 my-2 rounded-md bg-c-bg language-misti"
                     style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
-                ><code>type Person = {
-    String name,
-    String lastName,
-    Int age,
+                >type <span class="token class-name">Person</span> = {
+    <span class="token class-name">String</span> name,
+    <span class="token class-name">String</span> lastName,
+    <span class="token class-name">Int</span> age,
 }
 
-Option[Array[Person]] persons = PersonManager::getAll()
+<span class="token class-name">Option</span>[<span class="token class-name">Array</span>[<span class="token class-name">Person</span>]] persons = <span class="token class-name">PersonManager</span>::getAll()
 
-print("There are {persons?.length ?? 0} persons registered!")
-</code></pre>
+print(<span class="token string">"There are {persons?.length ?? 0} persons registered!"</span>)</pre>
 
             </div>
 
@@ -95,15 +96,14 @@ print("There are {persons?.length ?? 0} persons registered!")
                 </p>
 
                 <pre
-                    class="p-2 my-2 rounded-md bg-c-bg"
+                    class="p-2 my-2 rounded-md bg-c-bg language-misti"
                     style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
-                ><code>val name = "John Doe"
+                ><span class="token keyword">val</span> name = <span class="token string">"John Doe"</span>
 
-val lastNamePos = name.indexOf("Doe")  // Instead of `strpos`
-val letters = name.split("")  // Instead of `str_split` or `explode`
+<span class="token keyword">val</span> lastNamePos = name.indexOf(<span class="token string">"Doe"</span>)  <span class="token comment">// Instead of `strpos`</span>
+<span class="token keyword">val</span> letters = name.split(<span class="token string">""</span>)  <span class="token comment">// Instead of `str_split` or `explode`</span>
 
-val notALetters = letters.filter { $ != "a" }  // Instead of `array_filter`
-</code></pre>
+<span class="token keyword">val</span> notALetters = letters.filter { $ != <span class="token string">"a"</span> }  <span class="token comment">// Instead of `array_filter`</span></pre>
 
             </div>
 
@@ -125,38 +125,36 @@ val notALetters = letters.filter { $ != "a" }  // Instead of `array_filter`
                 </p>
 
                 <pre
-                    class="p-2 my-2 rounded-md bg-c-bg"
+                    class="p-2 my-2 rounded-md bg-c-bg language-misti"
                     style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
-                ><code>val colors = Array("red", "blue", "green")
+                ><span class="token keyword">val</span> colors = <span class="token class-name">Array</span>(<span class="token string">"red"</span>, <span class="token string">"blue"</span>, <span class="token string">"green"</span>)
 
-val response = match colors.search("purple") {
-    Some(_) -> "purple is a color!"
-    None -> "purple is not a color"
+<span class="token keyword">val</span> response = match colors.search(<span class="token string">"purple"</span>) {
+    <span class="token class-name">Some</span>(_) -&gt; <span class="token string">"purple is a color!"</span>
+    <span class="token class-name">None</span> -&gt; <span class="token string">"purple is not a color"</span>
 }
 
-print(response)
-</code></pre>
-
+print(response)</pre>
+ 
                 <pre
-                    class="p-2 my-2 rounded-md bg-c-bg"
+                    class="p-2 my-2 rounded-md bg-c-bg language-misti"
                     style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
-                ><code>use PDO
-use Globals::Env
+                >use <span class="token class-name">PDO</span>
+use <span class="token class-name">Globals</span>::<span class="token class-name">Env</span>
 
-val #(Some(dbUri), Some(dbUser), Some(dbPassword)) = #(
-    Env::get("DB_URI"),
-    Env::get("DB_USERNAME"),
-    Env::get("DB_PASSWORD"),
+<span class="token keyword">val</span> #(<span class="token class-name">Some</span>(dbUri), <span class="token class-name">Some</span>(dbUser), <span class="token class-name">Some</span>(dbPassword)) = #(
+    <span class="token class-name">Env</span>::get(<span class="token string">"DB_URI"</span>),
+    <span class="token class-name">Env</span>::get(<span class="token string">"DB_USERNAME"</span>),
+    <span class="token class-name">Env</span>::get(<span class="token string">"DB_PASSWORD"</span>),
 )
 else {
-    die("All 3 db environment variables must be set.")
+    die(<span class="token string">"All 3 db environment variables must be set."</span>)
 }
 
-match PDO(dbUri, dbUser, dbPassword) {
-    Ok(connection) -> { /* db operations */ }
-    Err(pdoException) -> { /* handle exception */ }
-}
-</code></pre>
+match <span class="token class-name">PDO</span>(dbUri, dbUser, dbPassword) {
+    <span class="token class-name">Ok</span>(connection) -&gt; { /* db operations */ }
+    <span class="token class-name">Err</span>(pdoException) -&gt; { /* handle exception */ }
+}</pre>
 
             </div>
 

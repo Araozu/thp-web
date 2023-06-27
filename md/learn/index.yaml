@@ -1,0 +1,6 @@
+path: ""
+name: ""
+has_index: true
+children:
+- path: index
+  name: Index

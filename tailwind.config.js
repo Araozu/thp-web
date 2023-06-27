@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./static/*.html"],
+  content: ["./static/**/*.html"],
   theme: {
     extend: {
       colors: {
@@ -10,7 +10,8 @@ module.exports = {
         "c-purple-light": "var(--c-purple-light)",
         "c-box-shadow": "var(--c-box-shadow)",
         "c-bg-card": "var(--c-bg-card)",
-        "c-ping": "var(--c-pink)"
+        "c-ping": "var(--c-pink)",
+        "c-background-2": "var(--c-background-2)",
       }
     },
     fontFamily: {

@@ -21,6 +21,8 @@
         --c-box-shadow: #374259;
         --c-bg-card: #FFB4B4;
         --c-pink: #374259;
+
+        --c-background-2: #FEDEFF;
     }
 }
 
@@ -31,3 +33,13 @@ body {
 pre, code {
     font-family: Inconsolata, monospace;
 }
+
+.button-effect-receiver {
+    transition: transform 150ms;
+}
+
+.button-effect:hover .button-effect-receiver {
+    transform: translateX(-3px) translateY(-3px);
+}
+
+
