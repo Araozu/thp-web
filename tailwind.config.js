@@ -16,8 +16,8 @@ module.exports = {
     },
     fontFamily: {
       "mono": ["Inconsolata", "Iosevka", "monospace"],
-      "display": ["'Fugaz One'", "Inter", "'Fira Sans Extra Condensed'", "sans-serif"],
-      "body": ["'Fira Sans Extra Condensed'", "Inter", "sans-serif"],
+      "display": ["'Fugaz One'", "Inter", "'Fira Sans Condensed'", "sans-serif"],
+      "body": ["'Fira Sans Condensed'", "Inter", "sans-serif"],
     },
   },
   plugins: [],
