@@ -9,9 +9,10 @@ module.exports = {
         "c-purple": "var(--c-purple)",
         "c-purple-light": "var(--c-purple-light)",
         "c-box-shadow": "var(--c-box-shadow)",
-        "c-bg-card": "var(--c-bg-card)",
         "c-ping": "var(--c-pink)",
         "c-background-2": "var(--c-background-2)",
+        "c-primary": "var(--c-primary)",
+        "c-secondary": "var(--c-secondary)",
       }
     },
     fontFamily: {

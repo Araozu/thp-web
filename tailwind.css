@@ -5,11 +5,13 @@
 :root {
     --c-bg: #121212;
     --c-text: #fdfffc;
+    --c-primary: #884b6a;
     --c-purple: #7F669D;
     --c-purple-light: #BA94D1;
     --c-box-shadow: #FBFACD;
-    --c-bg-card: #374259;
     --c-pink: #AE508D;
+
+    --c-secondary: rgba(136,75,106, 0.5);
 }
 
 @media (prefers-color-scheme: light) {
@@ -19,10 +21,10 @@
         --c-purple: #374259;
         --c-purple-light: #BA94D1;
         --c-box-shadow: #374259;
-        --c-bg-card: #FFB4B4;
+        --c-primary: rgb(255, 180, 180);
         --c-pink: #374259;
 
-        --c-background-2: #FEDEFF;
+        --c-secondary: rgba(255, 180, 180, 0.5);
     }
 }
 
@@ -43,3 +45,15 @@ pre, code {
 }
 
 
+/* Used by headers generated from markdown */
+.heading-linked :hover::after{
+    color: var(--c-primary);
+    content: "#";
+    display: inline-block;
+    font-size: 1em;
+    line-height: 1;
+    margin-left: 0.5rem;
+}
+.heading-linked :hover {
+    text-decoration: underline var(--c-primary);
+}

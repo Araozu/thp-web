@@ -18,7 +18,7 @@ THP is a new programming language that compiles to PHP.
 - Ship a fast, native binary (not written in PHP).
 - Sub 10ms watch mode.
 - Support in-place compilation.
-- Emit readable PHP code (but not meant to be edited).
+- Emit readable PHP code.
 - Implement a LSP server.
 
 
@@ -26,14 +26,19 @@ THP is a new programming language that compiles to PHP.
 
 These are **not** aspects that THP looks to solve or implement.
 
-- Be what TypeScript is for JavaScript.
+- Be what TypeScript is for JavaScript (PHP with types).
 - Use PHP syntax/conventions.
-- 
+- Be familiar for PHP developers.
 
 
 ## Philosophy
 
+- Consistency over familiarity
+- Change over conventions
+- Explicit over implicit
 
+That is, while there is value in the items on
+the right, we value the items on the left more.
 
 ## Compared to PHP
 

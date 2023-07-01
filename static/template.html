@@ -16,9 +16,9 @@
 </head>
 <body class="bg-c-bg text-c-text">
     <div class="grid grid-cols-[10rem_12rem_auto] gap-2">
-        <div class="p-2">
+        <div class="p-2 overflow-x-scroll max-h-screen sticky top-0">
             <div class="relative mb-2 button-effect">
-                <a class="button-effect-receiver inline-block w-[9rem] p-4 bg-c-bg-card rounded-md"
+                <a class="button-effect-receiver inline-block w-[9rem] p-4 bg-c-primary rounded-md"
                     href="/"
                 >
                     <h1
@@ -32,18 +32,20 @@
                 <div class="w-full h-full bg-c-text absolute top-0 left-0 -z-10 rounded-md"></div>
             </div>
 
-            <nav class="rounded-md p-4 bg-c-bg-card">
+            <nav class="rounded-md p-4 bg-c-primary">
                 {{pages}}
             </nav>
         </div>
 
-        <nav class="rounded-md my-2 p-4 bg-c-background-2">
-            <h2 class="text-2xl">On this page</h2>
-
-            <br>
-
-            {{sidebar}}
-        </nav>
+        <div class="py-2 max-h-screen overflow-x-scroll sticky top-0">
+            <nav class="rounded-md p-4 bg-c-secondary">
+                <h2 class="text-2xl">On this page</h2>
+    
+                <br>
+    
+                {{sidebar}}
+            </nav>
+        </div>
         
         <main class="markdown p-4 my-2">
             {{markdown}}
