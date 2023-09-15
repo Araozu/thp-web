@@ -16,9 +16,10 @@ module.exports = {
       }
     },
     fontFamily: {
-      "mono": ["Inconsolata", "Iosevka", "monospace"],
-      "display": ["'Fugaz One'", "Inter", "'Fira Sans Condensed'", "sans-serif"],
+      "mono": ["'Fira Code'", "Inconsolata", "Iosevka", "monospace"],
+      "display": ["'Josefin Sans'", "'Fugaz One'", "sans-serif"],
       "body": ["'Fira Sans Condensed'", "Inter", "sans-serif"],
+      "nav-title": ["'Josefin Sans'", "'Fugaz One'", "sans-serif"],
     },
   },
   plugins: [],

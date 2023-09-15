@@ -4,3 +4,25 @@ has_index: true
 children:
 - path: index
   name: Index
+- path: install
+  name: Install
+- path: basics
+  name: Basics
+  children:
+  - path: hello-world
+    name: Hello, world!
+  - path: datatypes
+    name: Datatypes
+  - path: the-compiler
+    name: The compiler
+  - name: Variables
+    path: variables
+  - path: io
+    name: Input & Output
+  - path: comments
+    name: Comments
+- name: Flow control
+  path: flow-control
+  children:
+  - name: Conditionals
+    path: conditionals

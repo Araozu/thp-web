@@ -33,7 +33,7 @@ body {
 }
 
 pre, code {
-    font-family: Inconsolata, monospace;
+    font-family: 'Fira Code', Inconsolata, monospace;
 }
 
 .button-effect-receiver {
@@ -44,6 +44,9 @@ pre, code {
     transform: translateX(-3px) translateY(-3px);
 }
 
+.markdown p {
+    margin: 0.75rem 0;
+}
 
 /* Used by headers generated from markdown */
 .heading-linked :hover::after{

@@ -4,6 +4,13 @@ Welcome to the documentation of the THP programming languague.
 
 THP is a new programming language that compiles to PHP.
 
+<br>
+
+This page discusses some of the design decitions of the language,
+if you want to install THP go to the installation guide](/installation-guide)
+
+If you want to learn the language, go to the learn section.
+
 ## Goals
 
 - Bring static typing to PHP: Not just type hints, not use `mixed` for everything

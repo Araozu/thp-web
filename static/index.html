@@ -12,157 +12,71 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@400;500;600;700;800;900&family=Fugaz+One&family=Inconsolata&family=Inter&display=swap" rel="stylesheet"> 
+
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Josefin+Sans:ital,wght@0,400;1,700&display=swap" rel="stylesheet"> 
 </head>
 <body class="bg-c-bg text-c-text">
-    <div class="px-2 grid grid-cols-2 gap-4 relative">
-        <div class="text-center h-screen overflow-hidden sticky top-0 left-0">
 
-            <div class="rounded-md m-4 p-4 bg-c-primary"
-                style="box-shadow: 0 0 10px -4px var(--c-box-shadow);"
-            >
-                <h1
-                    class="py-8 font-display" 
-                    style="font-size: 10rem; text-shadow: 3px 3px 0 var(--c-bg)"
-                >
-                    thp 23
-                </h1>
-                <h1 class="text-6xl text-center py-8 font-display"
-                    style="text-shadow: 1px 1px 0 var(--c-bg)"
-                >
-                    Typed Hypertext Processor
-                </h1>
-
-                <p class="text-2xl">
-                    A <b>modern, consistent</b> typed language for PHP.
-                </p>
-
-                <div class="m-4 relative mb-2 button-effect inline-block bg-c-bg rounded">
-                    <button class="button-effect-receiver py-2 px-4 rounded font-display
-                        bg-c-text text-c-primary"
-                    >
-                        Get started
-                    </button>
-                </div>
-
-                <div class="m-4 relative mb-2 button-effect inline-block bg-c-bg rounded">
-                    <a class="button-effect-receiver py-2 px-4 rounded font-display inline-block
-                        bg-c-text text-c-primary"
-                        href="/learn/"
-                    >
-                        Learn
-                    </a>
-                </div>
-            </div>
-            
+    <div
+        class="max-w-[70rem] mx-auto py-28 grid grid-cols-2 gap-4"
+    >
+        <div>
+            <h1 class="font-display font-bold italic text-[6rem] leading-tight">
+                Typed
+                <br>
+                Hypertext
+                <br>
+                Processor
+            </h1>
+            <p class="font-display text-3xl pt-4">
+                Syntax, stdlib and types for PHP
+            </p>
         </div>
-
 
         <div>
-
-            <div class="rounded-md my-4 mx-2 p-4 bg-c-primary"
-                style="box-shadow: 0 0 10px -4px var(--c-box-shadow);"
+            <div
+                class="bg-[var(--code-theme-bg-color)] p-8 rounded-lg"
             >
-                <h2 class="text-2xl mb-2">
-                    A truly Static Type System
-                </h2>
-                <p>
-                    thp keeps track of the datatype of all variables, and allows
-                    you to have complex types and type inference.
-                </p>
-
+                <svg xmlns="http://www.w3.org/2000/svg" width="54" height="14" viewBox="0 0 54 14"><g fill="none" fill-rule="evenodd" transform="translate(1 1)"><circle cx="6" cy="6" r="6" fill="#FF5F56" stroke="#E0443E" stroke-width=".5"></circle><circle cx="26" cy="6" r="6" fill="#FFBD2E" stroke="#DEA123" stroke-width=".5"></circle><circle cx="46" cy="6" r="6" fill="#27C93F" stroke="#1AAB29" stroke-width=".5"></circle></g></svg>
+                <br>
                 <pre
-                    class="p-2 my-2 rounded-md bg-c-bg language-misti"
-                    style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
-                >type <span class="token class-name">Person</span> = {
-    <span class="token class-name">String</span> name,
-    <span class="token class-name">String</span> lastName,
-    <span class="token class-name">Int</span> age,
+                    class="rounded-md bg-c-bg language-misti"
+                    style="padding: 0 !important;"
+                ><span class="token keyword">use</span> <span class="token class-name">Globals</span>::<span class="token class-name">POST</span>
+<span class="token keyword">use</span> <span class="token class-name">JSON</span>
+
+<span class="token keyword">val</span> person_id = <span class="token class-name">POST</span>::get(<span class="token string">"person_id"</span>) ?: <span class="token keyword">die</span>
+
+<span class="token keyword">match</span> <span class="token class-name">Person</span>::find_by_id(person_id) {
+    <span class="token class-name">Ok</span>(person) => {
+        <span class="token class-name">JSON</span>::encode(person)
+    }
+    <span class="token class-name">Err</span>(e) => {
+        <span class="token class-name">JSON</span>::encode(Obj {<span class="token string">"error"</span>: e})
+    }
 }
-
-<span class="token class-name">Option</span>[<span class="token class-name">Array</span>[<span class="token class-name">Person</span>]] persons = <span class="token class-name">PersonManager</span>::getAll()
-
-print(<span class="token string">"There are {persons?.length ?? 0} persons registered!"</span>)</pre>
+</pre>
 
             </div>
-
-            <div class="rounded-md my-4 mx-2 p-4 bg-c-primary"
-                style="box-shadow: 0 0 10px -4px var(--c-box-shadow);"
-            >
-                <h2 class="text-2xl mb-2">
-                    A <b>new</b> stdlib for PHP
-                </h2>
-                <p>
-                    thp groups all global variables and function of PHP into modules,
-                    to allow easy access and organization.
-                    <br>
-                    Function names, parameters and return types are improved, and you
-                    can treat primitive types as objects.
-                </p>
-
-                <pre
-                    class="p-2 my-2 rounded-md bg-c-bg language-misti"
-                    style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
-                ><span class="token keyword">val</span> name = <span class="token string">"John Doe"</span>
-
-<span class="token keyword">val</span> lastNamePos = name.indexOf(<span class="token string">"Doe"</span>)  <span class="token comment">// Instead of `strpos`</span>
-<span class="token keyword">val</span> letters = name.split(<span class="token string">""</span>)  <span class="token comment">// Instead of `str_split` or `explode`</span>
-
-<span class="token keyword">val</span> notALetters = letters.filter { $ != <span class="token string">"a"</span> }  <span class="token comment">// Instead of `array_filter`</span></pre>
-
-            </div>
-
-
-            <div class="rounded-md my-4 mx-2 p-4 bg-c-primary"
-                style="box-shadow: 0 0 10px -4px var(--c-box-shadow);"
-            >
-                <h2 class="text-2xl mb-2">
-                    Sound null safety & Pattern Matching
-                </h2>
-                <p>
-                    All null values must be explicitly marked and handled,
-                    avoiding many errors, via the <code>Option</code> ADT.
-                    <br>
-                    <br>
-                    Also, functions that return <code>false</code> as
-                    an error state now return an <code>Option</code>,
-                    and exceptions return a <code>Result</code> instead.
-                </p>
-
-                <pre
-                    class="p-2 my-2 rounded-md bg-c-bg language-misti"
-                    style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
-                ><span class="token keyword">val</span> allowedColors = <span class="token class-name">Array</span>(<span class="token string">"red"</span>, <span class="token string">"blue"</span>, <span class="token string">"green"</span>)
-
-<span class="token keyword">val</span> response = match colors.search(<span class="token string">"purple"</span>) {
-    <span class="token class-name">Some</span>(_) -&gt; <span class="token string">"purple is allowed!"</span>
-    <span class="token class-name">None</span> -&gt; <span class="token string">"purple is not allowed"</span>
-}
-
-print(response)</pre>
- 
-                <pre
-                    class="p-2 my-2 rounded-md bg-c-bg language-misti"
-                    style="box-shadow: inset 0 0 10px -5px var(--c-box-shadow);"
-                >use <span class="token class-name">PDO</span>
-use <span class="token class-name">Globals</span>::<span class="token class-name">Env</span>
-
-<span class="token keyword">val</span> #(<span class="token class-name">Some</span>(dbUri), <span class="token class-name">Some</span>(dbUser), <span class="token class-name">Some</span>(dbPassword)) = #(
-    <span class="token class-name">Env</span>::get(<span class="token string">"DB_URI"</span>),
-    <span class="token class-name">Env</span>::get(<span class="token string">"DB_USERNAME"</span>),
-    <span class="token class-name">Env</span>::get(<span class="token string">"DB_PASSWORD"</span>),
-)
-else {
-    die(<span class="token string">"All 3 db environment variables must be set."</span>)
-}
-
-match <span class="token class-name">PDO</span>(dbUri, dbUser, dbPassword) {
-    <span class="token class-name">Ok</span>(connection) -&gt; { /* db operations */ }
-    <span class="token class-name">Err</span>(pdoException) -&gt; { /* handle exception */ }
-}</pre>
-
-            </div>
-
         </div>
+    </div>
+
+    <div
+        class="max-w-[70rem] mx-auto text-center"
+    >
+        <a
+            class="inline-block font-display text-2xl border-4 border-[#F5A9B8] py-3 px-8 mx-6 rounded"
+            href="/learn/"
+        >
+            Learn
+        </a>
+
+        <a
+            class="inline-block font-display text-2xl border-4 border-[#5BCEFA] py-3 px-8 mx-6 rounded"
+            href="/install/"
+        >
+            Install
+        </a>
     </div>
 </body>
 </html>

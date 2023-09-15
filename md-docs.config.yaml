@@ -3,7 +3,8 @@ output: static
 template: static/template.html
 
 headings:
-  h1: text-4xl mb-4 font-black
-  h2: text-3xl mt-8 mb-4 font-bold
-  h3: text-2xl mt-8 mb-4 font-medium
+  h1: text-3xl mb-4 font-display opacity-90
+  h2: text-2xl mt-10 mb-4 font-display opacity-90
+  h3: text-xl mt-10 mb-4 font-display opacity-90
 
+file_tree_title_classes: "uppercase text-sm font-display"
