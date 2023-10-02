@@ -16,12 +16,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Josefin+Sans:ital,wght@0,400;1,700&display=swap" rel="stylesheet"> 
 </head>
 <body class="bg-c-bg text-c-text">
+    <nav class="sticky top-0 h-16 border-b border-gray-400 bg-[rgba(18,18,18,0.5)] backdrop-blur-md z-20">
+        <div class="max-w-[70rem] mx-auto h-full w-full flex items-center">
+            <button class="font-display font-bold italic text-4xl">
+                <span 
+                    class="text-[#F5A9B8]"
+                >t</span><span>h</span><span class="text-[#5BCEFA]">p</span>
+            </button>
+        </div>
+    </nav>
 
     <div
-        class="max-w-[70rem] mx-auto py-28 grid grid-cols-2 gap-4"
+        class="max-w-[70rem] mx-auto py-16 grid grid-cols-2 gap-4"
     >
         <div>
-            <h1 class="font-display font-bold italic text-[6rem] leading-tight">
+            <h1
+                class="font-display font-bold italic text-[6rem] leading-tight"
+            >
                 Typed
                 <br>
                 Hypertext
@@ -33,32 +44,34 @@
             </p>
         </div>
 
-        <div>
             <div
-                class="bg-[var(--code-theme-bg-color)] p-8 rounded-lg"
+                class="bg-[var(--code-theme-bg-color)] p-8 rounded-lg relative"
             >
+            <span class="absolute inline-block h-[40rem] w-[40rem] -z-10 top-1/2 left-1/2 rounded-full
+                    transform -translate-x-1/2 -translate-y-1/2"
+                style="background-image: conic-gradient(from 180deg at 50% 50%,#5BCEFA 0deg,#a853ba 180deg,#F5A9B8 1turn);
+                    filter: blur(75px); opacity: 0.75;"
+            >
+            </span>
+
                 <svg xmlns="http://www.w3.org/2000/svg" width="54" height="14" viewBox="0 0 54 14"><g fill="none" fill-rule="evenodd" transform="translate(1 1)"><circle cx="6" cy="6" r="6" fill="#FF5F56" stroke="#E0443E" stroke-width=".5"></circle><circle cx="26" cy="6" r="6" fill="#FFBD2E" stroke="#DEA123" stroke-width=".5"></circle><circle cx="46" cy="6" r="6" fill="#27C93F" stroke="#1AAB29" stroke-width=".5"></circle></g></svg>
                 <br>
-                <pre
-                    class="rounded-md bg-c-bg language-misti"
-                    style="padding: 0 !important;"
-                ><span class="token keyword">use</span> <span class="token class-name">Globals</span>::<span class="token class-name">POST</span>
-<span class="token keyword">use</span> <span class="token class-name">JSON</span>
-
-<span class="token keyword">val</span> person_id = <span class="token class-name">POST</span>::get(<span class="token string">"person_id"</span>) ?: <span class="token keyword">die</span>
-
-<span class="token keyword">match</span> <span class="token class-name">Person</span>::find_by_id(person_id) {
-    <span class="token class-name">Ok</span>(person) => {
-        <span class="token class-name">JSON</span>::encode(person)
-    }
-    <span class="token class-name">Err</span>(e) => {
-        <span class="token class-name">JSON</span>::encode(Obj {<span class="token string">"error"</span>: e})
-    }
-}
-</pre>
-
+                <pre style="padding: 0 !important;">
+                    <code class="language-thp">
+                        val person_id = POST::get("person_id") ?: die
+                        
+                        match Person::find_by_id(person_id)
+                        | Ok(person)
+                        {
+                            JSON::encode(person)
+                        }
+                        | Err(e)
+                        {
+                            JSON::encode(Obj {"error": e})
+                        }                        
+                    </code>
+                </pre>
             </div>
-        </div>
     </div>
 
     <div
@@ -78,5 +91,8 @@
             Install
         </a>
     </div>
+
+    <script src="/js/prism.min.js"></script>
+    <script src="/js/prism.thp.js"></script>
 </body>
 </html>

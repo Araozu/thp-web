@@ -11,14 +11,10 @@ children:
   children:
   - path: hello-world
     name: Hello, world!
-  - path: datatypes
-    name: Datatypes
-  - path: the-compiler
-    name: The compiler
   - name: Variables
     path: variables
-  - path: io
-    name: Input & Output
+  - path: datatypes
+    name: Datatypes
   - path: comments
     name: Comments
 - name: Flow control
@@ -26,3 +22,41 @@ children:
   children:
   - name: Conditionals
     path: conditionals
+  - name: Loops
+    path: loops
+  - name: Match
+    path: match
+- name: Collections
+  path: collections
+  children:
+  - name: Tuples
+    path: tuples
+  - name: Arrays
+    path: arrays
+  - name: Maps
+    path: maps
+  - name: Sets
+    path: sets
+- name: Functions
+  path: functions
+  children:
+  - name: Declaration
+    path: declaration
+  - name: Parameter references
+    path: parameters
+  - name: Higher-order functions
+    path: higher-order
+  - name: Lambdas
+    path: lambdas
+- name: ADTs
+  path: adts
+  children:
+  - name: Union types
+    path: union-types
+- name: Classes
+  path: classes
+  children:
+  - name: Definition
+    path: definition
+  - name: Static
+    path: static

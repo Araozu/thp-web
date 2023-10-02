@@ -24,21 +24,21 @@ fun count(Array[Int] numbers) -> Int {
 ## Mutable reference
 
 ```thp
-fun add_25(&Array[Int] numbers) {
+fun push_25(&Array[Int] numbers) {
     numbers.push(25)    // Ok, will also mutate the original array
 }
 ```
 
 Placing a `&` before the type makes the parameter a mutable
 reference. Mutable methods can be used, and the original
-data **will** be mutated.
+data **can** be mutated.
 
-The callee *must* also use `&`.
+The caller *must* also use `&`.
 
 ```thp
-val numbers = Array(1, 2, 3, 4)
+val numbers = Array(0, 1, 2, 3)
 
-add_25(&numbers)    // Pass `numbers` as reference.
+push_25(&numbers)    // Pass `numbers` as reference.
 
 print(numbers(4))   // `Some(25)`
 ```
@@ -54,13 +54,13 @@ fun add_25(clone Array[Int] numbers) {
 ```
 
 Using the `clone` keyword before the type creates a mutable copy
-of the parameter. The original data will **not** be mutated.
+of the parameter (CoW). The original data will **not** be mutated.
 
 
 ```thp
 val numbers = Array(1, 2, 3, 4)
 
-add_25(&numbers)    // Pass `numbers` as reference.
+add_25(numbers)    // Pass `numbers` as clone.
 
 print(numbers(4))   // None
 ```
