@@ -58,7 +58,7 @@ the right, we value the items on the left more.
 
 ## Improvements
 
-```misti
+```thp
 use PDO
 use Globals::Env
 
@@ -71,9 +71,8 @@ else {
     die("All 3 db environment variables must be set.")
 }
 
-match PDO(dbUri dbUser dbPassword) {
-    Ok(connection) -> { /* db operations */ }
-    Err(pdoException) -> { /* handle exception */ }
-}
+match PDO(dbUri dbUser dbPassword)
+| Ok(connection) { /* db operations */ }
+| Err(pdoException) { /* handle exception */ }
 ```
 
