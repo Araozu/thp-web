@@ -11,12 +11,13 @@
     --c-box-shadow: #FBFACD;
     --c-pink: #AE508D;
 
+    --c-nav-bg: rgb(18, 18, 18, 0.5);
     --c-secondary: rgba(136,75,106, 0.5);
 }
 
 @media (prefers-color-scheme: light) {
     :root {
-        --c-bg: #F7FFE5;
+        --c-bg: rgb(255, 247, 255);
         --c-text: #121212;
         --c-purple: #374259;
         --c-purple-light: #BA94D1;
@@ -24,7 +25,8 @@
         --c-primary: rgb(255, 180, 180);
         --c-pink: #374259;
 
-        --c-secondary: rgba(255, 180, 180, 0.5);
+        --c-nav-bg: rgb(255, 247, 255, 0.5);
+        --c-secondary: rgba(255, 255, 240, 0.5);
     }
 }
 

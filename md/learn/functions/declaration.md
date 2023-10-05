@@ -62,6 +62,22 @@ val first = get_first_item(numbers)
 ```
 
 
+## Named arguments
+
+```thp
+fun html_special_chars(
+    String input,
+    Int? flags,
+    String? encoding,
+    Bool? double_encoding,
+) -> String
+{
+    // ...
+}
+
+html_special_chars(input, double_encode: false)
+```
+
 
 
 

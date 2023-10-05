@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,49 +13,46 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@400;500;600;700;800;900&family=Fugaz+One&family=Inconsolata&family=Inter&display=swap" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Josefin+Sans:ital,wght@0,400;1,700&display=swap" rel="stylesheet"> 
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@400;500;600;700;800;900&family=Fugaz+One&family=Inconsolata&family=Inter&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Josefin+Sans:ital,wght@0,400;1,700&display=swap"
+        rel="stylesheet">
 
     <style>
-        html {
-            font-size: 20px;
-        }
     </style>
 </head>
+
 <body class="bg-c-bg text-c-text">
-    <div class="grid grid-cols-[10rem_12rem_auto] gap-2 max-w-[70rem] mx-auto">
-        <div class="p-2 overflow-x-scroll max-h-screen sticky top-0">
-            <div class="relative mb-2 button-effect">
-                <a class="button-effect-receiver inline-block w-[9rem] p-4 bg-c-primary rounded-md"
-                    href="/"
-                >
-                    <h1
-                        class="py-8 font-display text-6xl text-center font-bold italic"
-                        style="text-shadow: 3px 3px 0 var(--c-bg)"
-                    >
-                        thp
-                    </h1>
-                </a>
+    <nav class="fixed w-screen top-0 h-16 border-b border-gray-400 bg-c-nav-bg backdrop-blur-md z-20">
+        <div class="max-w-[70rem] mx-auto h-full w-full flex items-center">
+            <button class="font-display font-bold italic text-4xl">
+                <span class="text-[#F5A9B8]">t</span><span>h</span><span class="text-[#5BCEFA]">p</span>
+            </button>
+        </div>
+    </nav>
 
-                <div class="w-full h-full bg-c-text absolute top-0 left-0 -z-10 rounded-md"></div>
-            </div>
-
-            <nav class="rounded-md p-4 border-2 border-[#F5A9B8]">
+    <div class="grid grid-cols-[12rem_12rem_auto] gap-2 max-w-[70rem] mx-auto">
+        <div class="pt-16 h-screen sticky top-0">
+            <nav class="rounded-md p-4 mt-2 border-2 border-[#F5A9B8] overflow-x-scroll"
+                style="height: calc(100vh - 4.75rem);"
+            >
                 {{pages}}
             </nav>
         </div>
 
-        <div class="py-2 max-h-screen overflow-x-scroll sticky top-0">
-            <nav class="rounded-md p-4 border-2 border-[#5BCEFA]">
+        <div class="pt-16 max-h-screen overflow-x-scroll sticky top-0">
+            <nav class="rounded-md mt-2 p-4 border-2 border-[#5BCEFA]">
                 <h2 class="text-2xl">On this page</h2>
-    
+
                 <br>
-    
+
                 {{sidebar}}
             </nav>
         </div>
 
-        <main class="markdown p-4 my-2">
+        <main class="py-[4.5rem] markdown p-4">
             {{markdown}}
         </main>
     </div>
@@ -62,4 +60,5 @@
     <script src="/js/prism.min.js"></script>
     <script src="/js/prism.thp.js"></script>
 </body>
+
 </html>

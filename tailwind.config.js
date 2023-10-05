@@ -13,6 +13,7 @@ module.exports = {
         "c-background-2": "var(--c-background-2)",
         "c-primary": "var(--c-primary)",
         "c-secondary": "var(--c-secondary)",
+        "c-nav-bg": "var(--c-nav-bg)",
       }
     },
     fontFamily: {

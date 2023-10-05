@@ -20,6 +20,6 @@ Prism.languages.thp = {
     "operator": /[<>]=?|[!=]=?=?|--?|\$|\+\+?|&&?|\|\|?|[?*/~^%]/,
     "punctuation": /[{}[\];(),.]/,
     "boolean": /\b(?:false|true)\b/,
-    "class-name": /\b[A-Z][a-zA-Z_0-9]+\b/,
+    "class-name": /\b[A-Z][a-zA-Z_0-9]*\b/,
     "variable": /\b[a-z_0-9][a-zA-Z_0-9]+:/,
 };

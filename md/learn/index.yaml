@@ -60,3 +60,9 @@ children:
     path: definition
   - name: Static
     path: static
+  - name: Interfaces
+    path: interfaces
+  - name: Anonymous classes
+    path: anonymous
+  - name: Magic
+    path: magic
