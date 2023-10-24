@@ -4,7 +4,13 @@
 ## Class constants
 
 ```thp
-static Cat {
+class Cat
+{
+    // Stateful code
+}
+
+static Cat
+{
     const CONSTANT = "constant value"
 }
 
@@ -18,8 +24,10 @@ aka. plain, old functions
 
 
 ```thp
-static Cat {
-    fun static_method() -> Int {
+static Cat
+{
+    fun static_method() -> Int
+    {
         // ...
     }
 }
@@ -34,8 +42,9 @@ aka. global variables
 
 
 ```thp
-static Cat {
-    public var access_count = 0
+static Cat
+{
+    pub var access_count = 0
 }
 
 print(Cat::access_count)    // 0

@@ -1,6 +1,6 @@
 # Magic methods
 
-Are always public
+Don't get special treatment.
 
 ```thp
 
@@ -14,3 +14,7 @@ class Cat
 
 ```
 
+
+```thp
+
+```

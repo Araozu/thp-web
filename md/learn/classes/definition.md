@@ -31,8 +31,8 @@ class SimpleClass
     // Properties are private by default
     var String? name;
 
-    // Made public with `public`
-    public var String? surname;
+    // Made public with `pub`
+    pub var String? surname;
 
     // Methods are private by default
     fun display_name($)
@@ -41,7 +41,7 @@ class SimpleClass
         print($name)
     }
 
-    public fun get_name($) -> String?
+    pub fun get_name($) -> String?
     {
         $name
     }
@@ -61,7 +61,7 @@ Kotlin style
 ```thp
 class Cat(val String name)
 {
-    public fun get_name($) -> String
+    pub fun get_name($) -> String
     {
         $name
     }
@@ -78,7 +78,7 @@ Kotlin style
 ```thp
 class Animal(val String name)
 {
-    public fun say_name($)
+    pub fun say_name($)
     {
         print($name)
     }

@@ -11,7 +11,7 @@ interface Serializable
 
 
 
-class Cat -> Serializable,
+class Cat -> Serializable
 {
     pub fun Serializable($) -> String
     {

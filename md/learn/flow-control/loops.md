@@ -58,7 +58,7 @@ while index < colors.size()
 
 ## Infinite loop
 
-Basically Rust's loop.
+Basically Rust*'s loop.
 
 ```thp
 loop
@@ -72,7 +72,8 @@ loop
 }
 ```
 
-
+* Rust is a trademark of the Rust Foundation. THP is not affiliated,
+endorsed or supported by the Rust Foundation.
 
 
 

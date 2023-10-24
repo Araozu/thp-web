@@ -17,6 +17,9 @@ fun map[A, B](Array[A] input, (A) -> B function) -> Array[B]
 fun generate_generator() -> () -> Int
 {
     // code...
+    return fun() {
+        322
+    }
 }
 
 

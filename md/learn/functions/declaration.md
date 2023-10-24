@@ -78,7 +78,20 @@ fun html_special_chars(
 html_special_chars(input, double_encode: false)
 ```
 
+## Named arguments with different names
 
+```thp
+fun replace(
+    String in: input,
+    String each: pattern,
+    String with: replacement,
+) -> String
+{
+    // Use input, pattern and replacement
+}
+
+replace(each: " ", in: "my name", with: "-")
+```
 
 
 
