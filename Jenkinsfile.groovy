@@ -27,5 +27,10 @@ pipeline {
                 sh 'md-docs'
             }
         }
+        stage('Deploy') {
+            steps {
+                sh 'cp -r ./static/* /var/www/thp-docs/'
+            }
+        }
     }
 }
