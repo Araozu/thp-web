@@ -21,6 +21,7 @@ pipeline {
                 PATH = "${env.WORKSPACE}/node_modules/.bin:${env.PATH}"
             }
             steps {
+                sh 'echo $PATH'
                 sh 'bun tailwind:build'
                 sh 'md-docs'
             }
