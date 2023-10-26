@@ -21,9 +21,7 @@ pipeline {
                 PATH = "${env.WORKSPACE}/node_modules/.bin:${env.PATH}"
             }
             steps {
-                sh 'echo $PATH'
-                sh 'ls /var/lib/jenkins/workspace/thp-docs/node_modules/.bin'
-                sh 'bun tailwind:build'
+                sh 'tailwindcss -i ./tailwind.css -o ./static/css/out.css --minify'
                 sh 'md-docs'
             }
         }
