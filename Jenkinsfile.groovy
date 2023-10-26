@@ -21,7 +21,7 @@ pipeline {
                 PATH = "${env.WORKSPACE}/node_modules/.bin:${env.PATH}"
             }
             steps {
-                sh 'tailwindcss -i ./tailwind.css -o ./static/css/out.css --minify'
+                sh 'bun run tailwind:build'
                 sh 'md-docs'
             }
         }
