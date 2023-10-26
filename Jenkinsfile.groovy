@@ -21,8 +21,8 @@ pipeline {
                 PATH = "${env.WORKSPACE}/node_modules/.bin:${env.PATH}"
             }
             steps {
-                sh 'pnpm tailwind:build'
                 sh 'md-docs'
+                sh 'pnpm tailwind:build'
             }
         }
         stage('Deploy') {
