@@ -1,19 +1,19 @@
 pipeline {
     agent any
     environment {
-        PATH = "/var/lib/jenkins/.bun/bin:/var/lib/jenkins/bin:${env.PATH}"
+        PATH = "/var/lib/jenkins/.local/share/pnpm:/var/lib/jenkins/.nvm:/var/lib/jenkins/.bun/bin:/var/lib/jenkins/bin:${env.PATH}"
     }
     stages {
         stage('Test env') {
             steps {
                 echo 'Testing...'
-                echo 'Is Bun working?...'
-                sh 'bun --version'
+                echo 'Is pnpm working?...'
+                sh 'pnpm --version'
             }
         }
         stage('Install') {
             steps {
-                sh 'bun install'
+                sh 'pnpm i'
             }
         }
         stage('Build') {
@@ -21,7 +21,7 @@ pipeline {
                 PATH = "${env.WORKSPACE}/node_modules/.bin:${env.PATH}"
             }
             steps {
-                sh 'bun run tailwind:build'
+                sh 'pnpm tailwind:build'
                 sh 'md-docs'
             }
         }
