@@ -16,5 +16,10 @@ class Cat
 
 
 ```thp
+val option = Some("GAAA")
+val Some(value) = option
+
+val colors = Array("red", "green", "blue")
+val Array()
 
 ```
