@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Install') {
             steps {
-                sh 'bun install -p'
+                sh 'bun install'
             }
         }
         stage('Build') {
