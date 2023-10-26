@@ -5,9 +5,11 @@ pipeline {
     }
     stages {
         stage('Test') {
-            echo 'Testing...'
-            echo 'Is Bun working?...'
-            sh 'bun --version'
+            steps {
+                echo 'Testing...'
+                echo 'Is Bun working?...'
+                sh 'bun --version'
+            }
         }
     }
 }
