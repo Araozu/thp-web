@@ -13,6 +13,7 @@ pipeline {
         }
         stage('Build') {
             steps {
+                sh 'bun install -p'
                 sh 'bun tailwind:build'
                 sh 'md-docs'
             }
