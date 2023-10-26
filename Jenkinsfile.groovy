@@ -22,7 +22,7 @@ pipeline {
             }
             steps {
                 sh 'echo $PATH'
-                sh 'ls ${env.WORKSPACE}/node_modules/.bin'
+                sh 'ls /var/lib/jenkins/workspace/thp-docs/node_modules/.bin'
                 sh 'bun tailwind:build'
                 sh 'md-docs'
             }
