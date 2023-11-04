@@ -2,8 +2,6 @@
 
 Basically kotlin syntax.
 
-Methods have to have a first parameter `$`.
-
 
 ## Create a new instance of a class
 
@@ -29,19 +27,19 @@ val instance = SimpleClass()
 class SimpleClass
 {
     // Properties are private by default
-    var String? name;
+    var String? name = ...
 
     // Made public with `pub`
-    pub var String? surname;
+    pub var String? surname = ...
 
     // Methods are private by default
-    fun display_name($)
+    fun display_name()
     {
         // `$` is used instead of $this
         print($name)
     }
 
-    pub fun get_name($) -> String?
+    pub fun get_name() -> String?
     {
         $name
     }
@@ -61,7 +59,7 @@ Kotlin style
 ```thp
 class Cat(val String name)
 {
-    pub fun get_name($) -> String
+    pub fun get_name() -> String
     {
         $name
     }
@@ -71,6 +69,21 @@ val michifu = Cat("Michifu")
 print(michifu.get_name())
 ```
 
+With kotlin's `init` block.
+
+```thp
+class Dog(val String name)
+{
+    val Int name_length
+
+    init
+    {
+        print("Dog has been instantiated")
+        $name_length = name.length()
+    }
+}
+```
+
 ## Inheritance
 
 Kotlin style
@@ -78,7 +91,7 @@ Kotlin style
 ```thp
 class Animal(val String name)
 {
-    pub fun say_name($)
+    pub fun say_name()
     {
         print($name)
     }

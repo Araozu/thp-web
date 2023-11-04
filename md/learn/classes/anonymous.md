@@ -14,7 +14,8 @@ class Logger
 setLogger(Logger())
 
 // Using an anonymous class
-setLogger(class {
+setLogger(class
+{
     pub fun log(String msg)
     {
         print(msg)
@@ -23,7 +24,8 @@ setLogger(class {
 ```
 
 ```thp
-setLogger(class(Int param1) -> SomeClass(param1), SomeInterface {
+setLogger(class(Int param1) -> SomeClass(param1), SomeInterface
+{
     pub fun method()
     {
         // code

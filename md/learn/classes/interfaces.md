@@ -6,14 +6,14 @@
 interface Serializable
 {
     // Methods are always public in interfaces
-    fun serialize($) -> String
+    fun serialize() -> String
 }
 
 
 
 class Cat -> Serializable
 {
-    pub fun Serializable($) -> String
+    pub fun Serializable() -> String
     {
         // code
     }
