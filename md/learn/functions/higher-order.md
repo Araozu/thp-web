@@ -23,8 +23,8 @@ fun generate_generator() -> () -> Int
 }
 
 
-val generator = generate_generator()  // A function
-val value = generate_generator()()    // An Int
+let generator = generate_generator()  // A function
+let value = generate_generator()()    // An Int
 ```
 
 

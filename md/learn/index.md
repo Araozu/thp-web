@@ -25,7 +25,7 @@ If you want to learn the language, go to the learn section.
 - Create a **consistent** language.
 - Create typings for popular libraries (like TS's `.d.ts`).
 - Have a simple instalation and configuration (requiring just Composer).
-- Ship a fast, native binary (not written in PHP).
+- Ship a fast, native binary (written in Rust) (why use PHP when we can go native?).
 - Sub 10ms watch mode.
 - Support in-place compilation.
 - Emit readable PHP code.
@@ -47,16 +47,154 @@ These are **not** aspects that THP looks to solve or implement.
 - Change over conventions
 - Explicit over implicit
 
-That is, while there is value in the items on
-the right, we value the items on the left more.
 
-## Compared to PHP
+## Some differences with PHP
 
-### Differences
+```thp
+// PHP
+$has_key = str_contains($haystack, 'needle');
 
-### Runtime similarities
+// THP
+val has_key = haystack.contains("needle")
+```
 
-## Improvements
+- Explicit variable declaration
+- No `$` for variable names (and thus no `$$variable`)
+- No semicolons
+- Use methods on common datatypes
+- Strings use only double quotes
+
+---
+
+```thp
+// PHP
+[
+    'names' => ['Toni', 'Stark'],
+    'age' => 33,
+    'numbers' => [32, 64, 128]
+]
+
+// THP
+Obj {
+    names: #("Toni", "Stark"), // Tuple
+    age: 33,
+    numbers: [32, 64, 128]
+}
+```
+
+- Tuples, Arrays, Sets, Maps are clearly different
+- JS-like object syntax
+
+---
+
+```thp
+// PHP
+$cat = new Cat("Michifu", 7);
+$cat->meow();
+
+// THP
+val cat = Cat("Michifu", 7)
+cat.meow();
+```
+
+- No `new` for classes
+- Use dot `.` instead of arrow `->` syntax
+
+---
+
+
+```thp
+// PHP
+use \Some\Deeply\Nested\Class
+use \Some\Deeply\Nested\Interface
+
+// THP
+use Some::Deeply::Nested::{Class, Interface}
+```
+
+- Different module syntax
+- PSR-4 required
+- No `include` or `require`
+
+---
+
+Other things:
+
+- Pattern matching
+- ADTs
+
+
+### Runtime changes
+
+THP should add as little runtime as possible.
+
+```thp
+// ===== current =======
+val name = "John"
+var name = "John"
+
+String name = "John"
+var String name = "John"
+
+
+
+// ===== new? =======
+let name = "John"
+let mut name = "John"
+
+String name = "John"
+mut String name = "John"
+
+
+// For primitive datatypes (Int, Float, Bool, String?)
+
+// Cloned
+fun add(Int x)
+// Still cloned, but the x **binding** can be mutated, not the original variable
+fun add(mut Int x)
+// Same as 1st
+fun add(clone Int x)
+
+
+// For other datatypes
+
+// Pass an immutable reference
+fun add(Obj o)
+// Pass a mutable reference
+fun add(mut Obj o)
+// Clone the argument
+fun add(clone Obj o)
+
+
+// Only references are passed, not "variables" (as PHP calls them)
+let john = Obj {name: "John"}
+/*
+    john --------> {name: "John"}
+*/
+
+fun set_empty(mut Obj person) {
+    /*
+        john ------┬-->  {name: "John"}
+        person ----┘ 
+    */
+
+    // This creates a **new** Obj, and the variable `person` now points to it.
+    person = Obj {name: "Alex"}
+    /*
+        john --------->  {name: "John"}
+        person ------->  {name: "Alex"}
+    */
+}
+
+set_empty(mut obj)
+
+print(obj)  // Obj {name: "John"}
+
+```
+
+
+
+## Example
 
 ```thp
 use PDO

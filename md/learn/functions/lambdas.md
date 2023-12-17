@@ -22,7 +22,7 @@ By default closures **always** capture variables as **references**.
 
 
 ```thp
-var x = 20
+let mut x = 20
 
 val f = fun() {
     print(x)
@@ -44,7 +44,7 @@ fun(parameters) clone(variables) {
 ```
 
 ```thp
-var x = 20
+let mut x = 20
 
 val f = fun() clone(x) {
     print(x)

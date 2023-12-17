@@ -14,7 +14,7 @@ properties can be used inside the function
 
 ```thp
 fun count(Array[Int] numbers) -> Int {
-    val items_count = numbers.size()    // Ok, `size` is pure
+    let items_count = numbers.size()    // Ok, `size` is pure
 
     items_count
 }
@@ -36,7 +36,7 @@ data **can** be mutated.
 The caller *must* also use `&`.
 
 ```thp
-val numbers = Array(0, 1, 2, 3)
+let numbers = Array(0, 1, 2, 3)
 
 push_25(&numbers)    // Pass `numbers` as reference.
 
@@ -58,7 +58,7 @@ of the parameter (CoW). The original data will **not** be mutated.
 
 
 ```thp
-val numbers = Array(1, 2, 3, 4)
+let numbers = Array(1, 2, 3, 4)
 
 add_25(numbers)    // Pass `numbers` as clone.
 

@@ -1,8 +1,8 @@
 # Idea 1
 
 
-var x = 20
-val y = 30
+let mut x = 20
+let y = 30
 
 type Something = ...
 
@@ -21,8 +21,8 @@ fun do_something(&Something some) -> Bool {}
 do_something(&s1)
 
 
-var arr1 = Array(10, 20, 30)
-var arr2 = &arr1
+let mut arr1 = Array(10, 20, 30)
+let mut arr2 = &arr1
 
 
             Owned/Reference     Mutable
@@ -51,9 +51,9 @@ returns those new values in a new array.
 ### Example
 
 ```thp
-val numbers = Array(1, 2, 3, 4, 5)
+let numbers = Array(1, 2, 3, 4, 5)
 
-val numbers_squared = numbers.map {it ** 2}
+let numbers_squared = numbers.map {it ** 2}
 
 print(numbers_squared)  // Array(1, 4, 9, 16, 25)
 
@@ -80,22 +80,22 @@ Iteratively reduce the array to a single value using `callback`.
 ### Example
 
 ```thp
-val numbers = Array(1, 2, 3, 4, 5)
+let numbers = Array(1, 2, 3, 4, 5)
 
-val sum = numbers.reduce(0, \+)
-val sum = numbers.reduce(0) {$1 + $2}
-val sum = numbers.reduce(0, fun(prev, curr) {prev + curr})
+let sum = numbers.reduce(0, \+)
+let sum = numbers.reduce(0) {$1 + $2}
+let sum = numbers.reduce(0, fun(prev, curr) {prev + curr})
 
 print(sum)  // 15
 ```
 
 
 ```thp
-val numbers = Array(1, 2, 3, 4, 5)
+let numbers = Array(1, 2, 3, 4, 5)
 
-val sum = numbers.reduce("", fun(prev, curr) {prev + curr})
+let sum = numbers.reduce("", fun(prev, curr) {prev + curr})
 
-val sum = numbers.reduce("") {prev, curr -> prev + curr}
+let sum = numbers.reduce("") {prev, curr -> prev + curr}
 
 print(sum)  // "12345"
 ```
@@ -145,7 +145,7 @@ fun (>>=)[m, A, B](
 
 (Array[Int], Int -> Array[String]) -> Array[String]
 
-val result = Array(1, 2, 3, 4, 5) >>= {Array($.into[String]())}
+let result = Array(1, 2, 3, 4, 5) >>= {Array($.into[String]())}
 
 print(result)   // Array("1", "2", "3", "4", "5")
 ```
@@ -194,7 +194,7 @@ fun (>>)[A, B, C](
     (B) -> C,
 ) -> (A) -> C
 
-val f1 = add1 >> times2
+let f1 = add1 >> times2
 
 f1(5)   // 12
 ```

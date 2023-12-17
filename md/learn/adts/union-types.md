@@ -11,7 +11,7 @@ enum Suit
     Spades,
 }
 
-val suit = Suit::Hearts
+let suit = Suit::Hearts
 ```
 
 
@@ -24,7 +24,7 @@ enum IpAddress
     V6(String),
 }
 
-val addr_1 = IpAddress::V4("192.168.0.1")
+let addr_1 = IpAddress::V4("192.168.0.1")
 
 match addr_1
 | IpAddress::V4(ip)

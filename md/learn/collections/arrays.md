@@ -6,13 +6,13 @@ for constructing arrays
 ## Usage
 
 ```thp
-val fruits = Array("apple", "banana", "cherry")
-val apple = fruits.[0]
+let fruits = Array("apple", "banana", "cherry")
+let apple = fruits.[0]
 
 print(apple)
 
 
-var numbers = Array(0, 1, 2, 3)
+let mut numbers = Array(0, 1, 2, 3)
 
 // Note the dot
 numbers.[3] = 5

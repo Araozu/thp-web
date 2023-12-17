@@ -1,13 +1,15 @@
 # Match
 
-## Most likely syntax
+## Syntax
+
+Braces are **required**.
 
 ```thp
-val user_id = POST::get("user_id")
+let user_id = POST::get("user_id")
 
 
 match user_id
-| Some(id){ print("user_id exists: {id}") }
+| Some(id) { print("user_id exists: {id}") }
 | None { print("user_id doesn't exist") }
 
 match user_id
@@ -34,23 +36,4 @@ match user_id
 
 ```
 
-## Alternative syntax?
-
-```thp
-// Alternative syntax?
-
-match user_id {
-    Some(id) { print("user_id exists: {id}") }
-    None { print("user_id doesn't exist") }
-}
-
-match user_id {
-    Some(id) {
-        print("user_id exists: {id}")
-    }
-    None {
-        print("user_id doesn't exist")
-    }
-}
-```
 

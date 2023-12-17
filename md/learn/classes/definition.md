@@ -8,7 +8,7 @@ Basically kotlin syntax.
 `new` not required, in fact, forbidden.
 
 ```thp
-val dog = Dog()
+let dog = Dog()
 ```
 
 ## Simple class
@@ -18,7 +18,7 @@ Why'd you do this tho?
 ```thp
 class SimpleClass
 
-val instance = SimpleClass()
+let instance = SimpleClass()
 ```
 
 ## Properties & methods
@@ -27,15 +27,15 @@ val instance = SimpleClass()
 class SimpleClass
 {
     // Properties are private by default
-    var String? name = ...
+    mut String? name = ...
 
     // Made public with `pub`
-    pub var String? surname = ...
+    pub mut String? surname = ...
 
     // Methods are private by default
     fun display_name()
     {
-        // `$` is used instead of $this
+        // `$` is used instead of $this. Mandatory
         print($name)
     }
 
@@ -57,11 +57,29 @@ Kotlin style
 
 
 ```thp
-class Cat(val String name)
+class Cat(
+    // If a parameter has pub, protected or private they are promoted to properties
+    private String name,
+    pub mut Int lives = 9,
+    protected String surname = "Doe",
+)
 {
     pub fun get_name() -> String
     {
         $name
+    }
+
+    pub fun die()
+    {
+        $lives -= 1
+        if $lives <= 0
+        {
+            print("Cat {$name} is death")
+        }
+        else
+        {
+            print("Cat {$name} is life still")
+        }
     }
 }
 
@@ -72,9 +90,9 @@ print(michifu.get_name())
 With kotlin's `init` block.
 
 ```thp
-class Dog(val String name)
+class Dog(pub String name)
 {
-    val Int name_length
+    Int name_length
 
     init
     {
@@ -89,7 +107,7 @@ class Dog(val String name)
 Kotlin style
 
 ```thp
-class Animal(val String name)
+class Animal(pub String name)
 {
     pub fun say_name()
     {
