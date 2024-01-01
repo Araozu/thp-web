@@ -55,7 +55,7 @@ These are **not** aspects that THP looks to solve or implement.
 $has_key = str_contains($haystack, 'needle');
 
 // THP
-val has_key = haystack.contains("needle")
+let has_key = haystack.contains("needle")
 ```
 
 - Explicit variable declaration
@@ -93,7 +93,7 @@ $cat = new Cat("Michifu", 7);
 $cat->meow();
 
 // THP
-val cat = Cat("Michifu", 7)
+let cat = Cat("Michifu", 7)
 cat.meow();
 ```
 
@@ -113,8 +113,9 @@ use Some::Deeply::Nested::{Class, Interface}
 ```
 
 - Different module syntax
+- Explicit module declaration
 - PSR-4 required
-- No `include` or `require`
+- No `include`, `include_once`, `require` or `require_once`
 
 ---
 
@@ -124,93 +125,69 @@ Other things:
 - ADTs
 
 
-### Runtime changes
+## Runtime changes
 
-THP should add as little runtime as possible.
+Where possible THP will compile to available PHP functions/classes/methods/etc.
+
+For example:
 
 ```thp
-// ===== current =======
-val name = "John"
-var name = "John"
-
-String name = "John"
-var String name = "John"
-
-
-
-// ===== new? =======
-let name = "John"
-let mut name = "John"
-
-String name = "John"
-mut String name = "John"
-
-
-// For primitive datatypes (Int, Float, Bool, String?)
-
-// Cloned
-fun add(Int x)
-// Still cloned, but the x **binding** can be mutated, not the original variable
-fun add(mut Int x)
-// Same as 1st
-fun add(clone Int x)
+// This expression
+let greeting = 
+    match get_person()
+    | Some(person) if person.age > 18
+    { 
+        "Welcome, {person.name}"
+    }
+    | Some(person)
+    {
+        "I'm sorry {person.name}, you need to be 18 or older"
+    }
+    | None
+    {
+        "Nobody is here"
+    }
 
 
-// For other datatypes
-
-// Pass an immutable reference
-fun add(Obj o)
-// Pass a mutable reference
-fun add(mut Obj o)
-// Clone the argument
-fun add(clone Obj o)
-
-
-// Only references are passed, not "variables" (as PHP calls them)
-let john = Obj {name: "John"}
-/*
-    john --------> {name: "John"}
-*/
-
-fun set_empty(mut Obj person) {
-    /*
-        john ------┬-->  {name: "John"}
-        person ----┘ 
-    */
-
-    // This creates a **new** Obj, and the variable `person` now points to it.
-    person = Obj {name: "Alex"}
-    /*
-        john --------->  {name: "John"}
-        person ------->  {name: "Alex"}
-    */
+// Would compile to:
+$greeting = null;
+$_person = get_person();
+if ($_person !== null) {
+    if ($_person["age"] > 18) {
+        $greeting = "Welcome, " . $_person["name"];
+    }
+    else {
+        $greeting = "I'm sorry " . $_person["name"] . ", you need to be 18 or older";
+    }
 }
-
-set_empty(mut obj)
-
-print(obj)  // Obj {name: "John"}
-
-```
-
-
-
-## Example
-
-```thp
-use PDO
-use Globals::Env
-
-val (Some(dbUri) Some(dbUser) Some(dbPassword)) = (
-    Env::get("DB_URI")
-    Env::get("DB_USERNAME")
-    Env::get("DB_PASSWORD")
-)
 else {
-    die("All 3 db environment variables must be set.")
+    $greeting = "Nobody is here";
+}
+```
+
+However, more advanced datatypes & helper functions will require a sort of
+runtime (new classes/functions/etc) or abuse the language's syntax/semantics.
+
+
+```thp
+// TBD: Enum compilation
+enum IpAddress {
+    V4(String),
+    V6(String),
 }
 
-match PDO(dbUri dbUser dbPassword)
-| Ok(connection) { /* db operations */ }
-| Err(pdoException) { /* handle exception */ }
+let ip_1 = IpAddress::V4("255.255.0.0")
+
+
+// Would possibly compile to:
+enum IpAddress {
+    V4,
+    V6,
+}
+
+$ip_1 = [IpAddress::V4, "255.255.0.0"]
 ```
+
+Such changes will be documented
+
 

@@ -24,7 +24,7 @@ By default closures **always** capture variables as **references**.
 ```thp
 let mut x = 20
 
-val f = fun() {
+let f = fun() {
     print(x)
 }
 
@@ -46,7 +46,7 @@ fun(parameters) clone(variables) {
 ```thp
 let mut x = 20
 
-val f = fun() clone(x) {
+let f = fun() clone(x) {
     print(x)
 }
 
@@ -62,7 +62,7 @@ f()     // 20
 
 ```thp
 numbers.map {
-    it * 2
+    $0 * 2
 }
 ```
 

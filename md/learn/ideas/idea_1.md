@@ -199,3 +199,53 @@ let f1 = add1 >> times2
 f1(5)   // 12
 ```
 
+
+
+```thp
+function_call[Datatype](param1, param2) {
+    // lambda
+}
+
+function_call([arr1, arr2])
+function_call[Datatype]([arr1, arr2])
+
+
+fun test[A, B](A a, B b) -> B {}
+
+
+Array[String] v = 20
+
+val x = Obj {
+    Array[Int] x: [1, 2, 3]
+}
+
+value + [1, 2, 3]
+
+value + [Int]
+
+
+value[0]
+
+
+let functions = [
+    {0},
+    {1},
+    {2},
+]
+
+let index = 0
+
+functions[index]()
+
+
+
+```
+
+```thp
+fun main()
+{
+    // Using the turbofish operator
+    let result = "42".parse[Int]()
+}
+```
+

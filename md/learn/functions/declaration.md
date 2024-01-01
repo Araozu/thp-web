@@ -41,7 +41,7 @@ let number = get_secure_random_number(0, 65535)
 ```thp
 fun get_first_item[T](Array[T] array) -> T
 {
-    array.[0]
+    array[0]
 }
 
 let first = get_first_item[Int](numbers)
@@ -75,22 +75,23 @@ fun html_special_chars(
     // ...
 }
 
-html_special_chars(input, double_encode: false)
+html_special_chars(input, double_encoding: false)
 ```
+
+TBD: If & how named arguments affect the order of the parameters
 
 ## Named arguments with different names
 
 ```thp
-fun replace(
-    String in: input,
-    String each: pattern,
-    String with: replacement,
-) -> String
+fun greet(
+    String name,
+    String from: city,
+)
 {
-    // Use input, pattern and replacement
+    print("Hello {name} from {city}!")
 }
 
-replace(each: " ", in: "my name", with: "-")
+greet(name: "John", from: "LA")
 ```
 
 
