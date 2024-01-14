@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@400;500;600;700;800;900&family=Fugaz+One&family=Inconsolata&family=Inter&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800;900&family=Fugaz+One&family=Inconsolata&family=Inter&display=swap"
         rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Josefin+Sans:ital,wght@0,400;1,700&display=swap"
@@ -25,34 +25,32 @@
 </head>
 
 <body class="bg-c-bg text-c-text">
-    <nav class="fixed w-screen top-0 h-16 border-b border-gray-400 bg-c-nav-bg backdrop-blur-md z-20">
-        <div class="max-w-[70rem] mx-auto h-full w-full flex items-center">
-            <button class="font-display font-bold italic text-4xl">
+    <nav class="fixed w-screen top-0 h-12 border-b border-[rgba(150,150,150,0.25)] bg-c-nav-bg backdrop-blur-md z-20">
+        <div class="container mx-auto h-full w-full flex items-center">
+            <a href="/" class="font-display font-bold italic text-2xl">
                 <span class="text-[#F5A9B8]">t</span><span>h</span><span class="text-[#5BCEFA]">p</span>
-            </button>
+            </a>
         </div>
     </nav>
 
-    <div class="grid grid-cols-[12rem_12rem_auto] gap-2 max-w-[70rem] mx-auto">
-        <div class="pt-16 h-screen sticky top-0">
-            <nav class="rounded-md p-4 mt-2 border-2 border-[#F5A9B8] overflow-x-scroll"
-                style="height: calc(100vh - 4.75rem);"
+    <div class="grid grid-cols-[12rem_12rem_auto] container mx-auto">
+        <div class="pt-12 border-r border-[rgba(245,169,184,0.25)] h-screen sticky top-0">
+            <nav class="py-4 pr-2 overflow-x-scroll"
+                style="height: calc(100vh - 3rem);"
             >
                 {{pages}}
             </nav>
         </div>
 
-        <div class="pt-16 max-h-screen overflow-x-scroll sticky top-0">
-            <nav class="rounded-md mt-2 p-4 border-2 border-[#5BCEFA]">
-                <h2 class="text-2xl">On this page</h2>
-
-                <br>
+        <div class="pt-12 max-h-screen border-r border-r-[rgba(91,205,250,0.25)] overflow-x-scroll sticky top-0">
+            <nav class="rounded-md mt-2 p-4">
+                <h2 class="text-xl font-display pb-4">On this page</h2>
 
                 {{sidebar}}
             </nav>
         </div>
 
-        <main class="py-[4.5rem] markdown p-4">
+        <main class="py-[3.5rem] markdown p-4 min-w-0">
             {{markdown}}
         </main>
     </div>

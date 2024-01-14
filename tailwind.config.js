@@ -19,10 +19,29 @@ module.exports = {
         fontFamily: {
             "mono": ["'Fira Code'", "Inconsolata", "Iosevka", "monospace"],
             "display": ["'Josefin Sans'", "'Fugaz One'", "sans-serif"],
-            "body": ["'Fira Sans Condensed'", "Inter", "sans-serif"],
-            "nav-title": ["'Josefin Sans'", "'Fugaz One'", "sans-serif"],
+            "body": ["'Fira Sans'", "Inter", "sans-serif"],
         },
     },
-    plugins: [],
+    plugins: [
+        function ({ addComponents }) {
+            addComponents({
+                '.container': {
+                    maxWidth: '95%',
+                    '@screen sm': {
+                        maxWidth: '640px',
+                    },
+                    '@screen md': {
+                        maxWidth: '768px',
+                    },
+                    '@screen lg': {
+                        maxWidth: '1024px',
+                    },
+                    '@screen xl': {
+                        maxWidth: '1280px',
+                    },
+                }
+            })
+        }
+    ],
 }
 
