@@ -4,23 +4,23 @@ thp distinguishes between mutable and immutable variables.
 
 ## Immutable variables
 
-Defined with `let`, followed by a variable name and a value.
+Defined with `val`, followed by a variable name and a value.
 
 ```thp
-let surname = "Doe"
-let year_of_birth = 1984
+val surname = "Doe"
+val year_of_birth = 1984
 ```
 
 ### Datatype annotation
 
-Written after the `let` keyword but before the variable name.
+Written after the `val` keyword but before the variable name.
 
 ```thp
-let String surname = "Doe"
-let Int year_of_birth = 1984
+val String surname = "Doe"
+val Int year_of_birth = 1984
 ```
 
-When annotating an immutable variable the `let` keyword is optional
+When annotating an immutable variable the `val` keyword is optional
 
 ```thp
 // Equivalent to the previous code
@@ -34,28 +34,28 @@ This means that if a variable has only a datatype, it is immutable.
 
 ## Mutable variables
 
-Defined with `let mut`, followed by a variable name and a value.
+Defined with `var`, followed by a variable name and a value.
 
 ```thp
-let mut name = "John"
-let mut age = 32
+var name = "John"
+var age = 32
 ```
 
 ### Datatype annotation
 
-Written after the `let mut` keywords but before the variable name.
+Written after the `var` keywords but before the variable name.
 
 ```thp
-let mut String name = "John"
-let mut Int age = 32
+var String name = "John"
+var Int age = 32
 ```
 
-When annotating a mutable variable the keyword `let` is optional. `mut` is still **required**.
+When annotating a mutable variable the keyword `var` is still **required**.
 
 ```thp
 // Equivalent to the previous code
-mut String name = "John"
-mut Int age = 32
+var String name = "John"
+var Int age = 32
 ```
 
 

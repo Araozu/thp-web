@@ -24,7 +24,7 @@ enum IpAddress
     V6(String),
 }
 
-let addr_1 = IpAddress::V4("192.168.0.1")
+val addr_1 = IpAddress::V4("192.168.0.1")
 
 match addr_1
 | IpAddress::V4(ip)

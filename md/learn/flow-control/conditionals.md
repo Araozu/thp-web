@@ -22,7 +22,7 @@ else
 }
 
 
-let result = if condition { value1 } else { value2 }
+val result = if condition { value1 } else { value2 }
 ```
 
 
@@ -40,7 +40,7 @@ if variable is Datatype
 ## If variable is of enum
 
 ```thp
-let user_id = POST::get("user_id")
+val user_id = POST::get("user_id")
 
 if Some(user_id) = user_id
 {

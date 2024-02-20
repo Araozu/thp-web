@@ -27,10 +27,10 @@ let instance = SimpleClass()
 class SimpleClass
 {
     // Properties are private by default
-    mut String? name = ...
+    var String? name = ...
 
     // Made public with `pub`
-    pub mut String? surname = ...
+    pub var String? surname = ...
 
     // Methods are private by default
     fun display_name()
@@ -58,10 +58,9 @@ Kotlin style
 
 ```thp
 class Cat(
-    // If a parameter has pub, protected or private they are promoted to properties
-    private String name,
-    pub mut Int lives = 9,
-    protected String surname = "Doe",
+    var String name,
+    var Int lives = 9,
+    val String surname = "Doe",
 )
 {
     pub fun get_name() -> String
@@ -107,7 +106,7 @@ class Dog(pub String name)
 Kotlin style
 
 ```thp
-class Animal(pub String name)
+class Animal(var String name)
 {
     pub fun say_name()
     {
@@ -120,6 +119,35 @@ class Cat(String name, Int lives) -> Animal(name)
 Cat("Michi", 9).say_name()
 ```
 
+## Mutable methods
+
+By default methods cannot mutate the state of the object.
+
+```thp
+class Animal(var String name)
+{
+    pub fun set_name(String new_name)
+    {
+        $name = new_name    // Error: Cannot mutate $
+    }
+}
+```
+
+To do so the method must be annotated. The caller must also
+declare a mutable variable.
+
+```thp
+class Animal(var String name)
+{
+    pub mut fun set_name(String new_name)
+    {
+        $name = new_name    // Ok
+    }
+}
+
+var michi = Animal("Michifu")
+michi.set_name("Garfield")
+```
 
 
 

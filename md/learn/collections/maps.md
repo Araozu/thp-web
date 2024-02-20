@@ -6,7 +6,7 @@ Also known as Associative Arrays
 ## Usage without a declaration
 
 ```thp
-let mut person = Obj {
+val mut person = Obj {
     name: "John",
     surname: "Doe",
     age: 33,
@@ -31,7 +31,7 @@ obj Person = {
 }
 
 
-let john_doe = Person {
+val john_doe = Person {
     name: "John",
     surname: "Doe",
     age: 33,

@@ -5,13 +5,13 @@ Use square brackets as usual.
 ## Usage
 
 ```thp
-let fruits = ["apple", "banana", "cherry"]
-let apple = fruits[0]
+val fruits = ["apple", "banana", "cherry"]
+val apple = fruits[0]
 
 print(apple)
 
 
-let mut numbers = [0, 1, 2, 3]
+val mut numbers = [0, 1, 2, 3]
 
 numbers[3] = 5
 

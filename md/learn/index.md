@@ -55,7 +55,7 @@ These are **not** aspects that THP looks to solve or implement.
 $has_key = str_contains($haystack, 'needle');
 
 // THP
-let has_key = haystack.contains("needle")
+val has_key = haystack.contains("needle")
 ```
 
 - Explicit variable declaration
@@ -83,7 +83,7 @@ Obj {
 ```
 
 - Tuples, Arrays, Sets, Maps are clearly different
-- JS-like object syntax
+- JSON-like object syntax
 
 ---
 
@@ -93,7 +93,7 @@ $cat = new Cat("Michifu", 7);
 $cat->meow();
 
 // THP
-let cat = Cat("Michifu", 7)
+val cat = Cat("Michifu", 7)
 cat.meow();
 ```
 
@@ -133,7 +133,7 @@ For example:
 
 ```thp
 // This expression
-let greeting = 
+val greeting = 
     match get_person()
     | Some(person) if person.age > 18
     { 
@@ -176,7 +176,7 @@ enum IpAddress {
     V6(String),
 }
 
-let ip_1 = IpAddress::V4("255.255.0.0")
+val ip_1 = IpAddress::V4("255.255.0.0")
 
 
 // Would possibly compile to:

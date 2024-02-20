@@ -5,7 +5,7 @@
 Braces are required.
 
 ```thp
-let numbers = [0, 1, 2, 3]
+val numbers = [0, 1, 2, 3]
 
 for number in numbers
 {
@@ -19,7 +19,7 @@ for #(index, number) in numbers.entries()
 ```
 
 ```thp
-let dict = Obj {
+val dict = Obj {
     apple: 10,
     banana: 7,
     cherries: 3,
@@ -45,8 +45,8 @@ for value in collection
 ## While loop
 
 ```thp
-let colors = ["red", "green", "blue"]
-let mut index = 0
+val colors = ["red", "green", "blue"]
+val mut index = 0
 
 while index < colors.size()
 {

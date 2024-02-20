@@ -6,9 +6,9 @@ calls (`()`).
 ## Definition
 
 ```thp
-let person = #("John", "Doe", 32)
+val person = #("John", "Doe", 32)
 
-let #(name, surname, age) = person
+val #(name, surname, age) = person
 ```
 
 

@@ -22,11 +22,14 @@ module.exports = {
             "body": ["'Fira Sans'", "Inter", "sans-serif"],
         },
     },
+    corePlugins: {
+        container: false
+    },
     plugins: [
         function ({ addComponents }) {
             addComponents({
                 '.container': {
-                    maxWidth: '95%',
+                    width: '98%',
                     '@screen sm': {
                         maxWidth: '640px',
                     },

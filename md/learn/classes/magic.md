@@ -16,10 +16,9 @@ class Cat
 
 
 ```thp
-let option = Some("GAAA")
-let Some(value) = option
+val option = Some("GAAA")
+val Some(value) = option
 
-let colors = Array("red", "green", "blue")
-let Array()
-
+val colors = Array("red", "green", "blue")
+val Array()
 ```

@@ -5,7 +5,7 @@
 Braces are **required**.
 
 ```thp
-let user_id = POST::get("user_id")
+val user_id = POST::get("user_id")
 
 
 match user_id

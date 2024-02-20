@@ -10,15 +10,17 @@ fun add_25(Array[Int] numbers) {
 ```
 
 When using a regular type as a parameter, only it's immutable
-properties can be used inside the function
+properties can be used
 
 ```thp
 fun count(Array[Int] numbers) -> Int {
-    let items_count = numbers.size()    // Ok, `size` is pure
+    val items_count = numbers.size()    // Ok, `size` is pure
 
     items_count
 }
 ```
+
+To use immutable properties you must use a mutable reference.
 
 
 ## Mutable reference
@@ -36,7 +38,7 @@ data **can** be mutated.
 The caller *must* also use `mut`.
 
 ```thp
-let numbers = Array(0, 1, 2, 3)
+val numbers = Array(0, 1, 2, 3)
 
 push_25(mut numbers)    // Pass `numbers` as reference.
 
@@ -58,7 +60,7 @@ of the parameter (CoW). The original data will **not** be mutated.
 
 
 ```thp
-let numbers = Array(1, 2, 3, 4)
+val numbers = Array(1, 2, 3, 4)
 
 add_25(clone numbers)    // Pass `numbers` as clone.
 

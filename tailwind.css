@@ -17,7 +17,7 @@
 
 @media (prefers-color-scheme: light) {
     :root {
-        --c-bg: rgb(255, 247, 255);
+        --c-bg: rgb(255, 253, 255);
         --c-text: #121212;
         --c-purple: #374259;
         --c-purple-light: #BA94D1;
