@@ -8,7 +8,7 @@ Basically kotlin syntax.
 `new` not required, in fact, forbidden.
 
 ```thp
-let dog = Dog()
+val dog = Dog()
 ```
 
 ## Simple class
@@ -18,7 +18,7 @@ Why'd you do this tho?
 ```thp
 class SimpleClass
 
-let instance = SimpleClass()
+val instance = SimpleClass()
 ```
 
 ## Properties & methods
@@ -89,14 +89,13 @@ print(michifu.get_name())
 With kotlin's `init` block.
 
 ```thp
-class Dog(pub String name)
+class Dog(val String name)
 {
-    Int name_length
+    Int name_length = name.length()
 
     init
     {
         print("Dog has been instantiated")
-        $name_length = name.length()
     }
 }
 ```

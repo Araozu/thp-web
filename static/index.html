@@ -62,17 +62,17 @@
             <pre style="padding: 0 !important;">
                 <code class="language-thp">
                     fun find_person(Str person_id) -> Result[Str] {
-                        let person_id = try person_id.parse[Int]()
+                        val person_id = try person_id.parse[Int]()
                         try Person::find_by_id(person_id)
                     }
 
-                    let id = POST::get("person_id") ?: die
-                    let person = find_person(person_id: id) ?: die
+                    val id = POST::get("person_id") ?: die
+                    val person = find_person(person_id: id) ?: die
 
                     print(
                         &lt;a href="/person/reports/{person.id}"&gt;
                             Hello {person.name}
-                        &lt;/div&gt;
+                        &lt;/a&gt;
                     )
                 </code>
             </pre>

@@ -91,7 +91,7 @@ fun greet(
     print("Hello {name} from {city}!")
 }
 
-greet(name: "John", from: "LA")
+greet("John", from: "LA")
 ```
 
 

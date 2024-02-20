@@ -11,7 +11,7 @@ enum Suit
     Spades,
 }
 
-let suit = Suit::Hearts
+val suit = Suit::Hearts
 ```
 
 

@@ -16,20 +16,21 @@ If you want to learn the language, go to the learn section.
 
 ## Goals
 
-- Bring static typing to PHP: Not just type hints, not use `mixed` for everything
+- Bring static typing to PHP: Not just type hints, not just `mixed` for everything
     that isn't a primitive type.
-- Avoid automatic type conversion.
+- Generics & ADTs
+- Avoid implicit type conversion.
 - Remove the inconsistencies in the language.
-- Organize the stdlib.
+- Organize the stdlib into modules.
 - Differentiate between Arrays, Tuples, Maps and Sets.
 - Create a **consistent** language.
-- Create typings for popular libraries (like TS's `.d.ts`).
+- Have typings for popular libraries (like TS's `.d.ts`).
 - Have a simple instalation and configuration (requiring just Composer).
-- Ship a fast, native binary (written in Rust) (why use PHP when we can go native?).
-- Sub 10ms watch mode.
+- Ship a fast, native binary (written in Rust) (why use PHP when we can go **_blazingly fast_**?).
 - Support in-place compilation.
-- Emit readable PHP code.
-- Implement a LSP server.
+- (Try to) emit readable PHP.
+- Implement an LSP server.
+- Implement a formatter.
 
 
 ## Not goals
