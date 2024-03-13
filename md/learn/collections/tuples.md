@@ -1,7 +1,6 @@
 # Tuples
 
-Uses `#()` just to avoid confusion with function
-calls (`()`).
+Uses `#()` just to avoid confusion with function calls and grouping (`()`).
 
 ## Definition
 

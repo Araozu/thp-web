@@ -9,31 +9,38 @@ val user_id = POST::get("user_id")
 
 
 match user_id
-| Some(id) { print("user_id exists: {id}") }
-| None { print("user_id doesn't exist") }
+case Some(id) { print("user_id exists: {id}") }
+case None { print("user_id doesn't exist") }
 
 match user_id
-| Some(id)
+case Some(id)
 {
     print("user_id exists: {id}")
 }
-| None
+case None
 {
     print("user_id doesn't exist")
 }
 
 
 match user_id
-| Some(id) if id > 0
+case Some(id) if id > 0
 {
     print("user_id exists: {id}")
 }
-| _
+else
 {
     print("user_id has other values ")
 }
 
-
+match customer_id
+case 1, 2, 3
+{
+    print("special discount for our first 3 customers!")
+}
+else
+{
+    print("hello dear")
+}
 ```
-
 

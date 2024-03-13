@@ -11,7 +11,7 @@ val apple = fruits[0]
 print(apple)
 
 
-val mut numbers = [0, 1, 2, 3]
+var numbers = [0, 1, 2, 3]
 
 numbers[3] = 5
 

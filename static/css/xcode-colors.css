@@ -29,6 +29,7 @@
         --code-theme-bg-color: #ffffff;
         --code-theme-bg-color_selection: #a4cdff;
         --code-theme-color_selection: inherit;
+        --code-theme-border-color: #c2c2c2;
 
         --code-theme-comment: #5d6c79;
 
@@ -92,7 +93,6 @@ pre[class*="language-"] ::selection {
 }
 
 :not(pre) > code {
-    /* border: solid 1px var(--border-color); */
     background-color: var(--code-theme-bg-color);
     padding: 0 0.25rem;
     border-radius: 5px;
@@ -103,6 +103,7 @@ pre[class*="language-"] {
     position: relative;
     margin: 0.5em 0;
     padding: 0.75em 0.75em;
+    border: 1px solid var(--code-theme-border-color);
 }
 
 .language-css > code,
