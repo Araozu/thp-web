@@ -26,8 +26,8 @@ children:
     path: loops
   - name: Match
     path: match
-- name: Collections
-  path: collections
+- name: Data structures
+  path: data-structures
   children:
   - name: Tuples
     path: tuples
@@ -35,8 +35,8 @@ children:
     path: arrays
   - name: Maps
     path: maps
-  - name: Sets
-    path: sets
+  - name: Enums
+    path: enums
 - name: Functions
   path: functions
   children:
@@ -48,11 +48,13 @@ children:
     path: higher-order
   - name: Lambdas
     path: lambdas
-- name: ADTs
-  path: adts
+- name: Error handling
+  path: error-handling
   children:
-  - name: Union types
-    path: union-types
+  - name: Nullable types
+    path: "null"
+  - name: Try expressions
+    path: try
 - name: Classes
   path: classes
   children:

@@ -8,7 +8,7 @@ Use square brackets as usual.
 val fruits = ["apple", "banana", "cherry"]
 val apple = fruits[0]
 
-print(apple)
+print(apple)  // apple
 
 
 var numbers = [0, 1, 2, 3]

@@ -34,9 +34,17 @@ var Person mary_jane = .{
 To access the fields of a map we use square braces `[]`.
 
 ```thp
-mary_jane[age] += 1
-print(mary_jane[name])  // Mary
+mary_jane["age"] += 1
+print(mary_jane["name"])  // Mary
 ```
+
+Or dot access `.` if the field's name is a valid identifier.
+
+```thp
+mary_jane.age += 1
+print(mary_jane.name)
+```
+
 
 ## Anonymous maps
 
@@ -69,26 +77,39 @@ We can freely assign fields to an anonymous map:
 
 ```thp
 // Modify an existing field
-car[year] = 2015
+car["year"] = 2015
 // Create a new field
-car[status] = "used"
+car["status"] = "used"
 ```
 
-However, if we try to access a field of an anonymous map we'll get an error.
+However, if we try to access a field of an anonymous map we'll get
+a nullable type, and we must annotate it.
 
 ```thp
-print(car[status])  // Error: Can't access a field of an anonymous map
+// This is ok, we are declaring what datatype we expect
+String? car_status = car["status"]
+
+// This won't work, the compiler doesn't know what datatype to use
+var car_status = car["status"]
 ```
 
-Instead, we should use the `get` function of the map, which expects a
-datatype and returns an Option
+Instead, we can use the `get` function of the map, which expects a
+datatype and returns that type as nullable
 
 ```thp
-//                      | this function
-String? car_status = car.get[String]("status")
+val car_status = car.get[String]("status")
 ```
 
-The `get` function will check that a key `"status"` exists in the map,
+Both ways to get a value will check that the key exists in the map,
 and that it has the correct datatype. If either the key doesn't exist
-or it has a different datatype, it will return `None`.
+or it has a different datatype, it will return `null`.
 
+We can also use dynamic keys, following the same rules:
+
+```thp
+val generated_value = "key"
+
+String? v = map[generated_value]
+// or
+val v = map[String](generated_value)
+```
