@@ -13,10 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Josefin+Sans:ital,wght@0,400;1,700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800;900&family=Fira+Code&family=Inter:ital,wght@0,400;1,700&display=swap"
         rel="stylesheet">
 </head>
 
@@ -29,20 +26,40 @@
         </div>
     </nav>
 
-    <div class="container mx-auto py-16 grid grid-cols-2 gap-4 px-10">
-        <div class="pl-10">
-            <h1 class="font-display font-bold text-[5rem] leading-tight">
-                Typed
+    <div class="container mx-auto py-16 grid grid-cols-[5fr_4fr] gap-4 px-10">
+        <div class="pl-10 table">
+            <div class="table-cell align-middle">
+                <h1 class="font-display font-bold text-5xl leading-tight">
+                    A modern, type safe,
+                    <br>
+                    secure language
+                    <br>
+                    compiled to PHP
+                </h1>
+                <p class="font-display text-c-text opacity-80 text-xl pt-6 pr-12">
+                    Inspired by Rust, Zig and Swift, THP has a modern syntax, semantics,
+                    type system and stdlib.
+                </p>
                 <br>
-                Hypertext
                 <br>
-                Processor
-            </h1>
-            <p class="font-display text-c-text opacity-60 text-xl pt-4">
-                Syntax, stdlib and types for PHP
-                <br>
-                Written in Rust
-            </p>
+                <div class="text-center">
+                    <a 
+            class="inline-block font-display text-lg border-2 border-pink-400 hover:bg-pink-400 transition-colors
+                hover:text-c-bg py-3 px-8 mx-6 rounded"
+            href="/learn/"
+        >
+            Learn
+        </a>
+
+        <a 
+            class="inline-block font-display text-lg border-2 border-sky-400 py-3 px-8 mx-6 rounded
+                transition-colors hover:text-black hover:bg-sky-400" 
+            href="/install/"
+        >
+            Install
+        </a>
+                </div>
+            </div>
         </div>
 
         <div class="bg-[var(--code-theme-bg-color)] p-6 rounded-lg relative">
@@ -61,40 +78,29 @@
             <div class="h-1"></div>
             <pre style="padding: 0 !important; border: none !important;">
                 <code class="language-thp">
-                    fun find_person(Str person_id) -> Result[Str] {
-                        val person_id = try person_id.parse[Int]()
+                    // Actual generics & sum types
+                    fun find_person(Int person_id) -> Result[String, String] {
+                        // Easy, explicit error bubbling
                         try Person::find_by_id(person_id)
                     }
 
-                    val id = POST::get("person_id") ?: die
-                    val person = find_person(person_id: id) ?: die
+                    val id = POST::get("person_id") ?? exit("Null person_id")
+                    // Errors as values
+                    val person = try find_person(person_id: id) with error {
+                        eprint("Error: {error}")
+                        exit("Person not found")
+                    }
 
+                    // First class HTML-like templates & components
                     print(
                         &lt;a href="/person/reports/{person.id}"&gt;
-                            Hello {person.name}
+                            welcome, {person.name}
                         &lt;/a&gt;
                     )
+                    // And more!
                 </code>
             </pre>
         </div>
-    </div>
-
-    <div class="max-w-[70rem] mx-auto text-center">
-        <a 
-            class="inline-block font-display text-lg border-2 border-pink-400 hover:bg-pink-400 transition-colors
-                hover:text-c-bg py-3 px-8 mx-6 rounded"
-            href="/learn/"
-        >
-            Learn
-        </a>
-
-        <a 
-            class="inline-block font-display text-lg border-2 border-sky-400 py-3 px-8 mx-6 rounded
-                transition-colors hover:text-black hover:bg-sky-400" 
-            href="/install/"
-        >
-            Install
-        </a>
     </div>
 
     <script src="/js/prism.min.js"></script>
