@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800;900&family=Fira+Code&family=Inter:ital,wght@0,400;1,700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800;900&family=Fira+Code&display=swap"
         rel="stylesheet">
 </head>
 
@@ -26,7 +26,7 @@
         </div>
     </nav>
 
-    <div class="container mx-auto py-16 grid grid-cols-[5fr_4fr] gap-4 px-10">
+    <div class="container mx-auto py-16 grid grid-cols-[auto_32rem] gap-4 px-10">
         <div class="pl-10 table">
             <div class="table-cell align-middle">
                 <h1 class="font-display font-bold text-5xl leading-tight">
@@ -76,35 +76,23 @@
                 </g>
             </svg>
             <div class="h-1"></div>
-            <pre style="padding: 0 !important; border: none !important;">
-                <code class="language-thp">
-                    // Actual generics & sum types
-                    fun find_person(Int person_id) -> Result[String, String] {
-                        // Easy, explicit error bubbling
-                        try Person::find_by_id(person_id)
-                    }
-
-                    val id = POST::get("person_id") ?? exit("Null person_id")
-                    // Errors as values
-                    val person = try find_person(person_id: id) with error {
-                        eprint("Error: {error}")
-                        exit("Person not found")
-                    }
-
-                    // First class HTML-like templates & components
-                    print(
-                        &lt;a href="/person/reports/{person.id}"&gt;
-                            welcome, {person.name}
-                        &lt;/a&gt;
-                    )
-                    // And more!
-                </code>
-            </pre>
+            
         </div>
+    </div>
+
+    <div class="container mx-auto">
+        <div id="editor" class="font-mono language-thp"></div>
     </div>
 
     <script src="/js/prism.min.js"></script>
     <script src="/js/prism.thp.js"></script>
+    <script src="/js/codemirror.min.js"></script>
+    <script src="https://unpkg.com/codeflask/build/codeflask.min.js"></script>
+    <!--
+    <script>
+        const flask = new CodeFlask('#editor', { language: 'js' });
+    </script>
+    -->
 </body>
 
 </html>
