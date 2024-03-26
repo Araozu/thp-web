@@ -13,7 +13,7 @@ import { is_digit } from "./utils.ts";
 export function lex_number(input: string, pos: number): [Token, number] {
     const [token_value, next] = scan_decimal(input, pos);
 
-    return [{ v: token_value }, next];
+    return [{ v: token_value, token_type: "number" }, next];
 }
 
 function scan_decimal(input: string, starting_position: number): [string, number] {

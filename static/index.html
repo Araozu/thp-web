@@ -43,21 +43,15 @@
                 <br>
                 <br>
                 <div class="text-center">
-                    <a 
-            class="inline-block font-display text-lg border-2 border-pink-400 hover:bg-pink-400 transition-colors
-                hover:text-c-bg py-3 px-8 mx-6 rounded"
-            href="/learn/"
-        >
-            Learn
-        </a>
+                    <a class="inline-block font-display text-lg border-2 border-pink-400 hover:bg-pink-400 transition-colors
+                hover:text-c-bg py-3 px-8 mx-6 rounded" href="/learn/">
+                        Learn
+                    </a>
 
-        <a 
-            class="inline-block font-display text-lg border-2 border-sky-400 py-3 px-8 mx-6 rounded
-                transition-colors hover:text-black hover:bg-sky-400" 
-            href="/install/"
-        >
-            Install
-        </a>
+                    <a class="inline-block font-display text-lg border-2 border-sky-400 py-3 px-8 mx-6 rounded
+                transition-colors hover:text-black hover:bg-sky-400" href="/install/">
+                        Install
+                    </a>
                 </div>
             </div>
         </div>
@@ -76,23 +70,41 @@
                 </g>
             </svg>
             <div class="h-1"></div>
-            
+            <div id="editor" class="font-mono language-thp"></div>
         </div>
-    </div>
-
-    <div class="container mx-auto">
-        <div id="editor" class="font-mono language-thp"></div>
     </div>
 
     <script src="/js/prism.min.js"></script>
     <script src="/js/prism.thp.js"></script>
-    <script src="/js/codemirror.min.js"></script>
-    <script src="https://unpkg.com/codeflask/build/codeflask.min.js"></script>
-    <!--
+    <script src="/js/highlighter.js"></script>
     <script>
-        const flask = new CodeFlask('#editor', { language: 'js' });
+        let jar = CodeJar(document.getElementById("editor"), thp_highlighter, {
+            tab: "    ",
+        });
+
+        jar.updateCode(
+            `// Actual generics & sum types 322 644
+fun find_person(Int person_id) -> Result[String, String] {
+    // Easy, explicit error bubbling
+    try Person::find_by_id(person_id)
+}
+
+val id = POST::get("person_id") ?? exit("Null person_id")
+// Errors as values
+val person = try find_person(person_id: id) with error {
+    eprint("Error: {error}")
+    exit("Person not found")
+}
+
+// First class HTML-like templates & components
+print(
+    <a href="/person/reports/{person.id}">
+        welcome, {person.name}
+    </a>
+)
+// And more!`
+        )
     </script>
-    -->
 </body>
 
 </html>

@@ -1,7 +1,10 @@
 import { lex_number } from "./number_lexer.ts";
 import { is_digit } from "./utils.ts";
 
-export type Token = { v: string };
+export type Token = {
+    v: string,
+    token_type: string,
+};
 
 /**
  * Lexes a string of THP code, and returns an array of tokens. Unlike a regular
@@ -37,7 +40,7 @@ export function lex(code: string): Array<Token> {
         if (is_digit(c)) {
             // if the current default token is not empty, push it to the tokens array
             if (current_default_token !== "") {
-                tokens.push({ v: current_default_token });
+                tokens.push({ v: current_default_token, token_type: "" });
                 current_default_token = "";
             }
 
@@ -52,7 +55,7 @@ export function lex(code: string): Array<Token> {
         if (next_token !== null && next_position !== null) {
             // if there was a default token, push it to the tokens array
             if (current_default_token !== "") {
-                tokens.push({ v: current_default_token });
+                tokens.push({ v: current_default_token, token_type: "" });
                 current_default_token = "";
             }
 
@@ -70,7 +73,7 @@ export function lex(code: string): Array<Token> {
 
     // if there was a default token, push it to the tokens array
     if (current_default_token !== "") {
-        tokens.push({ v: current_default_token });
+        tokens.push({ v: current_default_token, token_type: "" });
         current_default_token = "";
     }
 

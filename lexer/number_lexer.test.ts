@@ -6,14 +6,14 @@ describe("Number Lexer", () => {
         const code = "1";
         const token = lex_number(code, 0);
 
-        expect(token).toEqual([{ v: "1" }, 1]);
+        expect(token).toEqual([{ v: "1", token_type: "number" }, 1]);
     });
 
     test("should return a whole number token pt 2", () => {
         const code = "12345";
         const token = lex_number(code, 0);
 
-        expect(token).toEqual([{ v: "12345" }, 5]);
+        expect(token).toEqual([{ v: "12345", token_type: "number" }, 5]);
     });
 });
 
