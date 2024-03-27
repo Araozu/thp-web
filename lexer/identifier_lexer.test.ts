@@ -44,5 +44,12 @@ describe("Identifier Lexer", () => {
 
         expect(token).toEqual([{ v: "val", token_type: "keyword" }, 3]);
     });
+
+    test("should scan a datatype", () => {
+        const code = "Int";
+        const token = scan_identifier(code, 0, true);
+
+        expect(token).toEqual([{ v: "Int", token_type: "class-name" }, 3]);
+    });
 });
 
