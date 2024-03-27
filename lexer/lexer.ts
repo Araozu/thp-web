@@ -36,9 +36,6 @@ export function lex(code: string): Array<Token> {
     while (current_pos < code_len) {
         const c = code[current_pos];
 
-        let next_token: Token | null = null;
-        let next_position: number | null = null;
-
         // try to scan a number
         if (is_digit(c)) {
             // if the current default token is not empty, push it to the tokens array
@@ -118,25 +115,15 @@ export function lex(code: string): Array<Token> {
             current_pos = pos;
             continue;
         }
-
-        // here, check if a token was found
-        if (next_token !== null && next_position !== null) {
-            // if there was a default token, push it to the tokens array
-            if (current_default_token !== "") {
-                tokens.push({ v: current_default_token, token_type: "" });
-                current_default_token = "";
-            }
-
-            // then push the new token found
-            tokens.push(next_token);
-            current_pos = next_position;
+        // replace < with &lt;
+        else if (c === "<") {
+            current_default_token += "&lt;";
+            current_pos++;
             continue;
         }
-        // otherwise, add the current character to the default token
-        else {
-            current_default_token += c;
-            current_pos++;
-        }
+
+        current_default_token += c;
+        current_pos++;
     }
 
     // if there was a default token, push it to the tokens array

@@ -74,8 +74,6 @@
         </div>
     </div>
 
-    <script src="/js/prism.min.js"></script>
-    <script src="/js/prism.thp.js"></script>
     <script src="/js/highlighter.js"></script>
     <script>
         let jar = CodeJar(document.getElementById("editor"), thp_highlighter, {
@@ -83,7 +81,7 @@
         });
 
         jar.updateCode(
-            `// Actual generics & sum types 322 644
+            `// Actual generics & sum types
 fun find_person(Int person_id) -> Result[String, String] {
     // Easy, explicit error bubbling
     try Person::find_by_id(person_id)

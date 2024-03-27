@@ -49,8 +49,25 @@
         </main>
     </div>
 
-    <script src="/js/prism.min.js"></script>
-    <script src="/js/prism.thp.js"></script>
-</body>
+    <script src="/js/highlighter.js"></script>
+    <script>
+        // Add an editor to all code samples
 
+        const code_elements = document.querySelectorAll(".language-thp");
+
+        for (const el of [...code_elements]) {
+            const pre_parent = el.parentElement;
+            const new_div = document.createElement("div");
+            const code = el.innerHTML;
+            
+            el.parentElement.classList.add("language-thp");
+            pre_parent.removeChild(el);
+            pre_parent.appendChild(new_div);
+            
+            CodeJar(new_div, thp_highlighter, {
+                tab: "    "
+            }).updateCode(code);
+        }
+    </script>
+</body>
 </html>
