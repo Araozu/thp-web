@@ -1,5 +1,6 @@
-import { lex_number } from "./number_lexer.ts";
-import { is_digit } from "./utils.ts";
+import { scan_identifier } from "./identifier_lexer.ts";
+import { scan_number } from "./number_lexer.ts";
+import { is_digit, is_lowercase } from "./utils.ts";
 
 export type Token = {
     v: string,
@@ -37,6 +38,7 @@ export function lex(code: string): Array<Token> {
         let next_token: Token | null = null;
         let next_position: number | null = null;
 
+        // try to scan a number
         if (is_digit(c)) {
             // if the current default token is not empty, push it to the tokens array
             if (current_default_token !== "") {
@@ -45,7 +47,20 @@ export function lex(code: string): Array<Token> {
             }
 
             // lex a number
-            const [token, next] = lex_number(code, current_pos);
+            const [token, next] = scan_number(code, current_pos);
+            current_pos = next;
+            tokens.push(token);
+            continue;
+        }
+        // try to scan an identifier/keyword
+        else if (is_lowercase(c) || c === "_") {
+            // if the current default token is not empty, push it to the tokens array
+            if (current_default_token !== "") {
+                tokens.push({ v: current_default_token, token_type: "" });
+                current_default_token = "";
+            }
+
+            const [token, next] = scan_identifier(code, current_pos);
             current_pos = next;
             tokens.push(token);
             continue;

@@ -10,7 +10,7 @@ import { is_digit } from "./utils.ts";
  * @param pos the position to start scanning from
  * @returns 
  */
-export function lex_number(input: string, pos: number): [Token, number] {
+export function scan_number(input: string, pos: number): [Token, number] {
     const [token_value, next] = scan_decimal(input, pos);
 
     return [{ v: token_value, token_type: "number" }, next];

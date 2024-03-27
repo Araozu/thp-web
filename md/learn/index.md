@@ -76,7 +76,7 @@ val has_key = haystack.contains("needle")
 ]
 
 // THP
-Obj {
+.{
     names: #("Toni", "Stark"), // Tuple
     age: 33,
     numbers: [32, 64, 128]
