@@ -58,8 +58,8 @@
         for (const el of [...code_elements]) {
             const pre_parent = el.parentElement;
             const new_div = document.createElement("div");
-            const code = el.innerHTML;
-            
+            const code = el.innerText;
+
             el.parentElement.classList.add("language-thp");
             pre_parent.removeChild(el);
             pre_parent.appendChild(new_div);
