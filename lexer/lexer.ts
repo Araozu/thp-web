@@ -1,5 +1,6 @@
 import { scan_identifier } from "./identifier_lexer.ts";
 import { scan_number } from "./number_lexer.ts";
+import { scan_string } from "./string_lexer.ts";
 import { is_digit, is_lowercase, is_uppercase } from "./utils.ts";
 
 export type Token = {
@@ -76,6 +77,45 @@ export function lex(code: string): Array<Token> {
             const [token, next] = scan_identifier(code, current_pos, true);
             current_pos = next;
             tokens.push(token);
+            continue;
+        }
+        // try to scan a string
+        else if (c === "\"") {
+            // if the current default token is not empty, push it to the tokens array
+            if (current_default_token !== "") {
+                tokens.push({ v: current_default_token, token_type: "" });
+                current_default_token = "";
+            }
+
+            const [token, next] = scan_string(code, current_pos);
+            current_pos = next;
+            tokens.push(token);
+            continue;
+        }
+        // try to scan a comment
+        else if (c === "/" && code[current_pos + 1] === "/") {
+            // if the current default token is not empty, push it to the tokens array
+            if (current_default_token !== "") {
+                tokens.push({ v: current_default_token, token_type: "" });
+                current_default_token = "";
+            }
+
+            let comment = "";
+            let pos = current_pos;
+
+            while (pos < code_len) {
+                const char = code[pos];
+
+                if (char === "\n") {
+                    break;
+                }
+
+                comment += char;
+                pos++;
+            }
+
+            tokens.push({ v: comment, token_type: "comment" });
+            current_pos = pos;
             continue;
         }
 
