@@ -1,11 +1,10 @@
-![Accurate visual description of THP](/img/desc_thp.jpg)
-
-
 # Welcome
 
 Welcome to the documentation of the THP programming languague.
 
 THP is a new programming language that compiles to PHP.
+
+![Accurate visual description of THP](/img/desc_thp.jpg)
 
 <br>
 

@@ -6,6 +6,7 @@ module.exports = {
             colors: {
                 "c-bg": "var(--c-bg)",
                 "c-text": "var(--c-text)",
+                "c-text-2": "var(--c-text-2)",
                 "c-purple": "var(--c-purple)",
                 "c-purple-light": "var(--c-purple-light)",
                 "c-box-shadow": "var(--c-box-shadow)",
@@ -19,7 +20,7 @@ module.exports = {
         fontFamily: {
             "mono": ["Iosevka", "monospace"],
             "display": ["Inter", "'Josefin Sans'", "'Fugaz One'", "sans-serif"],
-            "body": ["'Fira Sans'", "Inter", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
         },
     },
     corePlugins: {
@@ -40,7 +41,7 @@ module.exports = {
                         maxWidth: '1024px',
                     },
                     '@screen xl': {
-                        maxWidth: '1280px',
+                        maxWidth: '1400px',
                     },
                 }
             })

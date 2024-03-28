@@ -4,7 +4,8 @@
 
 :root {
     --c-bg: #121212;
-    --c-text: #fdfffc;
+    --c-text: rgb(200,200,200);
+    --c-text-2: white;
     --c-primary: #884b6a;
     --c-purple: #7F669D;
     --c-purple-light: #BA94D1;
@@ -19,6 +20,7 @@
     :root {
         --c-bg: rgb(255, 253, 255);
         --c-text: #121212;
+        --c-text-2: black;
         --c-purple: #374259;
         --c-purple-light: #BA94D1;
         --c-box-shadow: #374259;
@@ -35,7 +37,7 @@ html {
 }
 
 body {
-    font-family: 'Fira Sans', Inter, sans-serif;
+    font-family: Inter, 'Fira Sans', Inter, sans-serif;
 }
 
 pre, code {
