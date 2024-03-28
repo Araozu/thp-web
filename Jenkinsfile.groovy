@@ -15,7 +15,7 @@ pipeline {
             }
             steps {
                 sh 'md-docs'
-                sh 'bun tailwind:watch'
+                sh 'bun tailwind:build'
             }
         }
         stage('Build bundle') {
