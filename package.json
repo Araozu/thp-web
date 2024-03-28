@@ -7,7 +7,6 @@
     "generate": "md-docs",
     "bundle": "bun build ./lexer/highlighter.ts --outdir ./static/js/ --format esm --minify",
     "dev": "concurrently -k \"tailwindcss -i ./tailwind.css -o ./static/css/out.css --watch\" \"serve ./static/ -l 3333\"",
-    "codemirror": "esbuild --bundle ./static/js/codemirror.js  --outfile=./static/js/codemirror.min.js --minify --sourcemap",
     "tailwind:watch": "tailwindcss -i ./tailwind.css -o ./static/css/out.css --watch",
     "tailwind:build": "tailwindcss -i ./tailwind.css -o ./static/css/out.css --minify"
   },
