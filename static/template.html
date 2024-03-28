@@ -29,10 +29,11 @@
 
     <div class="grid grid-cols-[14rem_auto_12rem] container mx-auto">
         <div class="pt-12 h-screen sticky top-0">
-            <nav class="py-4 pr-2 overflow-x-scroll"
+            <nav id="sidebar" class="py-4 pr-2 overflow-x-scroll"
                 style="height: calc(100vh - 3rem);"
             >
                 {{pages}}
+
             </nav>
         </div>
 
@@ -49,6 +50,31 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let current_uri = window.location.pathname;
+            if (!current_uri.endsWith("/") && !current_uri.endsWith(".html")) {
+                current_uri += ".html";
+            }
+
+            const sidebar = document.getElementById("sidebar");
+            const links = sidebar.querySelectorAll("a");
+            for (const link of [...links]) {
+                if (link.getAttribute("href") === current_uri) {
+                    console.log(sidebar.offsetTop);
+                    console.log(link.offsetTop);
+
+                    const viewport_middle = window.innerHeight / 2;
+
+                    sidebar.scrollTop = link.offsetTop - sidebar.offsetTop - 250;
+
+                    link.classList.add("bg-pink-200", "dark:bg-pink-950");
+                    // link.scrollIntoView({ behavior: "instant", block: "nearest", inline: "nearest" });
+                    break;
+                }
+            }
+        });
+    </script>
     <script src="/js/highlighter.js"></script>
     <script>
         // Add an editor to all code samples
