@@ -15,7 +15,7 @@ pipeline {
             }
             steps {
                 sh 'md-docs'
-                sh 'bun tailwind:build'
+                sh './node_modules/.bin/tailwindcss -i ./tailwind.css -o ./static/css/out.css --minify'
             }
         }
         stage('Build bundle') {
