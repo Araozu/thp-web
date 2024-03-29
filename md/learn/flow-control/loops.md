@@ -19,7 +19,7 @@ for #(index, number) in numbers.entries()
 ```
 
 ```thp
-val dict = Obj {
+val dict = .{
     apple: 10,
     banana: 7,
     cherries: 3,
@@ -58,7 +58,7 @@ while index < colors.size()
 
 ## Infinite loop
 
-Basically Rust*'s loop.
+Instead of doing `while true {}` use `loop`.
 
 ```thp
 loop
@@ -72,8 +72,22 @@ loop
 }
 ```
 
-* Rust is a trademark of the Rust Foundation. THP is not affiliated,
-endorsed or supported by the Rust Foundation.
+
+## Labelled loops
+
+You can give labels to loops, allowing you to `break` and `continue` in nested loops.
+
+```thp
+:top for i in values_1
+{
+    for j in values_2
+    {
+        // ...
+        break :top
+    }
+}
+```
+
 
 
 
