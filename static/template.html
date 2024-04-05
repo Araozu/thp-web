@@ -27,22 +27,20 @@
         </div>
     </nav>
 
-    <div class="grid grid-cols-[14rem_auto_12rem] container mx-auto">
-        <div class="pt-12 h-screen sticky top-0">
-            <nav id="sidebar" class="py-4 pr-2 overflow-x-scroll"
-                style="height: calc(100vh - 3rem);"
+    <div class="lg:grid lg:grid-cols-[14rem_auto_12rem] container mx-auto">
+        <div class="pt-12 lg:h-screen lg:sticky top-0">
+            <nav id="sidebar" class="py-4 pr-2 overflow-x-scroll lg:h-[calc(100vh-3rem)]"
             >
                 {{pages}}
-
             </nav>
         </div>
 
-        <main class="py-[3.5rem] pl-12 pr-4 markdown min-w-0">
+        <main class="lg:py-[3.5rem] lg:pl-12 lg:pr-4 markdown min-w-0">
             {{markdown}}
         </main>
 
-        <div class="pt-12 max-h-screen overflow-x-scroll sticky top-0">
-            <nav class="rounded-md mt-10">
+        <div class="lg:pt-12 pt-4 max-h-screen overflow-x-scroll sticky top-0">
+            <nav class="rounded-md lg:mt-10">
                 <h2 class="font-display font-medium pb-2 text-c-text-2">On this page</h2>
 
                 {{sidebar}}
