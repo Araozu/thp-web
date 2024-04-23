@@ -84,14 +84,15 @@
             const new_div = document.createElement("div");
             const code = el.innerText;
 
-            el.parentElement.classList.add("language-thp");
+            el.parentElement.className = "language-thp"
             pre_parent.removeChild(el);
             pre_parent.appendChild(new_div);
-            
+
             CodeJar(new_div, thp_highlighter, {
                 tab: "    "
             }).updateCode(code);
         }
     </script>
 </body>
+
 </html>
