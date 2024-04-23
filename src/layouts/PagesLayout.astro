@@ -106,22 +106,24 @@ for (const entry of pagesIndex) {
         import { thp_highlighter, CodeJar } from "../lexer/highlighter";
         // Add an editor to all code samples
 
-        const code_elements = document.querySelectorAll(".language-thp");
+        document.addEventListener("DOMContentLoaded", () => {
+            const code_elements = document.querySelectorAll(".language-thp");
 
-        for (const e of [...code_elements]) {
-            const el = e as HTMLElement;
-            const pre_parent = el.parentElement!;
-            const new_div = document.createElement("div");
-            const code = el.innerText;
+            for (const e of [...code_elements]) {
+                const el = e as HTMLElement;
+                const pre_parent = el.parentElement!;
+                const new_div = document.createElement("div");
+                const code = el.innerText;
 
-            el.parentElement!.className = "language-thp";
-            pre_parent.removeChild(el);
-            pre_parent.appendChild(new_div);
+                el.parentElement!.className = "language-thp";
+                pre_parent.removeChild(el);
+                pre_parent.appendChild(new_div);
 
-            CodeJar(new_div, thp_highlighter, {
-                tab: "    ",
-            }).updateCode(code);
-        }
+                CodeJar(new_div, thp_highlighter, {
+                    tab: "    ",
+                }).updateCode(code);
+            }
+        });
     </script>
     <script>
         // Highlight the current url of the sidebar
@@ -135,7 +137,8 @@ for (const entry of pagesIndex) {
                     console.log(sidebar.offsetTop);
                     console.log(link.offsetTop);
 
-                    sidebar.scrollTop = link.offsetTop - sidebar.offsetTop - 250;
+                    sidebar.scrollTop =
+                        link.offsetTop - sidebar.offsetTop - 250;
 
                     link.classList.add("bg-pink-200", "dark:bg-pink-950");
                     break;
