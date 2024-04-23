@@ -73,12 +73,12 @@ for (const entry of pagesIndex) {
 <BaseLayout title={frontmatter.title}>
     <Navbar />
 
-    <div class="lg:grid lg:grid-cols-[14rem_auto_12rem] container mx-auto">
-        <div class="pt-12 lg:h-screen lg:sticky top-0">
-            <nav
-                id="sidebar"
-                class="py-4 pr-2 overflow-x-scroll lg:h-[calc(100vh-3rem)]"
-            >
+    <div class="lg:grid lg:grid-cols-[14rem_auto_12rem] lg:container mx-auto">
+        <div
+            id="sidebar"
+            class="pt-12 h-screen lg:sticky top-0 fixed z-10 bg-c-bg w-60 lg:w-auto border-r-2 lg:border-0 border-c-border-1 -translate-x-64 lg:translate-x-0"
+        >
+            <nav class="py-4 pr-2 overflow-x-scroll h-[calc(100vh-3rem)]">
                 {
                     pagesIndex.map((entry) => (
                         <Sidebar entry={entry} basePath="/learn/" />
@@ -87,11 +87,13 @@ for (const entry of pagesIndex) {
             </nav>
         </div>
 
-        <main class="lg:py-[3.5rem] lg:pl-12 lg:pr-4 markdown min-w-0">
+        <main class="py-[3.5rem] lg:pl-12 lg:pr-4 markdown min-w-0 small-container mx-auto">
             <slot />
         </main>
 
-        <div class="lg:pt-12 pt-4 max-h-screen overflow-x-scroll sticky top-0">
+        <div
+            class="lg:pt-12 hidden lg:block pt-4 max-h-screen overflow-x-scroll sticky top-0"
+        >
             <nav class="rounded-md lg:mt-10">
                 <h2 class="font-display font-medium pb-2 text-c-text-2">
                     On this page

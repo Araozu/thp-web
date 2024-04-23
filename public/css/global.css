@@ -42,6 +42,12 @@ body {
     font-family: Inter, 'Fira Sans', Inter, sans-serif;
 }
 
+@media only screen and (max-width: 600px) {
+    #editor {
+        font-size: 0.9em;
+    }
+}
+
 pre, code {
     font-family: Iosevka, 'Fira Code', monospace;
 }

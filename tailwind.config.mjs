@@ -8,6 +8,7 @@ export default {
                 "c-text": "var(--c-text)",
                 "c-text-2": "var(--c-text-2)",
                 "c-purple": "var(--c-purple)",
+                "c-border-1": "rgba(150,150,150,0.25)",
                 "c-purple-light": "var(--c-purple-light)",
                 "c-box-shadow": "var(--c-box-shadow)",
                 "c-ping": "var(--c-pink)",
@@ -42,6 +43,18 @@ export default {
                     },
                     '@screen xl': {
                         maxWidth: '1400px',
+                    },
+                },
+                '.small-container': {
+                    width: '98%',
+                    '@screen sm': {
+                        maxWidth: '640px',
+                    },
+                    '@screen md': {
+                        maxWidth: '768px',
+                    },
+                    '@screen lg': {
+                        maxWidth: 'inherit',
                     },
                 }
             })
