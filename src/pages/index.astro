@@ -1,0 +1,125 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+---
+
+<BaseLayout>
+	<Navbar />
+
+	<div
+		class="container mx-auto lg:py-16 py-2 lg:grid 2xl:grid-cols-[auto_32rem] lg:grid-cols-[auto_36rem] gap-4 lg:px-10 px-2"
+	>
+		<div class="lg:pl-10 table">
+			<div class="table-cell align-middle">
+				<h1
+					class="font-display font-bold text-c-text-2 lg:text-5xl text-3xl lg:text-left text-center leading-tight"
+				>
+					A modern, type safe,
+					<br class="hidden lg:inline-block" />
+					secure language
+					<br class="hidden lg:inline-block" />
+					compiled to PHP
+				</h1>
+				<p class="font-display text-c-text text-xl pt-6 lg:pr-12">
+					Inspired by Rust, Zig and Swift, THP has a modern syntax,
+					semantics, type system and stdlib.
+				</p>
+				<br />
+				<br />
+				<div class="text-center">
+					<a
+						class="inline-block font-display text-lg rounded-full border-2 border-pink-400 py-2 px-8
+						transition-colors hover:text-black hover:bg-pink-400"
+						href="/learn/"
+					>
+						Tutorial
+					</a>
+
+					<a
+						class="inline-block font-display text-lg border-2 border-sky-400 py-2 px-8 mx-6 rounded-full
+						transition-colors hover:text-black hover:bg-sky-400"
+						href="/install/"
+					>
+						Install
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="bg-[var(--code-theme-bg-color)] lg:p-6 p-2 rounded-lg relative"
+		>
+			<span
+				class="absolute lg:inline-block hidden h-[35rem] w-[35rem] -z-10 top-1/2 left-1/2 rounded-full
+					transform -translate-x-1/2 -translate-y-1/2"
+				style="background-image: conic-gradient(from 180deg at 50% 50%,#5BCEFA 0deg,#a853ba 180deg,#F5A9B8 1turn);
+					filter: blur(75px); opacity: 0.75;"
+			>
+			</span>
+
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="54"
+				height="14"
+				viewBox="0 0 54 14"
+			>
+				<g fill="none" fill-rule="evenodd" transform="translate(1 1)">
+					<circle
+						cx="6"
+						cy="6"
+						r="6"
+						fill="#FF5F56"
+						stroke="#E0443E"
+						stroke-width=".5"></circle>
+					<circle
+						cx="26"
+						cy="6"
+						r="6"
+						fill="#FFBD2E"
+						stroke="#DEA123"
+						stroke-width=".5"></circle>
+					<circle
+						cx="46"
+						cy="6"
+						r="6"
+						fill="#27C93F"
+						stroke="#1AAB29"
+						stroke-width=".5"></circle>
+				</g>
+			</svg>
+			<div class="h-1"></div>
+			<div id="editor" class="font-mono language-thp"></div>
+		</div>
+	</div>
+
+	<script>
+		import { thp_highlighter, CodeJar } from "../lexer/highlighter";
+
+		let jar = CodeJar(document.getElementById("editor")!, thp_highlighter, {
+			tab: "    ",
+		});
+
+		jar.updateCode(
+			`// Actual generics & sum types
+fun find_person(Int person_id) -> Result[String, String] {
+// Easy, explicit error bubbling
+try Person::find_by_id(person_id)
+}
+
+val id = POST::get("person_id") ?? exit("Null person_id")
+// Errors as values
+val person = try find_person(person_id: id) with error {
+eprint("Error: {error}")
+exit("Person not found")
+}
+
+// First class HTML-like templates & components
+print(
+<a href="/person/reports/{person.id}">
+	welcome, {person.name}
+</a>
+)
+// And more!`,
+		);
+	</script>
+</BaseLayout>

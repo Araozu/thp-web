@@ -1,0 +1,146 @@
+---
+import Navbar from "../components/Navbar.astro";
+import BaseLayout from "./BaseLayout.astro";
+import TOC from "../components/TOC.astro";
+import Sidebar from "../components/Sidebar.astro";
+
+const { frontmatter, headings } = Astro.props;
+
+const posts = await Astro.glob("../pages/learn/**/*.md");
+
+// The index.md page must have a `pagesLayout` frontmatter, which declares the order of all the pages.
+const indexSubpath = `/learn/index.md`;
+
+const indexPage = posts.find((post) => post.file.endsWith(indexSubpath));
+
+if (indexPage === undefined) {
+    throw new Error(`No index page found at ${indexSubpath}`);
+}
+
+export type PageEntry = {
+    path: string;
+    title?: string;
+    children?: Array<PageEntry>;
+};
+
+const pagesIndex: Array<PageEntry> | undefined =
+    indexPage.frontmatter.pagesLayout;
+
+if (pagesIndex === undefined) {
+    console.error(indexPage.frontmatter);
+    throw new Error(`No pagesLayout frontmatter found in ${indexSubpath}`);
+}
+
+function validateEntry(entry: PageEntry, basePath: string) {
+    if (!entry.children) {
+        // Attempt to get the page title from frontmatter
+        const pageData = posts.find((post) =>
+            post.file.endsWith(entry.path + ".md"),
+        );
+
+        if (pageData === undefined) {
+            console.error(entry);
+            console.error(entry.path + ".md");
+            throw new Error(`No page found at ${entry.path}`);
+        }
+
+        // set the title
+        entry.title = pageData.frontmatter.title ?? "Title not set";
+
+        return;
+    }
+
+    // Recursively search for children
+    if (!entry.title) {
+        console.log(entry);
+        throw new Error(
+            `No title found in ${basePath + entry.path}, which is a folder and requires it.`,
+        );
+    }
+
+    const folderName = entry.title;
+
+    entry.children.forEach((child) =>
+        validateEntry(child, basePath + "/" + folderName),
+    );
+}
+
+for (const entry of pagesIndex) {
+    validateEntry(entry, `/learn/`);
+}
+---
+
+<BaseLayout title={frontmatter.title}>
+    <Navbar />
+
+    <div class="lg:grid lg:grid-cols-[14rem_auto_12rem] container mx-auto">
+        <div class="pt-12 lg:h-screen lg:sticky top-0">
+            <nav
+                id="sidebar"
+                class="py-4 pr-2 overflow-x-scroll lg:h-[calc(100vh-3rem)]"
+            >
+                {
+                    pagesIndex.map((entry) => (
+                        <Sidebar entry={entry} basePath="/learn/" />
+                    ))
+                }
+            </nav>
+        </div>
+
+        <main class="lg:py-[3.5rem] lg:pl-12 lg:pr-4 markdown min-w-0">
+            <slot />
+        </main>
+
+        <div class="lg:pt-12 pt-4 max-h-screen overflow-x-scroll sticky top-0">
+            <nav class="rounded-md lg:mt-10">
+                <h2 class="font-display font-medium pb-2 text-c-text-2">
+                    On this page
+                </h2>
+
+                <TOC headings={headings} />
+            </nav>
+        </div>
+    </div>
+
+    <script>
+        import { thp_highlighter, CodeJar } from "../lexer/highlighter";
+        // Add an editor to all code samples
+
+        const code_elements = document.querySelectorAll(".language-thp");
+
+        for (const e of [...code_elements]) {
+            const el = e as HTMLElement;
+            const pre_parent = el.parentElement!;
+            const new_div = document.createElement("div");
+            const code = el.innerText;
+
+            el.parentElement!.className = "language-thp";
+            pre_parent.removeChild(el);
+            pre_parent.appendChild(new_div);
+
+            CodeJar(new_div, thp_highlighter, {
+                tab: "    ",
+            }).updateCode(code);
+        }
+    </script>
+    <script>
+        // Highlight the current url of the sidebar
+        document.addEventListener("DOMContentLoaded", () => {
+            let current_uri = window.location.pathname;
+
+            const sidebar = document.getElementById("sidebar")!;
+            const links = sidebar.querySelectorAll("a");
+            for (const link of [...links]) {
+                if (link.getAttribute("href") === current_uri) {
+                    console.log(sidebar.offsetTop);
+                    console.log(link.offsetTop);
+
+                    sidebar.scrollTop = link.offsetTop - sidebar.offsetTop - 250;
+
+                    link.classList.add("bg-pink-200", "dark:bg-pink-950");
+                    break;
+                }
+            }
+        });
+    </script>
+</BaseLayout>

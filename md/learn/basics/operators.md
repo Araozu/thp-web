@@ -1,5 +1,0 @@
-# Operators
-
-Some common operators
-
-
