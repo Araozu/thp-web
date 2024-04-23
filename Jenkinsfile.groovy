@@ -1,17 +1,22 @@
 pipeline {
     agent any
     environment {
-        PATH = "/var/lib/jenkins/.bun/bin/:/var/lib/jenkins/bin:/var/lib/jenkins/.nvm/versions/node/v20.9.0/bin:${env.PATH}"
+        PATH = "/var/lib/jenkins/bin:/var/lib/jenkins/.nvm/versions/node/v20.9.0/bin:${env.PATH}"
     }
     stages {
         stage('Install deps') {
             steps {
-                sh 'bun i'
+                sh 'pnpm i'
+            }
+        }
+        stage("Test") {
+            steps {
+                sh 'pnpm test'
             }
         }
         stage('Build bundle') {
             steps {
-                sh 'bun run build'
+                sh 'pnpm build'
             }
         }
         stage('Deploy') {

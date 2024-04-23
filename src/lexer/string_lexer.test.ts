@@ -1,4 +1,4 @@
-import { expect, test, describe } from "bun:test";
+import { expect, test, describe } from "vitest";
 import { scan_string } from "./string_lexer";
 
 describe("String Lexer", () => {
