@@ -136,13 +136,9 @@ for (const entry of pagesIndex) {
             let current_uri = window.location.pathname;
 
             const sidebar = document.getElementById("sidebar")!.children[0]! as HTMLElement;
-            console.log(sidebar);
             const links = sidebar.querySelectorAll("a");
             for (const link of [...links]) {
                 if (link.getAttribute("href") === current_uri) {
-                    console.log(sidebar.offsetTop);
-                    console.log(link.offsetTop);
-
                     sidebar.scrollTop =
                         link.offsetTop - sidebar.offsetTop - 250;
 
