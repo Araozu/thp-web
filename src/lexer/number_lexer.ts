@@ -21,7 +21,7 @@ function scan_decimal(input: string, starting_position: number): [string, number
     let pos = starting_position;
 
     while (pos < input.length) {
-        const c = input[pos];
+        const c = input[pos]!;
 
         if (c === ".") {
             // todo

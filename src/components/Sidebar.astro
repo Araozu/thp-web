@@ -5,6 +5,9 @@ const entry: PageEntry = Astro.props.entry;
 const basePath: string = Astro.props.basePath;
 
 const entryPath = entry.path === "index"? "": entry.path;
+
+const entryUrl = basePath + entryPath + (entryPath.endsWith("/")? "" : "/");
+
 ---
 
 {
@@ -12,7 +15,7 @@ const entryPath = entry.path === "index"? "": entry.path;
         <li>
             <a
                 class="inline-block rounded-2xl w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-2"
-                href={`${basePath}${entryPath}`}
+                href={entryUrl}
             >
                 {entry.title}
             </a>

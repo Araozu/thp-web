@@ -144,6 +144,10 @@ fun sample(Int x)
 
         0.0
     }
+    catch Exception e
+    { ... }
+    catch Error e
+    { ... }
 }
 ```
 
