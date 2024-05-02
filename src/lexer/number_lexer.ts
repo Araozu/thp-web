@@ -25,11 +25,11 @@ function scan_decimal(input: string, starting_position: number): [string, number
 
         if (c === ".") {
             // todo
-            throw new Error("Not implemented");
+            return [current_value, pos];
         }
         else if (c == "e" || c == "E") {
             // todo
-            throw new Error("Not implemented");
+            return [current_value, pos];
         }
         else if (is_digit(c)) {
             current_value += c;

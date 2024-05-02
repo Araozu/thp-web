@@ -5,111 +5,229 @@ title: Classes
 
 # Classes
 
-Basically kotlin syntax.
+Syntax and semantics heavily inspired by Kotlin.
 
 
 ## Create a new instance of a class
 
-`new` not required, in fact, forbidden.
+To create an instance of a class call it as if it were a function,
+without `new`.
 
 ```thp
-val dog = Dog()
+val animal = Animal()
 ```
 
-## Simple class
+## Simple class 
 
-Why'd you do this tho?
+Classes are declared with the `class` keyword.
 
 ```thp
-class SimpleClass
+class Animal
 
-val instance = SimpleClass()
+val instance = Animal()
 ```
 
-## Properties & methods
+## Properties
+
+Properties are declared with `var`/`val`.
+They **must** declare their datatype.
 
 ```thp
-class SimpleClass
+class Person
+{
+    // This is an error. Properties must declare their datatype,
+    // even if the compiler can infer it.
+    val name = "Jane Doe"
+
+    // This is correct
+    val String name = "Jane Doe"
+}
+```
+
+Properties are private by default,
+but can be made public with `pub`.
+
+```thp
+class Person
 {
     // Properties are private by default
-    var String? name = ...
+    val String name = "John Doe"
 
-    // Made public with `pub`
-    pub var String? surname = ...
+    // To make a property public use `pub`
+    pub var Int age = 30
+}
+```
 
-    // Methods are private by default
-    fun display_name()
+More information about how properties interact with the constructor
+is found in the contructor section.
+
+
+## Methods
+
+Methods are declared with `fun`, as regular functions.
+
+```thp
+class Person
+{
+    fun greet()
     {
-        // `$` is used instead of $this. Mandatory
-        print($name)
+        print("Hello")
+    }
+}
+```
+
+Methods are private by default, and are made public with `pub`.
+
+```thp
+class Person
+{
+    // This method is private
+    fun private_greet()
+    {
+        print("Hello from private method")
     }
 
-    pub fun get_name() -> String?
+    // Use `pub` to make a method public
+    pub fun greet()
     {
-        $name
+        print("Hello from greet")
+    }
+}
+
+val p = Person()
+p.greet()           //: Hello from greet
+p.private_greet()   // Compile time error. Private method.
+```
+
+## This
+
+THP uses the dollar sign `$` as this. It is **required** when
+using a class property/method.
+
+```thp
+class Person
+{
+    val String name = "Jane Doe"
+
+    pub fun get_name() -> String
+    {
+        return $name
+    }
+
+    pub fun greet()
+    {
+        val person_name = $get_name()
+        print("Hello, I'm {person_name}")
     }
 }
 ```
 
 ## Static members
 
-no
+Static members are detailed in their own page.
 
 
 ## Constructor
 
-Kotlin style
+(for now) THP's constructors are inspired by Kotlin.
 
+PHP only allows a single constructor, and so does THP.
+The basic constructor has the syntax of function parameters.
 
 ```thp
-class Cat(
-    var String name,
-    var Int lives = 9,
-    val String surname = "Doe",
+//          |this is the constructor |
+class Animal(String fullname, Int age)
+
+val a1 = Animal("Nal", 4)
+```
+
+The class properties can be declared in the constructor,
+using the keywords `pub`, `var`, `val`:
+
+```thp
+class Animal(
+    // Since we are using val/var, these are promoted to class properties
+    val String fullname,
+    var Int age,
 )
 {
-    pub fun get_name() -> String
+    pub fun say()
     {
-        $name
-    }
-
-    pub fun die()
-    {
-        $lives -= 1
-        if $lives <= 0
-        {
-            print("Cat {$name} is death")
-        }
-        else
-        {
-            print("Cat {$name} is life still")
-        }
+        // Here we are using the properties declared in the constructor
+        print("My name is {$fullname} and i'm {$age} years old")
     }
 }
 
-val michifu = Cat("Michifu")
-print(michifu.get_name())
+val a1 = Animal("Nal", 4)
+a1.say()    //: My name is Nal and i'm 4 years old
 ```
 
-With kotlin's `init` block.
+By using this syntax you are declaring properties and assigning them
+at the same time.
+
+The contructor parameters can also have default values.
+
+
+### Constructor visibility
+
+The constructor is public by default. It can be made private/protected
+like this:
 
 ```thp
-class Dog(val String name)
-{
-    Int name_length = name.length()
+class Animal
+private constructor(
+    val String fullname,
+    var Int age,
+)
+{...}
+```
 
+
+### Derived properties
+
+You can declare properties whose values depend on values
+on the constructor.
+
+```thp
+class Animal(
+    val String fullname,
+)
+{
+    // A property whose value depends on `fullname`
+    // This is executed after the contructor
+    pub val Int name_length = $fullname.length
+}
+
+val a2 = Animal("Doa")
+print(a2.name_length)   //: 3
+```
+
+
+### Init block
+
+If you need to additional logic in the constructor you can
+use a `init` block.
+
+```thp
+class Animal(
+    val String fullname,
+)
+{
     init
     {
-        print("Dog has been instantiated")
+        print("{$fullname} in contruction...")
     }
 }
+
+val a3 = Animal("Lola")     //: Lola in construction
 ```
+
 
 ## Inheritance
 
-Kotlin style
 
 ```thp
+// Base class
 class Animal(var String name)
 {
     pub fun say_name()
@@ -118,7 +236,9 @@ class Animal(var String name)
     }
 }
 
-class Cat(String name, Int lives) -> Animal(name)
+// Child class
+class Cat(String name, Int lives) 
+extends Animal(name)
 
 Cat("Michi", 9).say_name()
 ```
@@ -151,6 +271,22 @@ class Animal(var String name)
 
 var michi = Animal("Michifu")
 michi.set_name("Garfield")
+```
+
+## Class constructor that may return an error
+
+Working theory:
+
+```thp
+class Fish(
+    val String name,
+    var Int lives = 9,
+)
+extends Animal(name)
+throws Error
+
+val fish_result = Fish("bubble")   // fish_result will be a `Result[Fish,Error]`
+val fish = try fish_result
 ```
 
 
