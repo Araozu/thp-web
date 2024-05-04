@@ -19,7 +19,7 @@ export default {
             }
         },
         fontFamily: {
-            "mono": ["Iosevka", "monospace"],
+            "mono": ["Iosevka", "'Iosevka Nerd Font'", "'Fira Code'", "monospace"],
             "display": ["Inter", "'Josefin Sans'", "'Fugaz One'", "sans-serif"],
             "body": ["Inter", "sans-serif"],
         },
