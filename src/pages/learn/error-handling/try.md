@@ -17,138 +17,152 @@ For example, a function that returned a `DivisionByZero`
 may be written like this:
 
 ```thp
-fun invert(Int number) -> Result[Int, DivisonByZero]
+fun invert(Int number) -> Int!DivisionByZero
 {
     if number == 0
     {
-        return Err(DivisionByZero())
+        return DivisionByZero()
     }
 
-    return Ok(1 / number)
+    return 1 / number
 }
 ```
 
-In the previous segment, `Result[Int, DivisionByZero]` denotates
+In the previous segment, `Int!DivisionByZero` denotates
 that the function may return either an `Int` or an `DivisionByZero`.
 
-To return the error we use `Err(...)`, and to return the succes value
-we use `Ok(...)`.
-
-The error may be of any datatype.
+We then can return the error or success value;
 
 
 ### Multiple error returns
+
+TODO: fix?
+
+
 
 If there are multiple error types that the function can return,
 you can use the `|` operator:
 
 ```thp
-fun sample() -> Result[Int, Exception1|Exception2|Exception3]
+type Exceptions = Exception1 | Exception2 | Exception3
+
+fun sample() -> Int!Exceptions
 { /* ... */}
 ```
 
 
 
-## Handle an error
+## Error handling
 
-Since `Result` is an enum we can use pattern matching to
-get the ok value, or handle the error:
+The caller must handle all possible errors, they don't automatically
+bubble up the stack.
 
-```thp
-val result = match inverse(5)
-case ::Ok(value) { value }
-case ::Err(error) { return error }
-```
-
-However, THP provides syntactic sugar for many common
-patterns for error handling.
-
-## Try expressions
-
-There are several try expressions that simplify error handling:
+THP provides syntax for handling errors following certain patterns,
+via try expressions:
 
 ### Naked try
 
-Using a `try` followed by an expression will execute the
-expression, and if `Ok` is returned, it will return it's value.
-If `Err` is returned, the error will be re-thrown.
+Use a naked `try` when you want to rethrow an error, if any.
 
 ```thp
-fun sample(Int x) -> Result[Int, DivisionByZero]
-{
-    val result = try inverse(x)
+// May return an Int or an Exception
+fun dangerous() -> Int!Exception
+{...}
 
-    result
+fun run() -> !Exception
+{
+    // Use a naked `try` to rethrow if there's an error
+    val result = try dangerous()
+    // Here result is `Int`
+    print(result)
 }
 ```
 
-If `inverse(x)` fails, the error will be returned again.
+In the previous example:
 
-If `inverse(x)` succeedes, its value will be assigned to `result`.
+- If `dangerous()` returns an `Exception`, this exception
+    will be returned by `run()`;
+- If `dangerous()` succeedes, its value is assigned
+    to `result`, and the function continues executing.
 
 
 ### Try/return
+
+Try/return will return a new value if an expression fails,
+otherwise will assign the success value and continue.
 
 Try/return will run a function and assign its value if `Ok` is found.
 Otherwise, it will return a new value specified by the programmer.
 
 ```thp
-fun sample(Int x) -> String
+fun run() -> Int
 {
-    val result = try inverse(x) return "0 was found"
+    val result = try dangerous() return 0
 
-    if result == 2 { "2 was found" }
-    else { "other number was found" }
+    // ...
 }
 ```
 
-If `inverse(x)` fails, `"0 was found"` will be returned.
+In the previous example:
 
-If `inverse(x)` succeedes, its value will be assigned to `result`
-and the code will continue to execute normally.
+- If `dangerous()` fails, its error will be ignored, and `0` will
+    be returned from `run()`.
+- If `dangerous()` succeedes, its value will be assigned to `result`,
+    and the function continues executing.
 
 
 ### Try/else
 
-Try/else will run an expression and assign its value if `Ok`.
-Otherwise it will assign a second value.
+Try/return will assign a new value if an expression fails.
 
 ```thp
-fun sample(Int x) -> Int
+fun run()
 {
-    val result = try inverse(x) else 0.0
+    val result = try dangerous() else 322
 
-    result
+    print(result)
 }
 ```
 
-If `inverse(x)` fails, `0.0` will be assigned to `result`.
+- If `dangerous()` fails, the value `322` will be assigned to `result`.
+- If `dangerous()` succeedes, its value will be assigned to `result`.
 
-If `inverse(x)` succeedes, its value will be assigned to `result`.
+Either way, the function will continue executing.
 
 
 ### Try/catch
 
-Try/catch will run an expression and assign its value if `Ok`.
-Otherwise it will run a block of code, which will handle
-the error and assign a value as well.
+Try/catch allows the error to be manually used & handled.
+
 
 ```thp
-fun sample(Int x)
+fun run()
 {
-    val result = try inverse(x)
-    catch DivisionByZero e
+    val result = try dangerous()
+    catch Exception e
     {
-        // Handle `e`
+        // This is run if `dangerous()` throws.
+        // `e` is the thrown error
+
+        // Handle the error
         // ...
 
-        0.0
+        // Return a new value to be assigned to `result`
+        0
     }
-    catch Exception e
-    { ... }
-    catch Error e
-    { ... }
 }
+```
+
+A try/catch may have many `catch` clauses:
+
+```thp
+try dangerous()
+catch Exception1 e
+{...}
+catch Exception2 e
+{...}
+catch Exception3 e
+{...}
 ```
 
 
