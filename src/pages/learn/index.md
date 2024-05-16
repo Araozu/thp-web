@@ -11,13 +11,14 @@ pagesLayout:
   - path: variables
   - path: datatypes
   - path: comments
+  - path: operators
 - path: flow-control
   title: Flow control
   children:
-  - path: blocks
   - path: conditionals
   - path: loops
   - path: match
+  - path: blocks
 - path: data-structures
   title: Data structures
   children:

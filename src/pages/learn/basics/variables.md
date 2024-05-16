@@ -8,6 +8,11 @@ title: Variables
 
 thp distinguishes between mutable and immutable variables.
 
+Variables have to be declared in THP, to avoid issues with scopes.
+It is a compile error to use undeclared variables.
+
+Variable names **must** begin with a lowercase letter.
+
 ## Immutable variables
 
 Defined with `val`, followed by a variable name and a value.

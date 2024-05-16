@@ -7,6 +7,8 @@ title: Loops
 
 ## For loop
 
+This is simmilar to PHP's `foreach`. There is no equivalent to PHP's `for`.
+
 Braces are required.
 
 ```thp
@@ -51,7 +53,7 @@ for value in collection
 
 ```thp
 val colors = ["red", "green", "blue"]
-val mut index = 0
+var index = 0
 
 while index < colors.size()
 {

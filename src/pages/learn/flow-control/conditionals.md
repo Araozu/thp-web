@@ -44,6 +44,8 @@ if variable is Datatype
 
 ## If variable is of enum
 
+TBD
+
 ```thp
 val user_id = POST::get("user_id")
 

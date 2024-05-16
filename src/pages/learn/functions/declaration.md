@@ -5,6 +5,8 @@ title: Declaration
 
 # Declaration
 
+Function names **must** begin with a lowercase letter.
+
 
 ## No parameters, no return
 

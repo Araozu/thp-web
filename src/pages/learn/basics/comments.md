@@ -30,4 +30,5 @@ Only these two:
 */
 ```
 
+TBD: Doc comments use triple slash `///`? or `/** */`?
 
