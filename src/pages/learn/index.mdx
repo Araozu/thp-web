@@ -46,8 +46,9 @@ pagesLayout:
   - path: interfaces
   - path: anonymous
   - path: magic
-
 ---
+import InteractiveCode from "../../components/InteractiveCode.astro";
+
 
 # Welcome
 
@@ -57,12 +58,49 @@ THP is a new programming language that compiles to PHP.
 
 ![Accurate visual description of THP](/img/desc_thp.jpg)
 
-<br>
 
 This page discusses some of the design decitions of the language,
 if you want to install THP go to the [installation guide](install)
 
-If you want to learn the language, go to the learn section.
+
+## Interactive execution
+
+The documentation contains snippets of interactive THP code, like this:
+
+<InteractiveCode 
+    code={`
+    val x = "android"
+    var y = 17
+
+    fun f(Int a, Int b) {
+        print("hello, {a} {b}")
+    }
+
+    f(x, y)
+    `}
+    steps={`[
+        [["line", 1]],
+        [
+            ["line", 2],
+            ["set", "String x", "\\"android\\""]
+        ],
+        [
+            ["line", 8],
+            ["set", "Int y", "17"]
+        ],
+        [["line", 4]],
+        [["line", 5]],
+        [
+            ["out", "hello, android 17"],
+            ["line", 6]
+        ],
+        [["line", 8]],
+        [["line", 0]]
+    ]`}
+></InteractiveCode>
+
+Use the `Step` and `Reset` buttons to emulate the execution of a
+THP program!
 
 ## Goals
 

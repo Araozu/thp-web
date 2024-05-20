@@ -42,7 +42,7 @@
     padding: 0.5rem 0;
 }
 
-.markdown pre {
+.markdown > pre {
     margin: 0.5em 0;
     padding: 0.75em 0.75em;
     color: var(--code-theme-color);

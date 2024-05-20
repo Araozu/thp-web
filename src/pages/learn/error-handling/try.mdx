@@ -2,6 +2,7 @@
 layout: ../../../layouts/PagesLayout.astro
 title: Try/Exceptions
 ---
+import InteractiveCode from "../../../components/InteractiveCode.astro";
 
 # Try/exceptions
 
@@ -62,21 +63,62 @@ via try expressions:
 
 ### Naked try
 
-Use a naked `try` when you want to rethrow an error, if any.
+Use a naked `try` when you want to rethrow an error, if there is any.
 
-```thp
-// May return an Int or an Exception
-fun dangerous() -> Int!Exception
-{...}
+<InteractiveCode 
+    code={`
+    fun dangerous() -> Int!Exception
+    {   // May throw randomly
+        return if Math.random() < 0.5 { 50 }
+        else { Exception("Unlucky") }
+    }
 
-fun run() -> !Exception
-{
-    // Use a naked `try` to rethrow if there's an error
-    val result = try dangerous()
-    // Here result is `Int`
-    print(result)
-}
-```
+    fun run() -> !Exception
+    {   // If \`dangerous()\` throws, the function exits with the same error.
+        // Otherwise, continues
+        val result = try dangerous()
+        print("The result is {result}")
+    }
+
+    val res1 = run() // First, without error
+    val res2 = run() // Then, an example with error
+    `}
+    steps={`[
+        [["line", 14]],
+        [["line", 7]],
+        [["line", 10]],
+        [["line", 1]],
+        [["line", 3]],
+        [
+            ["line", 10],
+            ["set", "result", 50]
+        ],
+        [["line", 11]],
+        [
+            ["line", 14],
+            ["out", "The result is 50\\n"],
+        ],
+        [
+            ["line", 15],
+            ["set", "res1", "<empty>"],
+        ],
+        [["line", 7]],
+        [["line", 10]],
+        [["line", 1]],
+        [["line", 3]],
+        [["line", 4]],
+        [
+            ["line", 10],
+            ["set", "result", "Exception(\\"Unlucky\\")"]
+        ],
+        [["line", 15]],
+        [
+            ["line", 0,],
+            ["set", "res2", "Exception(\\"Unlucky\\")"],
+        ]
+    ]`}
+></InteractiveCode>
+
 
 In the previous example:
 

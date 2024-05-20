@@ -9,7 +9,7 @@ const { frontmatter, headings } = Astro.props;
 const posts = await Astro.glob("../pages/learn/**/*.{md,mdx}");
 
 // The index.md page must have a `pagesLayout` frontmatter, which declares the order of all the pages.
-const indexSubpath = `/learn/index.md`;
+const indexSubpath = `/learn/index.mdx`;
 
 const indexPage = posts.find((post) => post.file.endsWith(indexSubpath));
 
