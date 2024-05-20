@@ -14,6 +14,7 @@ enum TokenType {
     Step,
     Line,
     Set,
+    Out,
     Number,
     String,
     Unset,
@@ -96,6 +97,7 @@ function lex_word(input: Array<string>, pos: number): [Token, number] {
     else if (value === "line") { token_type = TokenType.Line; }
     else if (value === "set")  { token_type = TokenType.Set; }
     else if (value === "unset"){ token_type = TokenType.Unset; }
+    else if (value === "out")  { token_type = TokenType.Out; }
     else
     {
         throw new Error(`Invalid word: ${value}`);
@@ -104,16 +106,21 @@ function lex_word(input: Array<string>, pos: number): [Token, number] {
     return [[token_type, value], next_p]
 }
 
-enum InstructionType {
+export enum InstructionType {
     Line,
     Set,
     Unset,
+    Out,
 }
 
-type Instruction = {
+export type Instruction = {
     t: InstructionType,
     v0: string,
     v1?: string,
+}
+
+export function parse_str(input: string): Array<Array<Instruction>> {
+    return parse(lex(input));
 }
 
 // Parses the tokens into a instruction set
@@ -121,10 +128,18 @@ function parse(tokens: Array<Token>): Array<Array<Instruction>> {
     let pos = 0;
     let max = tokens.length;
 
-    return [];
+    const ret = [];
+
+    while (pos < max) {
+        const [steps, next_pos] = parse_step(tokens, pos);
+        pos = next_pos;
+        ret.push(steps);
+    }
+
+    return ret;
 }
 
-function parse_step(tokens: Array<Token>, _pos: number): Array<Instruction> {
+function parse_step(tokens: Array<Token>, _pos: number): [Array<Instruction>, number] {
     let pos = _pos;
 
     expect(tokens, pos, TokenType.Step, "expected step");
@@ -146,7 +161,7 @@ function parse_step(tokens: Array<Token>, _pos: number): Array<Instruction> {
     expect(tokens, pos, TokenType.BraceClose, "expected closing brace");
     pos += 1
 
-    return instructions;
+    return [instructions, pos];
 }
 
 function parse_instruction(tokens: Array<Token>, _pos: number): [Instruction|null, number] {
@@ -173,6 +188,22 @@ function parse_instruction(tokens: Array<Token>, _pos: number): [Instruction|nul
             v1: tokens[pos]![1]!,
         }, pos + 1]
     }
+    else if (instruction_type === TokenType.Unset) {
+        expect(tokens, pos + 1, TokenType.String, "expected a a string after the `unset` instruction");
+
+        return [{
+            t: InstructionType.Unset,
+            v0: tokens[pos + 1]![1]!,
+        }, pos + 2]
+    }
+    else if (instruction_type === TokenType.Out) {
+        expect(tokens, pos + 1, TokenType.String, "expected a a string after the `unset` instruction");
+
+        return [{
+            t: InstructionType.Out,
+            v0: tokens[pos + 1]![1]!,
+        }, pos + 2]
+    }
 
     return [null, pos];
 }
@@ -180,9 +211,8 @@ function parse_instruction(tokens: Array<Token>, _pos: number): [Instruction|nul
 function expect(t: Array<Token>, pos: number, type: TokenType, err: string) {
     const [t_type] = t[pos]!;
     if (t_type !== type) {
-        console.error(t[pos]);
-        throw new Error(err);
+        console.error("`" + String(t[pos]) + "`");
+        throw new Error(err + " , got " + t[pos]);
     }
 }
 
-console.log(parse_step(lex("   step  { line 20 set \"a\" \"b\"  }"), 0))

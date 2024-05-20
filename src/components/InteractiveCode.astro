@@ -1,5 +1,7 @@
 ---
 import { lex } from "../lexer/lexer";
+import type { Instruction } from "../thp_machine/machine_parser";
+import { parse_str } from "../thp_machine/machine_parser";
 const {code, steps} = Astro.props;
 
 /** 
@@ -97,6 +99,15 @@ function highlightCode(lines: Array<string>): string {
 }
 
 const codeHtml = highlightCode(trimAndDedent(code));
+let instructionSet: Array<Array<Instruction>>;
+try {
+    instructionSet = parse_str(steps);
+} catch (e) {
+    console.error(Astro.url);
+    throw e;
+}
+
+const serialized_inst = JSON.stringify(instructionSet);
 ---
 
 <div class="bg-black text-white rounded px-1"
@@ -104,7 +115,7 @@ const codeHtml = highlightCode(trimAndDedent(code));
         line: 0,
         stdout: "",
         ip: 0,
-        inst: ${steps},
+        inst: ${serialized_inst},
         done: false,
         state: {},
     }`}
@@ -138,12 +149,13 @@ const codeHtml = highlightCode(trimAndDedent(code));
 </div>
 
 <script>
-    type Instruction = "line" | "out" | "set" | "unset";
+    import { InstructionType, type Instruction } from "../thp_machine/machine_parser";
+
     type AlpineState = {
         line: number,
         stdout: string,
         ip: number,
-        inst: Array<Array<[Instruction, string, string | undefined]>>
+        inst: Array<Array<Instruction>>
         done: boolean,
         state: {[key: string]: string},
     }
@@ -156,22 +168,25 @@ const codeHtml = highlightCode(trimAndDedent(code));
 
         const instructions = data.inst[ip]!;
         for (const instructionSet of instructions) {
-            const instructionArr = instructionSet;
-            switch (instructionArr[0]) {
-                case "line": {
-                    data.line = Number(instructionArr[1]);
+            const i = instructionSet;
+
+            switch (i.t) {
+                case InstructionType.Line: {
+                    data.line = Number(i.v0);
                     break;
                 }
-                case "out": {
-                    data.stdout += String(instructionArr[1])
+                case InstructionType.Out: {
+                    data.stdout += i.v0
                     break;
                 }
-                case "set": {
-                    data.state[String(instructionArr[1])] = String(instructionArr[2]);
+                case InstructionType.Set: {
+                    const i_key = i.v0.slice(1, -1);
+                    const i_value = i.v1!.slice(1, -1);
+                    data.state[i_key] = i_value;
                     break;
                 }
-                case "unset": {
-                    delete data.state[String(instructionArr[1])];
+                case InstructionType.Unset: {
+                    delete data.state[i.v0];
                     break;
                 }
             }

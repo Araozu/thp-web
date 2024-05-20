@@ -78,25 +78,25 @@ The documentation contains snippets of interactive THP code, like this:
 
     f(x, y)
     `}
-    steps={`[
-        [["line", 1]],
-        [
-            ["line", 2],
-            ["set", "String x", "\\"android\\""]
-        ],
-        [
-            ["line", 8],
-            ["set", "Int y", "17"]
-        ],
-        [["line", 4]],
-        [["line", 5]],
-        [
-            ["out", "hello, android 17"],
-            ["line", 6]
-        ],
-        [["line", 8]],
-        [["line", 0]]
-    ]`}
+    steps={`
+    step {line 1}
+    step {
+        line 2
+        set "String x" "\\"android\\""
+    }
+    step {
+        line 8
+        set "Int y" "17"
+    }
+    step {line 4}
+    step {line 5}
+    step {
+        out "hello, android 17"
+        line 6
+    }
+    step {line 8}
+    step {line 0}
+    `}
 ></InteractiveCode>
 
 Use the `Step` and `Reset` buttons to emulate the execution of a
