@@ -125,14 +125,17 @@ const codeHtml = highlightCode(trimAndDedent(code));
         </div>
     </div>
     <div class="border-t border-white p-1">
-        <button class="font-mono px-1 rounded bg-pink-950" @click="alpineNext($data)" :disabled="done && 'true'">
-            Step
+        <button class="font-mono px-1 rounded bg-pink-950 disabled:opacity-50 disabled:cursor-not-allowed" @click="alpineNext($data)" :disabled="done && 'true'">
+            Step: <span x-text="ip"></span>
+        </button>
+        <button class="font-mono px-1 rounded bg-pink-950" @click="alpineReset($data)">
+            Reset
         </button>
     </div>
 </div>
 
 <script>
-    type Instruction = "line" ;
+    type Instruction = "line" | "out" ;
     type AlpineState = {
         line: number,
         stdout: string,
@@ -155,6 +158,10 @@ const codeHtml = highlightCode(trimAndDedent(code));
                     data.line = Number(instructionArr[1]);
                     break;
                 }
+                case "out": {
+                    data.stdout += String(instructionArr[1])
+                    break;
+                }
             }
         }
 
@@ -166,4 +173,13 @@ const codeHtml = highlightCode(trimAndDedent(code));
     }
     // @ts-ignore
     window.alpineNext = alpineNext;
+    
+    function alpineReset(data: AlpineState) {
+        data.line = 0;
+        data.stdout = "";
+        data.ip = 0;
+        data.done = false;
+    }
+    // @ts-ignore
+    window.alpineReset = alpineReset;
 </script>
