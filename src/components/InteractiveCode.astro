@@ -176,7 +176,7 @@ const serialized_inst = JSON.stringify(instructionSet);
                     break;
                 }
                 case InstructionType.Out: {
-                    data.stdout += i.v0
+                    data.stdout += i.v0.slice(1, -1) + "\n"
                     break;
                 }
                 case InstructionType.Set: {
@@ -186,7 +186,7 @@ const serialized_inst = JSON.stringify(instructionSet);
                     break;
                 }
                 case InstructionType.Unset: {
-                    delete data.state[i.v0];
+                    delete data.state[i.v0.slice(1, -1)];
                     break;
                 }
             }

@@ -153,17 +153,70 @@ In the previous example:
 
 Try/return will assign a new value if an expression fails.
 
-```thp
-fun run()
-{
-    val result = try dangerous() else 322
+<InteractiveCode
+    code={`
+    fun run(Int!Exception possible_value)
+    {
+        val mid = try possible_value else 666
 
-    print(result)
-}
-```
+        print("The value is: {mid}")
+    }
 
-- If `dangerous()` fails, the value `322` will be assigned to `result`.
-- If `dangerous()` succeedes, its value will be assigned to `result`.
+    run(777)                // With an actual value
+    run(Exception("oh uh")) // With an exception
+    `}
+    steps={`
+    step {line 8}
+    step {line 1}
+    step {
+        set "= = =" "run() = = = ="
+        set "possible_value" "Int 777"
+        line 2
+    }
+    step {line 3}
+    step {
+        line 5
+        set "Int mid" "Int 777"
+    }
+    step {
+        line 6
+        out "The value is: 777"
+    }
+    step{
+        unset "= = ="
+        unset "possible_value"
+        unset "Int mid"
+        line 8
+    }
+    step{line 9}
+    step{line 1}
+    step {
+        set "= = =" "run() = = = ="
+        set "possible_value" "Exception(\\"oh uh\\")"
+        line 2
+    }
+    step{line 3}
+    step {
+        line 5
+        set "Int mid" "666"
+    }
+    step {
+        line 6
+        out "The value is: 666"
+    }
+    step{
+        unset "= = ="
+        unset "possible_value"
+        unset "Int mid"
+        line 9
+    }
+    step{line 0}
+    `}
+>
+</InteractiveCode>
+
+- If `possible_value` is an error, the value `666` is used.
+- If `possible_value` is not an error, its value will be used.
 
 Either way, the function will continue executing.
 
