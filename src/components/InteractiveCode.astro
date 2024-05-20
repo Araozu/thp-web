@@ -75,10 +75,10 @@ function trimAndDedent(input: string): Array<string> {
 function highlightCode(lines: Array<string>): string {
     let outLines: Array<string> = [];
 
-    for (const line of lines) {
+    for (const [idx, line] of lines.entries()) {
         const tokens = lex(line);
         const lineArray = [
-            "<div class=\"inline-block w-full\" :class=\"line === 0? '': 'bg-red-400'\">"
+            `<div class=\"inline-block w-full\" :class=\"line === ${idx + 1}? 'bg-green-200 dark:bg-green-900': ''\">`
         ];
 
         for (const token of tokens) {
@@ -99,16 +99,14 @@ function highlightCode(lines: Array<string>): string {
 const codeHtml = highlightCode(trimAndDedent(code));
 ---
 
-<div class="bg-black rounded" x-data="editor">
+<div class="bg-black text-white rounded" x-data="editor">
     <span class="inline-block bg-[var(--code-theme-bg-acolor)] px-2 rounded-tl rounded-tr font-mono text-sm">thp code</span>
     <pre class="language-thp" style="margin: 0; border-top-left-radius: 0;" data-disabled><code set:html={codeHtml}></code></pre>
     <div class="grid grid-cols-2 font-mono text-sm">
         <div>
             <div class="p-1 border-b border-r border-white">stdout</div>
             <div class="h-24 p-1 border-r border-white">
-                aaaa
-                <br>
-                bbbb
+                <code class="bg-black" x-text="stdout"></code>
             </div>
         </div>
         <div>
@@ -119,19 +117,36 @@ const codeHtml = highlightCode(trimAndDedent(code));
         </div>
     </div>
     <div class="border-t border-white p-1">
-        <button class="font-mono px-1 rounded bg-pink-950" @click="line = 1">
+        <button class="font-mono px-1 rounded bg-pink-950" @click="next()">
             Step
         </button>
     </div>
 </div>
 
 <script>
+    type AlpineState = {
+        line: number,
+        stdout: string,
+    }
+
     document.addEventListener("alpine:init", () => {
         // @ts-ignore
         const Alpine: any = window.Alpine;
 
+        function f(obj: AlpineState) {
+            obj.line += 1;
+        }
+
         Alpine.data("editor", () => ({
             line: 0,
+            stdout: "",
+            next() {
+                f(this);
+            },
+            reset() {
+                this.line = 0;
+                this.stdout = "";
+            },
         }));
     });
 </script>
