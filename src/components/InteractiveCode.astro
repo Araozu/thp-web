@@ -106,6 +106,7 @@ const codeHtml = highlightCode(trimAndDedent(code));
         ip: 0,
         inst: ${steps},
         done: false,
+        state: {},
     }`}
 >
     <span class="inline-block bg-[var(--code-theme-bg-acolor)] px-2 rounded-tl rounded-tr font-mono text-sm">thp code</span>
@@ -120,7 +121,9 @@ const codeHtml = highlightCode(trimAndDedent(code));
         <div>
             <div class="p-1 border-b border-white">state</div>
             <div class="h-24 p-1">
-                x = 20
+                <template x-for="(value, key) in state">
+                    <div x-text="key + ' = ' + value"></div>
+                </template>
             </div>
         </div>
     </div>
@@ -135,13 +138,14 @@ const codeHtml = highlightCode(trimAndDedent(code));
 </div>
 
 <script>
-    type Instruction = "line" | "out" ;
+    type Instruction = "line" | "out" | "set";
     type AlpineState = {
         line: number,
         stdout: string,
         ip: number,
-        inst: Array<Array<[Instruction, number]>>
+        inst: Array<Array<[Instruction, string, string | undefined]>>
         done: boolean,
+        state: {[key: string]: string},
     }
 
     /// Executes the instruction following the state of the machine.
@@ -162,11 +166,14 @@ const codeHtml = highlightCode(trimAndDedent(code));
                     data.stdout += String(instructionArr[1])
                     break;
                 }
+                case "set": {
+                    data.state[String(instructionArr[1])] = String(instructionArr[2]);
+                    break;
+                }
             }
         }
 
         if (data.ip >= len) {
-            console.log("done");
             data.done = true;
             return;
         }
@@ -179,6 +186,7 @@ const codeHtml = highlightCode(trimAndDedent(code));
         data.stdout = "";
         data.ip = 0;
         data.done = false;
+        data.state = {};
     }
     // @ts-ignore
     window.alpineReset = alpineReset;
