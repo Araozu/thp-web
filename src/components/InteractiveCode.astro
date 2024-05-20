@@ -138,7 +138,7 @@ const codeHtml = highlightCode(trimAndDedent(code));
 </div>
 
 <script>
-    type Instruction = "line" | "out" | "set";
+    type Instruction = "line" | "out" | "set" | "unset";
     type AlpineState = {
         line: number,
         stdout: string,
@@ -168,6 +168,10 @@ const codeHtml = highlightCode(trimAndDedent(code));
                 }
                 case "set": {
                     data.state[String(instructionArr[1])] = String(instructionArr[2]);
+                    break;
+                }
+                case "unset": {
+                    delete data.state[String(instructionArr[1])];
                     break;
                 }
             }

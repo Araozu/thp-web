@@ -86,17 +86,21 @@ Use a naked `try` when you want to rethrow an error, if there is any.
     steps={`[
         [["line", 14]],
         [["line", 7]],
-        [["line", 10]],
+        [
+            ["line", 10],
+            ["set", "Int result", "..."]
+        ],
         [["line", 1]],
         [["line", 3]],
         [
             ["line", 10],
-            ["set", "result", 50]
+            ["set", "Int result", "Int 50"]
         ],
         [["line", 11]],
         [
             ["line", 14],
             ["out", "The result is 50\\n"],
+            ["unset", "Int result"],
         ],
         [
             ["line", 15],
