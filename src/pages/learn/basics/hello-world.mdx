@@ -38,5 +38,26 @@ f(x, y)
 
     f(x, y)
     `}
-    attr="aa"
+    steps={`
+        step {
+            line 1
+        }
+        step {
+            line 1
+            set x 322
+        }
+        step {
+            line 2
+            set y 322
+        }
+        step {
+            line 8
+        }
+        step {
+            line 4
+            push f
+            set x 322
+            set y 322
+        }
+    `}
 ></InteractiveCode>

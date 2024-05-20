@@ -77,8 +77,10 @@ function highlightCode(lines: Array<string>): string {
 
     for (const line of lines) {
         const tokens = lex(line);
-        const lineArray = [];
-        
+        const lineArray = [
+            "<div class=\"inline-block w-full\" :class=\"line === 0? '': 'bg-red-400'\">"
+        ];
+
         for (const token of tokens) {
             if (token.token_type !== "") {
                 lineArray.push(`<span class="token ${token.token_type}">${token.v}</span>`);
@@ -86,6 +88,7 @@ function highlightCode(lines: Array<string>): string {
                 lineArray.push(token.v);
             }
         }
+        lineArray.push("</div>");
 
         outLines.push(lineArray.join(""));
     }
@@ -96,7 +99,7 @@ function highlightCode(lines: Array<string>): string {
 const codeHtml = highlightCode(trimAndDedent(code));
 ---
 
-<div class="bg-black rounded">
+<div class="bg-black rounded" x-data="editor">
     <span class="inline-block bg-[var(--code-theme-bg-acolor)] px-2 rounded-tl rounded-tr font-mono text-sm">thp code</span>
     <pre class="language-thp" style="margin: 0; border-top-left-radius: 0;" data-disabled><code set:html={codeHtml}></code></pre>
     <div class="grid grid-cols-2 font-mono text-sm">
@@ -115,4 +118,20 @@ const codeHtml = highlightCode(trimAndDedent(code));
             </div>
         </div>
     </div>
+    <div class="border-t border-white p-1">
+        <button class="font-mono px-1 rounded bg-pink-950" @click="line = 1">
+            Step
+        </button>
+    </div>
 </div>
+
+<script>
+    document.addEventListener("alpine:init", () => {
+        // @ts-ignore
+        const Alpine: any = window.Alpine;
+
+        Alpine.data("editor", () => ({
+            line: 0,
+        }));
+    });
+</script>
