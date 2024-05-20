@@ -120,7 +120,7 @@ const codeHtml = highlightCode(trimAndDedent(code));
         </div>
         <div>
             <div class="p-1 border-b border-white">state</div>
-            <div class="h-24 p-1">
+            <div class="h-24 p-1 overflow-y-scroll">
                 <template x-for="(value, key) in state">
                     <div x-text="key.replaceAll(' ', '&nbsp;') + ' = ' + value"></div>
                 </template>
@@ -128,10 +128,10 @@ const codeHtml = highlightCode(trimAndDedent(code));
         </div>
     </div>
     <div class="border-t border-white p-1">
-        <button class="font-mono px-1 rounded bg-pink-950 disabled:opacity-50 disabled:cursor-not-allowed" @click="alpineNext($data)" :disabled="done && 'true'">
+        <button class="font-mono px-1 rounded bg-pink-200 dark:bg-pink-950 text-black dark:text-white disabled:opacity-50 disabled:cursor-not-allowed" @click="alpineNext($data)" :disabled="done && 'true'">
             Step: <span x-text="ip"></span>
         </button>
-        <button class="font-mono px-1 rounded bg-pink-950" @click="alpineReset($data)">
+        <button class="font-mono px-1 rounded bg-pink-200 dark:bg-pink-950 text-black dark:text-white" @click="alpineReset($data)">
             Reset
         </button>
     </div>

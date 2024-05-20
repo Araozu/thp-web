@@ -34,7 +34,7 @@ export function lex(code: string): Array<Token> {
     let current_default_token = "";
 
     while (current_pos < code_len) {
-        const c = code[current_pos];
+        const c = code[current_pos]!;
 
         // try to scan a number
         if (is_digit(c)) {

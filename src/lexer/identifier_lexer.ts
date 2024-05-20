@@ -10,11 +10,11 @@ import { is_identifier_char } from "./utils";
  * @param is_datatype whether the identifier is a datatype
  */
 export function scan_identifier(input: string, starting_position: number, is_datatype = false): [Token, number] {
-    let value = input[starting_position];
+    let value = input[starting_position]!;
     let pos = starting_position + 1;
 
     while (pos < input.length) {
-        const c = input[pos];
+        const c = input[pos]!;
 
         if (is_identifier_char(c)) {
             pos += 1;
