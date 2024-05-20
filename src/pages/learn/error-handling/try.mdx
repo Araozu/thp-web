@@ -87,39 +87,96 @@ Use a naked `try` when you want to rethrow an error, if there is any.
         [["line", 14]],
         [["line", 7]],
         [
-            ["line", 10],
-            ["set", "Int result", "..."]
+            ["line", 8],
+            ["set", "= = =", "run() = = = ="]
         ],
-        [["line", 1]],
-        [["line", 3]],
         [
             ["line", 10],
-            ["set", "Int result", "Int 50"]
+            ["set", " dangerous()", "..."],
+        ],
+        [["line", 1]],
+        [
+            ["line", 2],
+            ["set", " = = =", "dangerous() = = = ="]
+        ],
+        [["line", 3]],
+        [
+            ["set", "  Math.random()", "0.2"]
+        ],
+        [
+            ["unset", "  Math.random()"],
+            ["set", "  return", "Int 50"]
+        ],
+        [["line", 5]],
+        [
+            ["line", 10],
+            ["unset", "  return"],
+            ["unset", " = = ="],
+            ["set", " dangerous()", "Int 50"]
+        ],
+        [
+            ["unset", " dangerous()"],
+            ["set", " Int result", "Int 50"]
         ],
         [["line", 11]],
         [
-            ["line", 14],
+            ["line", 12],
             ["out", "The result is 50\\n"],
-            ["unset", "Int result"],
+        ],
+        [
+            ["line", 14],
+            ["unset", " Int result"],
+            ["unset", "= = ="],
         ],
         [
             ["line", 15],
-            ["set", "res1", "<empty>"],
+            ["set", "!Exception res1", "<empty>"],
         ],
+
         [["line", 7]],
-        [["line", 10]],
-        [["line", 1]],
-        [["line", 3]],
-        [["line", 4]],
+        [
+            ["line", 8],
+            ["set", "= = =", "run() = = = ="]
+        ],
         [
             ["line", 10],
-            ["set", "result", "Exception(\\"Unlucky\\")"]
+            ["set", " dangerous()", "..."],
         ],
-        [["line", 15]],
+        [["line", 1]],
         [
-            ["line", 0,],
-            ["set", "res2", "Exception(\\"Unlucky\\")"],
-        ]
+            ["line", 2],
+            ["set", " = = =", "dangerous() = = = ="],
+        ],
+        [["line", 3]],
+        [
+            ["set", "  Math.random()", "0.9"],
+        ],
+        [
+            ["line", "4"],
+            ["unset", "  Math.random()"],
+            ["set", "  return", "Exception(\\"Unlucky\\")"],
+        ],
+        [["line", 5]],
+        [
+            ["line", 10],
+            ["unset", "  return"],
+            ["unset", " = = ="],
+            ["set", " dangerous()", "Exception \\"Unlucky\\""],
+        ],
+        [
+            ["line", 12],
+            ["unset", " dangerous()"],
+            ["set", " return", "Exception(\\"Unlucky\\")"],
+        ],
+        [
+            ["line", 15],
+            ["unset", " return"],
+            ["unset", "= = ="],
+        ],
+        [
+            ["line", 16],
+            ["set", "!Exception res2", "Exception(\\"Unlucky\\")"],
+        ],
     ]`}
 ></InteractiveCode>
 
