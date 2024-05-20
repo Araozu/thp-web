@@ -6,7 +6,7 @@ import Sidebar from "../components/Sidebar.astro";
 
 const { frontmatter, headings } = Astro.props;
 
-const posts = await Astro.glob("../pages/learn/**/*.md");
+const posts = await Astro.glob("../pages/learn/**/*.{md,mdx}");
 
 // The index.md page must have a `pagesLayout` frontmatter, which declares the order of all the pages.
 const indexSubpath = `/learn/index.md`;
@@ -35,7 +35,7 @@ function validateEntry(entry: PageEntry, basePath: string) {
     if (!entry.children) {
         // Attempt to get the page title from frontmatter
         const pageData = posts.find((post) =>
-            post.file.endsWith(entry.path + ".md"),
+            post.file.endsWith(entry.path + ".md") || post.file.endsWith(entry.path + ".mdx"),
         );
 
         if (pageData === undefined) {
@@ -116,6 +116,10 @@ for (const entry of pagesIndex) {
 
             for (const e of [...code_elements]) {
                 const el = e as HTMLElement;
+                // Some elements with .language-thp don't want to be processed
+                if (e.getAttribute("data-disabled") !== null)  {
+                    continue;
+                }
                 const pre_parent = el.parentElement!;
                 const new_div = document.createElement("div");
                 const code = el.innerText;

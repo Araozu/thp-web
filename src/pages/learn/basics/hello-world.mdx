@@ -1,0 +1,31 @@
+---
+layout: ../../../layouts/PagesLayout.astro
+title: Hello world
+---
+import InteractiveCode from "../../../components/InteractiveCode.astro";
+
+# Hello, world!
+
+Create a file named `hello.thp` with the contents:
+
+```thp
+print("Hello, world!")
+```
+
+Then run `thp hello.thp`
+
+## Try
+
+<InteractiveCode 
+    code={`
+    val x = 322
+
+    var y = 322
+    fun f() {
+        print("gaaaa")
+    }
+
+
+    `}
+    attr="aa"
+></InteractiveCode>
