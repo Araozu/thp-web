@@ -1,6 +1,6 @@
 ---
 import { lex } from "../lexer/lexer";
-const {code} = Astro.props;
+const {code, steps} = Astro.props;
 
 /** 
  * Performs the following:
@@ -104,7 +104,7 @@ const codeHtml = highlightCode(trimAndDedent(code));
         line: 0,
         stdout: "",
         ip: 0,
-        inst: [["line", 5]],
+        inst: ${steps},
         done: false,
     }`}
 >
@@ -137,7 +137,7 @@ const codeHtml = highlightCode(trimAndDedent(code));
         line: number,
         stdout: string,
         ip: number,
-        inst: Array<[Instruction, number]>
+        inst: Array<Array<[Instruction, number]>>
         done: boolean,
     }
 
@@ -146,12 +146,15 @@ const codeHtml = highlightCode(trimAndDedent(code));
         const len = data.inst.length;
         const ip = data.ip;
         data.ip += 1;
-        
-        const instructionArr = data.inst[ip]!;
-        switch (instructionArr[0]) {
-            case "line": {
-                data.line = Number(instructionArr[1]);
-                break;
+
+        const instructions = data.inst[ip]!;
+        for (const instructionSet of instructions) {
+            const instructionArr = instructionSet;
+            switch (instructionArr[0]) {
+                case "line": {
+                    data.line = Number(instructionArr[1]);
+                    break;
+                }
             }
         }
 
