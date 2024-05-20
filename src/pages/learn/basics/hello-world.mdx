@@ -19,13 +19,13 @@ Then run `thp hello.thp`
 <InteractiveCode 
     code={`
     val x = 322
-
     var y = 322
-    fun f() {
-        print("gaaaa")
+
+    fun f(Int x, Int y) {
+        print("gaaaa {x} {y}")
     }
 
-
+    f(x, y)
     `}
     attr="aa"
 ></InteractiveCode>

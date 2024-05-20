@@ -1,7 +1,7 @@
 ---
 const {code} = Astro.props;
 
-let c = trimAndDedent(code as string);
+let c = trimAndDedent(code);
 
 /** 
  * Performs the following:
@@ -73,9 +73,27 @@ function trimAndDedent(input: string): string {
     return lines.join("\n");
 }
 
+// TODO: Apply syntax highlighting
+
 ---
 
-<div>
-    Interactive code :D
-    <pre class="language-thp" data-disabled><code>{c}</code></pre>
+<div class="bg-black rounded">
+    <span class="inline-block bg-[var(--code-theme-bg-acolor)] px-2 rounded-tl rounded-tr font-mono text-sm">thp code</span>
+    <pre class="language-thp" style="margin: 0; border-top-left-radius: 0;" data-disabled><code>{c}</code></pre>
+    <div class="grid grid-cols-2 font-mono text-sm">
+        <div>
+            <div class="p-1 border-b border-r border-white">stdout</div>
+            <div class="h-24 p-1 border-r border-white">
+                aaaa
+                <br>
+                bbbb
+            </div>
+        </div>
+        <div>
+            <div class="p-1 border-b border-white">state</div>
+            <div class="h-24 p-1">
+                x = 20
+            </div>
+        </div>
+    </div>
 </div>
