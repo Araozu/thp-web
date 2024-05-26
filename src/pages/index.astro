@@ -100,25 +100,28 @@ import Navbar from "../components/Navbar.astro";
 		});
 
 		jar.updateCode(
-			`// Actual generics & sum types
-fun find_person(Int person_id) -> Result[String, String] {
-// Easy, explicit error bubbling
-try Person::find_by_id(person_id)
+			`// Sum types
+enum Animal {
+	Dog(String),
+	Cat(String, Int),
 }
 
-val id = POST::get("person_id") ?? exit("Null person_id")
-// Errors as values
-val person = try find_person(person_id: id) with error {
-eprint("Error: {error}")
-exit("Person not found")
-}
+// Null safety
+val cat_name = Post::get("cat_name") ?? "Michi"
+val cat1 = Animal::Cat(cat_name, 9)
+
+// Errors as values, easy handling
+val cat2 = try clone_cat(cat) else die("Not a cat")
+
+// Pattern matching
+match random_animal()
+case Dog(name)        { print("{name} has 1 live ") }
+case Cat(name, lives) { print("{name} has {lives}") }
 
 // First class HTML-like templates & components
-print(
 <a href="/person/reports/{person.id}">
 	welcome, {person.name}
 </a>
-)
 // And more!`,
 		);
 	</script>
