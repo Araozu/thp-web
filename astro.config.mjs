@@ -7,6 +7,6 @@ import mdx from "@astrojs/mdx";
 export default defineConfig({
     integrations: [tailwind(), mdx()],
     markdown: {
-        syntaxHighlight: false,
+        syntaxHighlight: "prism",
     },
 });
