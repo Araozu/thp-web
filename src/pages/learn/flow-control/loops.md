@@ -14,14 +14,9 @@ Braces are required.
 ```thp
 val numbers = [0, 1, 2, 3]
 
-for number in numbers
+for #(index, number) in numbers
 {
     print(number)
-}
-
-for #(index, number) in numbers.entries()
-{
-    print("{index} => {number}")
 }
 ```
 
@@ -38,15 +33,6 @@ for #(key, value) in dict
 }
 ```
 
-```thp
-for value in collection
-{
-    if condition
-    {
-        break
-    }
-}
-```
 
 
 ## While loop

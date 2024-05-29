@@ -48,3 +48,8 @@
     color: var(--code-theme-color);
     background: var(--code-theme-bg-color);
 }
+
+.markdown a {
+    color: var(--c-link);
+    text-decoration: underline;
+}

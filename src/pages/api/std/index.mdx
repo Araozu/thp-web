@@ -1,0 +1,89 @@
+---
+layout: ../../../layouts/ApiLayout.astro
+---
+import TwoColumn from "../../../components/TwoColumn.astro"
+
+# module `std`
+
+## The THP standard library
+
+This module contains many functions, classes, constant & enums
+commonly used in THP programs. These can be used directly,
+without having to import them.
+
+This module is not a 1:1 map of the global PHP scope. Instead,
+this module contains all those members organized into classes,
+objects or other modules.
+
+For example, to find if a string contains another, in PHP you'd do:
+
+```php
+<?php
+if (str_contains("abc", "a")) {
+    // ...
+}
+```
+
+In THP there is no `str_contains` function. Instead, you'd call the
+`contains` method on the string:
+
+```thp
+if "abc".contains("a")
+{
+    // ...
+}
+```
+
+## On naming
+
+THP enforces `snake_case` for variables/functions. However, PHP has a mixture of `snake_case` and `camelCase`
+in its names. Where PHP would use `camelCase`, THP uses `snake_case`.
+
+For example, the function `PDO::errorCode()` becomes `PDO::error_code()`.
+
+Furthermore, letter case in THP carries semantic meaning. Variables **must** start with either
+lowercase or underscore, and Datatypes **must** start with uppercase.
+
+Those have been changed where neccesary.
+
+### Interop with lowercase classes
+
+If you need to use a PHP class with a lowercase name you can use the following syntax:
+
+```php
+<?php
+class animal {}
+```
+
+```thp
+val my_animal = 'animal()
+```
+
+
+## Datatypes
+
+<TwoColumn>
+
+[`Array[T]`](/api/std/Array/)
+
+A uniform container of values or references.
+
+[`String`](/api/std/String/)
+
+A series of extended ASCII characters (8 bits).
+
+[`Int`](/api/std/Int/)
+
+An integer number.
+
+[`Float`](/api/std/Float/)
+
+A [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) double precision floating point number.
+
+[`Bool`](/api/std/Bool/)
+
+`true` or `false`
+
+</TwoColumn>
+
+

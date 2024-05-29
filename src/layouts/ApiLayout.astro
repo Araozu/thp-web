@@ -1,6 +1,10 @@
 ---
 import Navbar from "../components/Navbar.astro";
 import BaseLayout from "./BaseLayout.astro";
+import TOC from "../components/TOC.astro";
+
+const {headings} = Astro.props;
+
 ---
 
 <BaseLayout>
@@ -22,7 +26,21 @@ import BaseLayout from "./BaseLayout.astro";
         >
             <slot />
         </main>
+
+        <div
+            class="lg:pt-12 hidden lg:block pt-4 max-h-screen overflow-x-scroll sticky top-0"
+        >
+            <nav class="rounded-md lg:mt-10">
+                <h2 class="font-display font-medium pb-2 text-c-text-2">
+                    On this page
+                </h2>
+
+                <TOC headings={headings} />
+            </nav>
+        </div>
     </div>
+
+    <div class="h-32"></div>
 
     <script>
         import {highlightOnDom} from "./thpHighlighter";

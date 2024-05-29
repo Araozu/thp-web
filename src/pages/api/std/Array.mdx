@@ -1,0 +1,310 @@
+---
+layout: ../../../layouts/ApiLayout.astro
+---
+import TwoColumn from "../../../components/TwoColumn.astro"
+
+# Array
+
+A THP array is an abstraction on top of PHP arrays.
+
+THP Arrays contain an ordered list of values of a unique datatype, that is to say,
+you cannot store values of different datatypes inside an Array.
+
+If you need to store values of different types, see Tuples.
+
+THP arrays are 0-indexed.
+
+## Signature
+
+```thp
+type Array[T] = Map[Int, T]
+```
+
+Where `T` is the datatype that the Array stores. For example:
+
+```thp
+Array[Int]              // An array of integers
+Array[Float]            // An array of floats
+Array[Array[String]]    // A 2-dimensional array of strings
+```
+
+## PHP array internals
+
+TL;DR: **Never** assign to an array using an invalid index. If you do
+the program will not crash, but it will not behaved as expected
+[(this is a common problem in PHP)](https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/).
+THP tries its best to solve such behavior.
+
+---
+
+
+Since THP compiles down to PHP, it's important to understand how PHP
+represents arrays internally.
+
+PHP doesn't have arrays. Instead, PHP has ordered maps and syntax sugar
+to make them look like arrays.
+
+When declaring an array like:
+
+```thp
+var arr = ["a", "b", "c"]
+```
+
+in reality what goes into memory is a map with numbers as keys:
+
+```php
+array(
+    0 => "a",
+    1 => "b",
+    2 => "c",
+);
+```
+
+As long as this map contains valid keys, it can be treated as an array.
+We can loop over it, read and write.
+
+However, once we assign to an invalid index, it cannot be treated as an array anymore.
+
+Invalid indexes are:
+
+- Negative numbers
+- Numbers greater than the array's length.
+
+### Problems with iterations
+
+PHP maps preserve insertion order. This means that when iterating over
+a PHP map, values are processed in FIFO.
+
+```thp
+var numbers = ["a", "b", "c"]
+numbers[-10] = "?"    // Assign to a negative index
+
+// Now the array will be (using thp notation):
+// .{
+//     0: "a",
+//     1: "b",
+//     2: "c",
+//   -10: "?",
+// }
+
+numbers[7] = "!"    // Out of bounds assignment
+
+// Now the array will be:
+// .{
+//     0: "a",
+//     1: "b",
+//     2: "c",
+//   -10: "?",
+//     7: "!",
+// }
+
+// In this loop, values will be printed following when
+// they were inserted, not by order of the index.
+for #(_, value) in numbers
+{
+    print("{value} ")   // Will print: a b c ? !
+}
+
+numbers[-4] = "???"
+// .{
+//     0: "a",
+//     1: "b",
+//     2: "c",
+//   -10: "?",
+//     7: "!",
+//    -4: "???",
+// }
+
+// When pushing, the value will be assigned to the highest key + 1
+numbers.push("/")   // This will be at position 8
+
+// .{
+//     0: "a",
+//     1: "b",
+//     2: "c",
+//   -10: "?",
+//     7: "!",
+//    -4: "???",
+//     8: "/",
+// }
+```
+
+This is one of many fundamental flaws with PHP. The only way to solve it
+would be to check every insertion at runtime, and this would have a
+performance penalty.
+
+
+From now on, the documentation will continue to work with the Array
+abstraction, as if all indexes were valid.
+
+
+
+## Usage
+
+### Creation
+
+To create an array use square brackets notation:
+
+```thp
+val numbers = [0, 1, 2, 3, 4, 5]
+```
+
+When the Array is declared over many lines, the last
+item should have a trailing comma:
+
+```thp
+val colors = [
+    "red",
+    "blue",
+    "green",  // trailing comma
+]
+```
+
+If it doesn't, the code formatter will automatically
+insert one for you.
+
+### Assignment
+
+Use square brackets notation to insert into an array or modify it:
+
+To modify an array it must be mutable, that is, assigned to a `var`
+instead of a `val`.
+
+```thp
+// This array cannot be modified, as it's declared with `val`
+val immutable = [1, 2, 3]
+// This is a compile time error
+immutable[0] = 322
+
+// This array can be modified, as it's declared with `var`
+var mutable = [1, 2, 3]
+// Ok
+mutable[0] = 322
+```
+
+To append an element to an array, use the method `push()`:
+
+```thp
+mutable.push(4)
+```
+
+Do not insert into an invalid index. See [PHP array internals](#php-array-internals) to learn why.
+
+
+### Iteration
+
+Use a `for` loop to iterate over the elements of an array:
+
+```thp
+val colors = ["red", "green", "blue"]
+
+for #(_index, c) in colors
+{
+    print("{c} ")
+}
+```
+
+```sh
+red green blue
+```
+
+
+
+### Access
+
+To access a value of the array use square brackets notation:
+
+```thp
+print(colors[0])
+```
+
+Since the index might not exist, this will return a 
+[nullable type](/learn/error-handling/null/) that you have to handle.
+
+
+### Destructuring
+
+THP arrays don't have destructuring, since the values can all be `null`.
+If you know that the number of elements is fixed and valid, use Tuples instead.
+
+
+## Methods
+
+In the parameters, <code class="token keyword">self</code> is the array to operate on.
+
+
+<table class="table-fixed w-full border-collapse border-2 border-zinc-900">
+    <thead>
+        <td class="p-2">Method</td>
+        <td class="py-2">Description</td>
+    </thead>
+    <tbody>
+        <tr class="odd:bg-zinc-900">
+            <td class="px-2">
+                <p class="font-mono whitespace-pre">
+                    <span class="token keyword">fun </span>
+                    <span class="token function">filter</span>
+                    <span>[</span>
+                    <span class="token class">T</span>
+                    <span>]</span>
+                    <span>(</span>
+                    <br/>
+                    <span class="token keyword">    self</span>
+                    <span>,</span>
+                    <br />
+                    <span>    (T) -> Bool callback,</span>
+                    <br />
+                    <span>)-> </span>
+                    <span class="token class">Array</span>
+                    <span>[</span>
+                    <span class="token class">T</span>
+                    <span>]</span>
+                </p>
+            </td>
+            <td>
+                Filters elements using a callback function, and returns
+                them in a new array.
+            </td>
+        </tr>
+        <tr class="odd:bg-zinc-900">
+            <td class="px-2">
+                <p class="font-mono">
+                    <span class="token keyword">fun </span>
+                    <span class="token function">push</span>
+                    <span>[</span>
+                    <span class="token class">T</span>
+                    <span>]</span>
+                    <span>(</span>
+                    <span class="token keyword">self</span>
+                    <span>, T ...elements) -> </span>
+                    <span class="token class">Int</span>
+                </p>
+            </td>
+            <td>
+                Appends one or more elements to the end of the array.
+                Returns the new length of the array.
+            </td>
+        </tr>
+        <tr class="odd:bg-zinc-900">
+            <td class="px-2">
+                <p class="font-mono">
+                    <span class="token keyword">fun </span>
+                    <span class="token function">pop</span>
+                    <span>[</span>
+                    <span class="token class">T</span>
+                    <span>]</span>
+                    <span>(</span>
+                    <span class="token keyword">self</span>
+                    <span>) -> </span>
+                    <span class="token class">T</span>
+                </p>
+            </td>
+            <td>
+                Removes the last value of the array, and returns it.
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+

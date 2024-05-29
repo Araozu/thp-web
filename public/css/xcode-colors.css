@@ -14,11 +14,15 @@
     /* ? */
     --code-theme-c3: #39adb5;
     /* string */
-    --code-theme-c4: #fc6a5d;
+    --code-theme-c4: rgb(124, 201, 117);
+    /* #fc6a5d; */
     /* declaration */
     --code-theme-c5: #5dd8ff;
     /* proyect function */
-    --code-theme-c6: #67b7a4; /*#e53935;*/
+    --code-theme-c6: #67b7a4;
+    /*#e53935;*/
+    /* function */
+    --code-theme-c7: rgb(179, 146, 240);
 
     --code-theme-punctuation: #dedede;
 }
@@ -42,7 +46,10 @@
         --code-theme-c4: #c41a16;
         /* declaration */
         --code-theme-c5: #0f68a0;
-        --code-theme-c6: #326d74; /*#e53935;*/
+        --code-theme-c6: #326d74;
+        /*#e53935;*/
+        /* function */
+        --code-theme-c7: rgb(95, 74, 134);
 
         --code-theme-punctuation: #202020;
     }
@@ -86,13 +93,13 @@ pre[class*="language-"] ::selection {
     color: var(--code-theme-color_selection);
 }
 
-:not(pre) > code[class*="language-"] {
+:not(pre)>code[class*="language-"] {
     white-space: normal;
     border-radius: 0.2em;
     padding: 0.1em;
 }
 
-:not(pre) > code {
+:not(pre)>code {
     background-color: var(--code-theme-bg-color);
     padding: 0 0.25rem;
     border-radius: 5px;
@@ -106,9 +113,9 @@ pre[class*="language-"] {
     border: 1px solid var(--code-theme-border-color);
 }
 
-.language-css > code,
-.language-sass > code,
-.language-scss > code {
+.language-css>code,
+.language-sass>code,
+.language-scss>code {
     color: var(--code-theme-c1);
 }
 
@@ -177,7 +184,7 @@ pre[class*="language-"] {
 }
 
 .token.function {
-    color: var(--code-theme-c2);
+    color: var(--code-theme-c7);
 }
 
 .token.hexcode {
