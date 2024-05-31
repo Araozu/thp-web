@@ -1,0 +1,18 @@
+---
+import PagesLayout from "./PagesLayout.astro";
+
+const { frontmatter, headings } = Astro.props;
+
+const posts = await Astro.glob("../pages/learn/**/*.{md,mdx}");
+const indexSubpath = `/learn/index.mdx`;
+---
+
+<PagesLayout
+    frontmatter={frontmatter}
+    headings={headings}
+    posts={posts}
+    indexSubpath={indexSubpath}
+    basePath="/learn/"
+>
+    <slot />
+</PagesLayout>

@@ -1,5 +1,5 @@
 ---
-layout: ../../../layouts/PagesLayout.astro
+layout: ../../../layouts/DocsLayout.astro
 title: Lambdas
 ---
 

@@ -4,12 +4,8 @@ import BaseLayout from "./BaseLayout.astro";
 import TOC from "../components/TOC.astro";
 import Sidebar from "../components/Sidebar.astro";
 
-const { frontmatter, headings } = Astro.props;
-
-const posts = await Astro.glob("../pages/learn/**/*.{md,mdx}");
-
-// The index.md page must have a `pagesLayout` frontmatter, which declares the order of all the pages.
-const indexSubpath = `/learn/index.mdx`;
+const { frontmatter, headings, posts: _posts, indexSubpath, basePath } = Astro.props;
+const posts: Record<string, any>[] = _posts;
 
 const indexPage = posts.find((post) => post.file.endsWith(indexSubpath));
 
@@ -66,7 +62,7 @@ function validateEntry(entry: PageEntry, basePath: string) {
 }
 
 for (const entry of pagesIndex) {
-    validateEntry(entry, `/learn/`);
+    validateEntry(entry, basePath);
 }
 ---
 
@@ -82,7 +78,7 @@ for (const entry of pagesIndex) {
             <nav class="py-4 pr-2 overflow-x-scroll h-[calc(100vh-3rem)]">
                 {
                     pagesIndex.map((entry) => (
-                        <Sidebar entry={entry} basePath="/learn/" />
+                        <Sidebar entry={entry} basePath={basePath} />
                     ))
                 }
             </nav>

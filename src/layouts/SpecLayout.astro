@@ -1,0 +1,18 @@
+---
+import PagesLayout from "./PagesLayout.astro";
+
+const { frontmatter, headings } = Astro.props;
+
+const posts = await Astro.glob("../pages/spec/**/*.{md,mdx}");
+const indexSubpath = `/spec/index.md`;
+---
+
+<PagesLayout
+    frontmatter={frontmatter}
+    headings={headings}
+    posts={posts}
+    indexSubpath={indexSubpath}
+    basePath="/spec/"
+>
+    <slot />
+</PagesLayout>
