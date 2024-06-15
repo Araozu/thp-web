@@ -31,6 +31,33 @@ Statement = VariableBinding
 
 See the Expression section
 
+## VariableBinding
 
+```ebnf
+VariableBinding = ImplicitBinding
+                | ExplicitBinding
+
+ImplicitBinding = Datatype, Identifier, "=", Expression
+ExplicitBinding = ("var" | "val"), Datatype?, Identifier, "=", Expression
+```
+
+## FunctionDeclaration
+
+```ebnf
+FunctionDeclaration = "fun", Identifier, ParameterList, ("->", Datatype)?, Block
+
+ParameterList = "(", (Parameter, ",")*, ")"
+
+Parameter = Datatype, Identifier
+```
+
+## Block
+
+```ebnf
+Block       = "{", BlockMember*, "}"
+
+BlockMember = Statement
+            | Expression
+```
 
 

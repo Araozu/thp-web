@@ -141,6 +141,16 @@ abstraction, as if all indexes were valid.
 
 ## Usage
 
+### Empty array
+
+To create an empty array use square brackets.
+If you create an empty array, you need to specify the datatype.
+
+```thp
+Array[Int] empty = []
+```
+
+
 ### Creation
 
 To create an array use square brackets notation:
@@ -148,6 +158,8 @@ To create an array use square brackets notation:
 ```thp
 val numbers = [0, 1, 2, 3, 4, 5]
 ```
+
+When the array is not empty, you don't need to specify a datatype.
 
 When the Array is declared over many lines, the last
 item should have a trailing comma:

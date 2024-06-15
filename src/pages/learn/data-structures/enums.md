@@ -3,9 +3,17 @@ layout: ../../../layouts/DocsLayout.astro
 title: Enums
 ---
 
-# Enums (Tagged unions)
+# Enums
+
+From the [PHP documentation](https://www.php.net/manual/en/language.enumerations.overview.php):
+
+Enums allow a developer to define a custom type that is limited to one of a discrete number of possible values.
+
+THP enums are a 1 to 1 map of PHP enums, with a slightly different syntax.
 
 ## Basic enums
+
+Enums don't have a scalar value by default.
 
 ```thp
 enum Suit
@@ -19,38 +27,21 @@ enum Suit
 val suit = Suit::Hearts
 ```
 
+## Backed enums
 
-## Enums with values
+Backed enums can have a scalar for each case. The scalar values can only be
+`String` or `Int`.
 
 ```thp
-enum IpAddress
+enum Suit(String)
 {
-    V4(String),
-    V6(String),
-}
-
-val addr_1 = IpAddress::V4("192.168.0.1")
-
-match addr_1
-case IpAddress::V4(ip)
-{
-    // code..
-}
-case IpAddress::V6(ip)
-{
-    // more code..
-}
-
-// Without the full qualifier
-match addr_1
-case ::V4(ip)
-{
-    // code...
-}
-case ::V6(ip)
-{
-    // even more code...
+    Hearts = "H",
+    Diamonds = "D",
+    Clubs = "C",
+    Spades = "S",
 }
 ```
+
+All cases must explicitly define their value, there is no automatic generation.
 
 
