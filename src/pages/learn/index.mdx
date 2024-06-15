@@ -239,15 +239,15 @@ For example:
 // This expression
 val greeting = 
     match get_person()
-    | Some(person) if person.age > 18
+    case Some(person) if person.age > 18
     { 
         "Welcome, {person.name}"
     }
-    | Some(person)
+    case Some(person)
     {
         "I'm sorry {person.name}, you need to be 18 or older"
     }
-    | None
+    case None
     {
         "Nobody is here"
     }
@@ -272,28 +272,5 @@ else {
 
 However, more advanced datatypes & helper functions will require a sort of
 runtime (new classes/functions/etc) or abuse the language's syntax/semantics.
-
-
-```thp
-// TBD: Enum compilation
-enum IpAddress {
-    V4(String),
-    V6(String),
-}
-
-val ip_1 = IpAddress::V4("255.255.0.0")
-```
-
-```php
-// Would possibly compile to:
-enum IpAddress {
-    V4,
-    V6,
-}
-
-$ip_1 = [IpAddress::V4, "255.255.0.0"]
-```
-
-Such changes will be documented
 
 
