@@ -18,6 +18,7 @@ pagesLayout:
   title: THP AST
   children:
   - path: ast
+  - path: expression
 ---
 
 
@@ -120,10 +121,100 @@ if true {   // 0 indentation
 }
 ```
 
-These tokens are used to detect when a expression is done, instead of relying on
-semicolons. This is performed by the parser.
+All productions of the grammar ignore whitespace/indentation, except those involved in
+semicolon inference.
 
-Every other production of the grammar doesn't care about whitespace/indentation, so
-those ignore whitespace.
+
+## Statement termination / Semicolon inference
+
+**Only inside a block of code** whitespace is used to determine where a statement ends
+and a new one begins. Everywhere else whitespace is ignored.
+
+Statements in THP end when a new line is encountered:
+
+
+
+```thp
+// The statement ends         | here, on the newline
+val value = (123 + 456) * 0.75
+```
+
+```thp
+// Each line contains a different statement. They all end on their new lines
+
+var a = 1 + 2   // a = 3
++ 3             // this is not part of `a`, this is a different statement
+```
+
+This is true even if the line ends with an operator:
+
+```thp
+// These are still different statements
+
+var a = 1 + 2 +     // This is now a compile error, there is a hanging `+`
+3                   // This is still a different statement
+```
+
+
+### Parenthesis
+
+Exception 1: When a parenthesis is open, all following whitespace is ignored
+until the closing parenthesis.
+
+```thp
+// open parenthesis found, all whitespace is ignored until the closing
+name.contains(
+"weird"
+    )
+```
+
+However, for a parenthesis to begin to act, it needs to be open on the same line.
+
+```thp
+// Still 2 statements, because the parenthesis is in a new line
+print
+(
+    "hello"
+)
+
+// Now it's one single statement
+print(
+    "hello"
+)
+```
+
+### Indented binary operator
+
+Exception 2:
+
+- When a binary operator is followed by indentation:
+
+```thp
+val sum = 1 + 2 +   // The line ends with a binary operator
+    3               // There is indentation
+```
+
+- Or when indentation is followed by a binary operator:
+
+```thp
+val sum = 1 + 2
+    + 3             // Indentation and a binary operator
+```
+
+In theses cases, all whitespace will be ignored
+until the indentation returns to the initial level.
+
+```thp
+// This method chain is a single statement because of the indentation
+val person = PersonBuilder()
+    .set_name("john")
+    .set_lastname("doe")
+    .set_age(32)
+    .set_children(2)
+    .build()
+
+// Here indentation returns, and a new statement begins
+print(person)
+```
 
 
