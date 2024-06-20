@@ -34,7 +34,7 @@ export function scan_identifier(input: string, starting_position: number, is_dat
 }
 
 function check_keyword(value: string): string {
-    const keywords = ["throws", "extends", "constructor", "case", "static", "const", "enum", "union", "loop", "use", "break", "catch", "continue", "do", "else", "finally", "for", "fun", "if", "in", "fn", "nil", "return", "throw", "try", "while", "type", "match", "with", "of", "abstract", "class", "interface", "private", "pub", "override", "open", "init", "val", "var", "mut", "clone"];
+    const keywords = ["throws", "extends", "constructor", "case", "static", "const", "enum", "union", "loop", "use", "break", "catch", "continue", "as", "do", "else", "finally", "for", "fun", "if", "in", "fn", "nil", "return", "throw", "try", "while", "type", "match", "with", "of", "abstract", "class", "interface", "private", "pub", "override", "open", "init", "val", "var", "mut", "clone"];
 
     if (keywords.includes(value)) {
         return "keyword";

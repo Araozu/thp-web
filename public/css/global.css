@@ -17,6 +17,9 @@
     src: url('/Iosevka/Bold.woff2') format('woff2');
 }
 
+:root {
+    --c-thp: #f472b6;
+}
 
 :root {
     --c-bg: #121212;

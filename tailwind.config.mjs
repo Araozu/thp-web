@@ -4,6 +4,7 @@ export default {
 	theme: {
 		extend: {
             colors: {
+                "c-thp": "var(--c-thp)",
                 "c-bg": "var(--c-bg)",
                 "c-text": "var(--c-text)",
                 "c-text-2": "var(--c-text-2)",
