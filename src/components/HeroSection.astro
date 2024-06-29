@@ -1,0 +1,36 @@
+---
+import CodeEditor from "./CodeEditor.astro";
+
+const { title, thpcode, subtitle } = Astro.props;
+
+if (!subtitle) {
+    throw new Error("subtitle is required");
+}
+
+if (!thpcode) {
+    throw new Error("thpcode is required");
+}
+
+if (!title) {
+    throw new Error("title is required");
+}
+---
+
+<div>
+    <div class="bg-c-thp text-c-bg">
+        <h1 class="container mx-auto font-medium py-8 text-3xl">
+            {subtitle} <span class="font-black">{title}</span>
+        </h1>
+    </div>
+
+    <div class="container mx-auto lg:grid lg:grid-cols-2 gap-4">
+        <div class="px-8 py-12 flex h-full items-center">
+            <div>
+                <slot />
+            </div>
+        </div>
+        <div>
+            <CodeEditor thpcode={thpcode} />
+        </div>
+    </div>
+</div>

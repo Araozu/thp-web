@@ -2,156 +2,161 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import CodeEditor from "../components/CodeEditor.astro";
+import HeroSection from "../components/HeroSection.astro";
 ---
 
 <BaseLayout>
-	<Navbar showSidebarButton={false} />
+    <Navbar showSidebarButton={false} />
 
-	<div
-		class="container mx-auto lg:py-16 pb-2 pt-20 lg:grid 2xl:grid-cols-[auto_32rem] lg:grid-cols-[auto_36rem] gap-4 lg:px-10 px-2 min-h-[85vh]"
-	>
-		<div class="lg:pl-10 table">
-			<div class="table-cell align-middle">
-				<h1
-					class="font-display font-bold text-c-text-2 lg:text-5xl text-3xl lg:text-left text-center leading-tight"
-				>
-					A modern, type safe,
-					<br class="hidden lg:inline-block" />
-					secure language
-					<br class="hidden lg:inline-block" />
-					compiled to PHP
-				</h1>
-				<p class="font-display text-c-text text-xl pt-6 lg:pr-12">
-					Inspired by Rust, Zig and Kotlin, THP has a modern syntax,
-					semantics, type system and stdlib.
-				</p>
-				<br />
-				<br />
-				<div class="text-center">
-					<a
-						class="inline-block font-display text-lg rounded-full border-2 border-pink-400 py-2 px-8
+    <div
+        class="container mx-auto lg:py-16 pb-2 pt-20 lg:grid 2xl:grid-cols-[auto_32rem] lg:grid-cols-[auto_36rem] gap-4 lg:px-10 px-2 min-h-[85vh]"
+    >
+        <div class="lg:pl-10 table">
+            <div class="table-cell align-middle">
+                <h1
+                    class="font-display font-bold text-c-text-2 lg:text-5xl text-3xl lg:text-left text-center leading-tight"
+                >
+                    A modern, type safe,
+                    <br class="hidden lg:inline-block" />
+                    secure language
+                    <br class="hidden lg:inline-block" />
+                    compiled to PHP
+                </h1>
+                <p class="font-display text-c-text text-xl pt-6 lg:pr-12">
+                    Inspired by Rust, Zig and Kotlin, THP has a modern syntax,
+                    semantics, type system and stdlib.
+                </p>
+                <br />
+                <br />
+                <div class="text-center">
+                    <a
+                        class="inline-block font-display text-lg rounded-full border-2 border-pink-400 py-2 px-8
 						transition-colors hover:text-black hover:bg-pink-400"
-						href="/learn/"
-					>
-						Tutorial
-					</a>
+                        href="/learn/"
+                    >
+                        Tutorial
+                    </a>
 
-					<a
-						class="inline-block font-display text-lg border-2 border-sky-400 py-2 px-8 mx-6 rounded-full
+                    <a
+                        class="inline-block font-display text-lg border-2 border-sky-400 py-2 px-8 mx-6 rounded-full
 						transition-colors hover:text-black hover:bg-sky-400"
-						href="/install/"
-					>
-						Install
-					</a>
-				</div>
-			</div>
-		</div>
+                        href="/install/"
+                    >
+                        Install
+                    </a>
+                </div>
+            </div>
+        </div>
 
-		<div class="table">
-			<div class="table-cell align-middle">
-				<div
-					class="bg-[var(--code-theme-bg-color)] lg:p-6 p-2 rounded-lg relative w-full"
-				>
-					<span
-						class="absolute lg:inline-block hidden h-[35rem] w-[35rem] -z-10 top-1/2 left-1/2 rounded-full
+        <div class="table">
+            <div class="table-cell align-middle">
+                <div
+                    class="bg-[var(--code-theme-bg-color)] lg:p-6 p-2 rounded-lg relative w-full"
+                >
+                    <span
+                        class="absolute lg:inline-block hidden h-[35rem] w-[35rem] -z-10 top-1/2 left-1/2 rounded-full
 							transform -translate-x-1/2 -translate-y-1/2"
-						style="background-image: conic-gradient(from 180deg at 50% 50%,#5BCEFA 0deg,#a853ba 180deg,#F5A9B8 1turn);
+                        style="background-image: conic-gradient(from 180deg at 50% 50%,#5BCEFA 0deg,#a853ba 180deg,#F5A9B8 1turn);
 							filter: blur(75px); opacity: 0.75;"
-					>
-					</span>
+                    >
+                    </span>
 
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="54"
-						height="14"
-						viewBox="0 0 54 14"
-					>
-						<g fill="none" fill-rule="evenodd" transform="translate(1 1)">
-							<circle
-								cx="6"
-								cy="6"
-								r="6"
-								fill="#FF5F56"
-								stroke="#E0443E"
-								stroke-width=".5"></circle>
-							<circle
-								cx="26"
-								cy="6"
-								r="6"
-								fill="#FFBD2E"
-								stroke="#DEA123"
-								stroke-width=".5"></circle>
-							<circle
-								cx="46"
-								cy="6"
-								r="6"
-								fill="#27C93F"
-								stroke="#1AAB29"
-								stroke-width=".5"></circle>
-						</g>
-					</svg>
-					<div class="h-1"></div>
-					<div id="editor" class="font-mono language-thp"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="54"
+                        height="14"
+                        viewBox="0 0 54 14"
+                    >
+                        <g
+                            fill="none"
+                            fill-rule="evenodd"
+                            transform="translate(1 1)"
+                        >
+                            <circle
+                                cx="6"
+                                cy="6"
+                                r="6"
+                                fill="#FF5F56"
+                                stroke="#E0443E"
+                                stroke-width=".5"></circle>
+                            <circle
+                                cx="26"
+                                cy="6"
+                                r="6"
+                                fill="#FFBD2E"
+                                stroke="#DEA123"
+                                stroke-width=".5"></circle>
+                            <circle
+                                cx="46"
+                                cy="6"
+                                r="6"
+                                fill="#27C93F"
+                                stroke="#1AAB29"
+                                stroke-width=".5"></circle>
+                        </g>
+                    </svg>
+                    <div class="h-1"></div>
+                    <div id="editor" class="font-mono language-thp"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div>
-		<div class="bg-c-thp text-c-bg">
-			<h1 class="container mx-auto font-medium py-8 text-3xl">
-				THP is <span class="font-black">actually typed</span>
-			</h1>
-		</div>
+    <HeroSection
+        subtitle="THP is"
+        title="typed"
+        thpcode={`
+    Array[Int] numbers = [0, 1, 2, 3, 4, 5]
 
-		<div class="container mx-auto lg:grid lg:grid-cols-2 gap-4">
-			<div class="px-8 py-12 flex h-full items-center">
-				<div>
-					THP enforces type safety at compile time and, at the programmer's
-					request, at runtime.
-					<br>
-					<br>
-					Everything has a type.
-					There are generics.
-					No implicit type conversions. No <code>mixed</code>.
-					No client <code>Any</code> .Type inference included.
-					<br>
-					<br>
-					All possible checks are made at compile time. Runtime checks
-					have a small performance penalty.
-				</div>
-			</div>
-			<div>
-				<CodeEditor thpcode={`
-				Array[Int] numbers = [0, 1, 2, 3, 4, 5]
+    numbers.push("7")  // Compile error: expected an Int, found a String
 
-				numbers.push("7")  // Compile error: expected an Int, found a String
+    // Runtime type checking
+    val object = try JSON::decode(data)
+    val name = try object.get[String]("name")
 
-				// Runtime type checking
-				val object = try JSON::decode(data)
-				val name = try object.get[String]("name")
+    // Any is available, but it's not usable without an explicit cast
+    fun mock() -> Any { ... }
 
-				// Any is available, but it's not usable without an explicit cast
-				fun mock() -> Any { ... }
+    // Compile error: Cannot use \`Any\` without an explicit cast
+    val result = mock()
+    // Ok
+    val result = mock() as String
+    `}
+    >
+        THP enforces type safety at compile time and, at the programmer's
+        request, at runtime.
+        <br />
+        <br />
+        Everything has a type. There are generics. No implicit type conversions.
+        No <code>mixed</code>. No client <code>Any</code> .Type inference included.
+        <br />
+        <br />
+        All possible checks are made at compile time. Runtime checks have a small
+        performance penalty.
+    </HeroSection>
 
-				// Compile error: Cannot use \`Any\` without an explicit cast
-				val result = mock()
-				// Ok
-				val result = mock() as String
-				`} />
-			</div>
-		</div>
-	</div>
+    <HeroSection
+        subtitle="THP is"
+        title="match"
+        thpcode={`
+    match value
+    case A
+    {
+    }
+    `}
+    >
+        :D (carita feliz)
+    </HeroSection>
 
-	<script>
-		import { thp_highlighter, CodeJar } from "../lexer/highlighter";
+    <script>
+        import { thp_highlighter, CodeJar } from "../lexer/highlighter";
 
-		let jar = CodeJar(document.getElementById("editor")!, thp_highlighter, {
-			tab: "    ",
-		});
+        let jar = CodeJar(document.getElementById("editor")!, thp_highlighter, {
+            tab: "    ",
+        });
 
-		jar.updateCode(
-			`union Animal {
+        jar.updateCode(
+            `union Animal {
 	Dog(String),
 	Cat(String, Int),
 }
@@ -169,10 +174,10 @@ case Dog(name)
 case Cat(name, lives) {
 	print("{name} has {lives}")
 }`,
-		);
-	</script>
-	<script>
-        import {highlightOnDom} from "../layouts/thpHighlighter";
+        );
+    </script>
+    <script>
+        import { highlightOnDom } from "../layouts/thpHighlighter";
         document.addEventListener("DOMContentLoaded", highlightOnDom);
-	</script>
+    </script>
 </BaseLayout>
