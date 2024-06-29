@@ -103,8 +103,8 @@ import HeroSection from "../components/HeroSection.astro";
     </div>
 
     <HeroSection
-        subtitle="THP is"
-        title="typed"
+        subtitle="We've got"
+        title="generics"
         thpcode={`
     Array[Int] numbers = [0, 1, 2, 3, 4, 5]
 
@@ -136,16 +136,58 @@ import HeroSection from "../components/HeroSection.astro";
     </HeroSection>
 
     <HeroSection
-        subtitle="THP is"
-        title="match"
+        subtitle="We've got"
+        title="tagged unions"
         thpcode={`
-    match value
-    case A
+    union DirEntry {
+        File(String),
+        Dir(String),
+    }
+
+    val root = DirEntry::Dir("/")
+    `}
+    >
+        Make invalid state irrepresentable.
+        <br>
+        Model data in a type-safe way.
+        <br>
+        Ensure all cases are handled.
+    </HeroSection>
+
+    <HeroSection
+        subtitle="We've got"
+        title="pattern matching"
+        thpcode={`
+    match test_file
+    case DirEntry::File(filename)
+        if !filename.starts_with(".")
     {
+        print(filename)
+    }
+    else
+    {
+        print("A valid file was not found")
     }
     `}
     >
-        :D (carita feliz)
+        Match on values, tuples, enums, unions, types etc.
+        <br>
+        Guards available!
+    </HeroSection>
+
+    <HeroSection
+        subtitle="We've got"
+        title="null safety"
+        thpcode={`
+    String? username = Globals::Post::get("username")
+    
+    if username? {
+        // username is a \`String\` here
+        print("Hello, {username}")
+    }
+    `}
+    >
+        Nulls are explicit and require handling.
     </HeroSection>
 
     <script>
