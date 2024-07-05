@@ -2,6 +2,7 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Introduction
 ---
+import Code from "../../../components/Code.astro"
 
 # THP templating
 
@@ -71,7 +72,8 @@ fun Button(String name) -> Html {
 It is very similar to React. The HTML is inside the THP code, not the other
 way around, so you can have arbitrary logic in the component.
 
-```thp
+
+<Code thpcode={`
 fun User(String name) {
     // Get info from the database
     val user = try Model::get_user(name)
@@ -96,7 +98,7 @@ fun TransactionItem(Transaction t) {
         {t.date} - {t.name} ({t.price})
     </li>
 }
-```
+`} />
 
 
 

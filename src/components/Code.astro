@@ -1,0 +1,7 @@
+---
+import { leftTrimDedent } from "./utils";
+
+const { thpcode } = Astro.props;
+---
+
+<pre class="language-thp" data-language="thp"><code class="language-thp">{leftTrimDedent(thpcode).join("\n")}</code></pre>
