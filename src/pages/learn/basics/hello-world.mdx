@@ -3,6 +3,7 @@ layout: ../../../layouts/DocsLayout.astro
 title: Hello world
 ---
 import InteractiveCode from "../../../components/InteractiveCode.astro";
+import Code from "../../../components/Code.astro"
 
 # Hello, world!
 
@@ -16,9 +17,9 @@ detailed later on.
 
 To write a hello world program write the following code in a file:
 
-```thp
+<Code thpcode={`
 print("Hello, world!")
-```
+`} />
 
 Then run `thp hello.thp` from your terminal.
 
@@ -34,11 +35,11 @@ echo("B");
 echo("C");
 ```
 
-```thp
+<Code thpcode={`
 print("A")
 print("B")
 print("C")
-```
+`} />
 
 As a consequence of this, there can only be 1 statement per line.
 

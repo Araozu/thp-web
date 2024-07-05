@@ -2,6 +2,7 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Enums
 ---
+import Code from "../../../components/Code.astro"
 
 # Enums
 
@@ -15,7 +16,7 @@ THP enums are a 1 to 1 map of PHP enums, with a slightly different syntax.
 
 Enums don't have a scalar value by default.
 
-```thp
+<Code thpcode={`
 enum Suit
 {
     Hearts,
@@ -25,14 +26,14 @@ enum Suit
 }
 
 val suit = Suit::Hearts
-```
+`} />
 
 ## Backed enums
 
 Backed enums can have a scalar for each case. The scalar values can only be
 `String` or `Int`.
 
-```thp
+<Code thpcode={`
 enum Suit(String)
 {
     Hearts = "H",
@@ -40,7 +41,7 @@ enum Suit(String)
     Clubs = "C",
     Spades = "S",
 }
-```
+`} />
 
 All cases must explicitly define their value, there is no automatic generation.
 

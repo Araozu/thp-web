@@ -2,6 +2,7 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Match
 ---
+import Code from "../../../components/Code.astro"
 
 # Match
 
@@ -9,7 +10,7 @@ title: Match
 
 Braces are **required**.
 
-```thp
+<Code thpcode={`
 val user_id = POST::get("user_id")
 
 
@@ -47,5 +48,5 @@ else
 {
     print("hello dear")
 }
-```
+`} />
 

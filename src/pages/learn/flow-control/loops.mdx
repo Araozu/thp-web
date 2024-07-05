@@ -2,6 +2,7 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Loops
 ---
+import Code from "../../../components/Code.astro"
 
 # Loops
 
@@ -11,16 +12,16 @@ This is simmilar to PHP's `foreach`. There is no equivalent to PHP's `for`.
 
 Braces are required.
 
-```thp
+<Code thpcode={`
 val numbers = [0, 1, 2, 3]
 
 for #(index, number) in numbers
 {
     print(number)
 }
-```
+`} />
 
-```thp
+<Code thpcode={`
 val dict = .{
     apple: 10,
     banana: 7,
@@ -31,13 +32,13 @@ for #(key, value) in dict
 {
     print("{key} => {value}")
 }
-```
+`} />
 
 
 
 ## While loop
 
-```thp
+<Code thpcode={`
 val colors = ["red", "green", "blue"]
 var index = 0
 
@@ -46,14 +47,14 @@ while index < colors.size()
     print("{colors[index]}")
     index += 1
 }
-```
+`} />
 
 
 ## Infinite loop
 
 Instead of doing `while true {}` use `loop`.
 
-```thp
+<Code thpcode={`
 loop
 {
     print("looping")
@@ -63,14 +64,14 @@ loop
         break
     }
 }
-```
+`} />
 
 
 ## Labelled loops
 
 You can give labels to loops, allowing you to `break` and `continue` in nested loops.
 
-```thp
+<Code thpcode={`
 :top for i in values_1
 {
     for j in values_2
@@ -79,12 +80,6 @@ You can give labels to loops, allowing you to `break` and `continue` in nested l
         break :top
     }
 }
-```
-
-
-
-
-
-
+`} />
 
 

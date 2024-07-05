@@ -2,6 +2,7 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Nullable types
 ---
+import Code from "../../../components/Code.astro"
 
 # Nullable types
 
@@ -12,18 +13,18 @@ by the question mark `?` character.
 For instance, a POST request may have a `username` parameter,
 or it may not. This can be represented with an `String?`.
 
-```thp
+<Code thpcode={`
 String? new_username = POST::get("username")
-```
+`} />
 
 When we have a `Type?` we cannot use it directly. We must first
 check if the value is null, and then use it.
 
-```thp
+<Code thpcode={`
 if new_username != null {
-    // Here `new_username` is automatically casted to String
+    // Here \`new_username\` is automatically casted to String
 }
-```
+`} />
 
 We must check explicitly that the value is not null. Doing
 `if new_username {}` alone is not allowed.
@@ -32,30 +33,30 @@ We must check explicitly that the value is not null. Doing
 
 To create a nullable type we must explicitly annotate the type.
 
-```thp
+<Code thpcode={`
 val favorite_color = null      // Error, we must define the type
 
 String? favorite_color = null  // Ok
-```
+`} /> 
 
 Other examples:
 
-```thp
+<Code thpcode={`
 fun get_first(Array[String?] values) -> String? {}
 
 val result = get_first([])
-```
+`} />
 
 ## Optional chaining
 
 If you have a `Type?` and you wish to access a field of `Type` if it exists,
 you can use the optional chaining operator.
 
-```thp
+<Code thpcode={`
 Person? person = ...
 
 val name = person?.name
-```
+`} />
 
 - If `person` is null, `person?.name` will return `null`
 - If `person` is not null, `person?.name` will return `name`
@@ -65,12 +66,12 @@ val name = person?.name
 
 The Elvis operator `??` is used to give a default value in case a `null` is found.
 
-```thp
+<Code thpcode={`
 // This is a function that may return a Int
 fun get_score() -> Int? {...}
 
 val test_score = get_score() ?? 0
-```
+`} />
 
 For the above code:
 
@@ -79,9 +80,9 @@ For the above code:
 
 You can use the Elvis operator to return early
 
-```thp
+<Code thpcode={`
 val username = get_username() ?? return
-```
+`} />
 
 
 

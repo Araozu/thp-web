@@ -2,23 +2,24 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Higher Order Functions 
 ---
+import Code from "../../../components/Code.astro"
 
 # Higher Order functions
 
 
 ## Function as parameter
 
-```thp
+<Code thpcode={`
 fun map[A, B](Array[A] input, (A) -> B function) -> Array[B]
 {
     // implementation
 }
 
-```
+`} />
 
 ## Function as return
 
-```thp
+<Code thpcode={`
 fun generate_generator() -> () -> Int
 {
     // code...
@@ -30,7 +31,7 @@ fun generate_generator() -> () -> Int
 
 val generator = generate_generator()  // A function
 val value = generate_generator()()    // An Int
-```
+`} />
 
 
 

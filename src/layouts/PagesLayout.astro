@@ -4,7 +4,13 @@ import BaseLayout from "./BaseLayout.astro";
 import TOC from "../components/TOC.astro";
 import Sidebar from "../components/Sidebar.astro";
 
-const { frontmatter, headings, posts: _posts, indexSubpath, basePath } = Astro.props;
+const {
+    frontmatter,
+    headings,
+    posts: _posts,
+    indexSubpath,
+    basePath,
+} = Astro.props;
 const posts: Record<string, any>[] = _posts;
 
 const indexPage = posts.find((post) => post.file.endsWith(indexSubpath));
@@ -30,8 +36,10 @@ if (pagesIndex === undefined) {
 function validateEntry(entry: PageEntry, basePath: string) {
     if (!entry.children) {
         // Attempt to get the page title from frontmatter
-        const pageData = posts.find((post) =>
-            post.file.endsWith(entry.path + ".md") || post.file.endsWith(entry.path + ".mdx"),
+        const pageData = posts.find(
+            (post) =>
+                post.file.endsWith(entry.path + ".md") ||
+                post.file.endsWith(entry.path + ".mdx"),
         );
 
         if (pageData === undefined) {
@@ -112,7 +120,8 @@ for (const entry of pagesIndex) {
         document.addEventListener("DOMContentLoaded", () => {
             let current_uri = window.location.pathname;
 
-            const sidebar = document.getElementById("sidebar")!.children[0]! as HTMLElement;
+            const sidebar = document.getElementById("sidebar")!
+                .children[0]! as HTMLElement;
             const links = sidebar.querySelectorAll("a");
             for (const link of [...links]) {
                 if (link.getAttribute("href") === current_uri) {

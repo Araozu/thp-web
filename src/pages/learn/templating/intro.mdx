@@ -61,13 +61,13 @@ and compose them.
 
 The following would be the equivalent in THP:
 
-```thp
+<Code thpcode={`
 fun Button(String name) -> Html {
     <button class="some tailwind classes">
         Hello {name}!
     </button>
 }
-```
+`} />
 
 It is very similar to React. The HTML is inside the THP code, not the other
 way around, so you can have arbitrary logic in the component.

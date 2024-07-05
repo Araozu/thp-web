@@ -2,13 +2,14 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Static
 ---
+import Code from "../../../components/Code.astro"
 
 # Static in classes
 
 
 ## Class constants
 
-```thp
+<Code thpcode={`
 class Cat
 {
     // Stateful code
@@ -20,7 +21,7 @@ static Cat
 }
 
 print(Cat::CONSTANT)
-```
+`} />
 
 
 ## Static methods
@@ -28,7 +29,7 @@ print(Cat::CONSTANT)
 aka. plain, old functions
 
 
-```thp
+<Code thpcode={`
 static Cat
 {
     fun static_method() -> Int
@@ -38,7 +39,7 @@ static Cat
 }
 
 Cat::static_method()
-```
+`} />
 
 
 ## Static properties
@@ -46,7 +47,7 @@ Cat::static_method()
 aka. global variables
 
 
-```thp
+<Code thpcode={`
 static Cat
 {
     pub var access_count = 0
@@ -55,7 +56,7 @@ static Cat
 print(Cat::access_count)    // 0
 Cat::access_count += 1
 print(Cat::access_count)    // 1
-```
+`} />
 
 
 

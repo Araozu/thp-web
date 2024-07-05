@@ -3,6 +3,7 @@ layout: ../../../layouts/DocsLayout.astro
 title: Try/Exceptions
 ---
 import InteractiveCode from "../../../components/InteractiveCode.astro";
+import Code from "../../../components/Code.astro"
 
 # Try/exceptions
 
@@ -17,7 +18,7 @@ is used.
 For example, a function that returned a `DivisionByZero`
 may be written like this:
 
-```thp
+<Code thpcode={`
 fun invert(Int number) -> Int!DivisionByZero
 {
     if number == 0
@@ -27,7 +28,7 @@ fun invert(Int number) -> Int!DivisionByZero
 
     return 1 / number
 }
-```
+`} />
 
 In the previous segment, `Int!DivisionByZero` denotates
 that the function may return either an `Int` or an `DivisionByZero`.
@@ -44,12 +45,12 @@ TODO: fix?
 If there are multiple error types that the function can return,
 you can use the `|` operator:
 
-```thp
+<Code thpcode={`
 type Exceptions = Exception1 | Exception2 | Exception3
 
 fun sample() -> Int!Exceptions
 { /* ... */}
-```
+`} />
 
 
 
@@ -132,14 +133,14 @@ otherwise will assign the success value and continue.
 Try/return will run a function and assign its value if `Ok` is found.
 Otherwise, it will return a new value specified by the programmer.
 
-```thp
+<Code thpcode={`
 fun run() -> Int
 {
     val result = try dangerous() return 0
 
     // ...
 }
-```
+`} />
 
 In the previous example:
 
@@ -226,27 +227,27 @@ Either way, the function will continue executing.
 Try/catch allows the error to be manually used & handled.
 
 
-```thp
+<Code thpcode={`
 fun run()
 {
     val result = try dangerous()
     catch Exception e
     {
-        // This is run if `dangerous()` throws.
-        // `e` is the thrown error
+        // This is run if \`dangerous()\` throws.
+        // \`e\` is the thrown error
 
         // Handle the error
         // ...
 
-        // Return a new value to be assigned to `result`
+        // Return a new value to be assigned to \`result\`
         0
     }
 }
-```
+`} />
 
 A try/catch may have many `catch` clauses:
 
-```thp
+<Code thpcode={`
 try dangerous()
 catch Exception1 e
 {...}
@@ -254,6 +255,6 @@ catch Exception2 e
 {...}
 catch Exception3 e
 {...}
-```
+`} />
 
 

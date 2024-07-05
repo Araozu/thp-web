@@ -54,6 +54,7 @@ pagesLayout:
   - path: intro
 ---
 import InteractiveCode from "../../components/InteractiveCode.astro";
+import Code from "../../components/Code.astro"
 
 
 # Welcome
@@ -144,11 +145,11 @@ $has_key = str_contains($haystack, 'needle');
 print("has key? " . $has_key);
 ```
 
-```thp
+<Code thpcode={`
 // THP
 val has_key = haystack.contains("needle")
 print("has key? " + has_key)
-```
+`} />
 
 - Explicit variable declaration
 - No `$` for variable names (and thus no `$$variable`, use a map instead)
@@ -170,14 +171,14 @@ $obj = [
 ]
 ```
 
-```thp
+<Code thpcode={`
 // THP
 val obj = .{
     names: #("Toni", "Stark"), // Tuple
     age: 33,
     numbers: [32, 64, 128]
 }
-```
+`} />
 
 - Tuples, Arrays, Sets, Maps are clearly different
 - JSON-like object syntax
@@ -192,11 +193,11 @@ $cat->meow();
 ```
 
 
-```thp
+<Code thpcode={`
 // THP
 val cat = Cat("Michifu", 7)
 cat.meow();
-```
+`} />
 
 - Instantiate classes without `new`
 - Use dot `.` instead of arrow `->` syntax
@@ -211,10 +212,10 @@ use \Some\Deeply\Nested\Interface
 ```
 
 
-```thp
+<Code thpcode={`
 // THP
 use Some::Deeply::Nested::{Class, Interface}
-```
+`} />
 
 - Different module syntax
 - Explicit module declaration
@@ -237,7 +238,7 @@ Where possible THP will compile to available PHP functions/classes/methods/etc.
 
 For example:
 
-```thp
+<Code thpcode={`
 // This expression
 val greeting = 
     match get_person()
@@ -253,7 +254,7 @@ val greeting =
     {
         "Nobody is here"
     }
-```
+`} />
 
 ```php
 // Would compile to:

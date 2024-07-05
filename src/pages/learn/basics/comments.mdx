@@ -2,6 +2,7 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Comments
 ---
+import Code from "../../../components/Code.astro"
 
 # Comments
 
@@ -12,12 +13,12 @@ THP supports single and multi line comments:
 
 Begin with double slash `//` and continue until the end of the line.
 
-```thp
+<Code thpcode={`
 // This is a single line comment
 print("hello!")
 
 print("the result is {5 + 5}") // This will print 10
-```
+`} />
 
 
 ## Multi line
@@ -26,19 +27,19 @@ These begin with `/*` and end with `*/`. Everything in between is ignored.
 
 Multi line comments can be nested in THP.
 
-```thp
+<Code thpcode={`
 /*
     This is a
     multiline comment
 */
-```
+`} />
 
-```thp
+<Code thpcode={`
 /*
     Multiline comments
     can be /* nested */
 */
-```
+`} />
 
 ## Documentation comments
 

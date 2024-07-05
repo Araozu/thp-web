@@ -2,12 +2,13 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Magic methods
 ---
+import Code from "../../../components/Code.astro"
 
 # Magic methods
 
 Don't get special treatment.
 
-```thp
+<Code thpcode={`
 
 class Cat
 {
@@ -17,13 +18,13 @@ class Cat
     }
 }
 
-```
+`} />
 
 
-```thp
+<Code thpcode={`
 val option = Some("GAAA")
 val Some(value) = option
 
 val colors = Array("red", "green", "blue")
 val Array()
-```
+`} />

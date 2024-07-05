@@ -2,6 +2,7 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Datatypes
 ---
+import Code from "../../../components/Code.astro"
 
 # Datatypes
 
@@ -14,7 +15,7 @@ The following are basic datatypes.
 
 Same as php int
 
-```thp
+<Code thpcode={`
 Int age = 32
 // Hexadecimal numbers start with 0x
 Int red = 0xff0000
@@ -24,10 +25,10 @@ Int permissions = 0o775
 Int char_code = 0b01000110
 
 // IMPORTANT!
-// Since Octal starts with `0o`, using just a leading 0
+// Since Octal starts with \`0o\`, using just a leading 0
 // will result in a decimal!
 Int not_octal = 032     // This is 32, not 26
-```
+`} />
 
 
 ## Float
@@ -35,10 +36,10 @@ Int not_octal = 032     // This is 32, not 26
 Same as php float
 
 
-```thp
+<Code thpcode={`
 Float pi = 3.141592
 Float light = 2.99e+8
-```
+`} />
 
 
 ## String
@@ -46,15 +47,15 @@ Float light = 2.99e+8
 THP strings use **only** double quotes. Single quotes are
 used elsewhere.
 
-```thp
+<Code thpcode={`
 String name = "Rose"
-```
+`} />
 
 Strings have interpolation with `{}`.
 
-```thp
+<Code thpcode={`
 print("Hello, {name}")      // Hello, Rose
-```
+`} />
 
 
 ## Bool
@@ -62,10 +63,11 @@ print("Hello, {name}")      // Hello, Rose
 THP booleans are `true` and `false`. They are case sensitive,
 **only lowercase.**
 
-```thp
+<Code thpcode={`
 Bool is_true = true
 Bool is_false = false
 
 // This is a compile error
 val invalid = TRUE
-```
+`} />
+

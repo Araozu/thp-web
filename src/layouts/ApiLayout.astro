@@ -3,8 +3,7 @@ import Navbar from "../components/Navbar.astro";
 import BaseLayout from "./BaseLayout.astro";
 import TOC from "../components/TOC.astro";
 
-const {headings} = Astro.props;
-
+const { headings } = Astro.props;
 ---
 
 <BaseLayout>
@@ -41,9 +40,4 @@ const {headings} = Astro.props;
     </div>
 
     <div class="h-32"></div>
-
-    <script>
-        import {highlightOnDom} from "./thpHighlighter";
-        document.addEventListener("DOMContentLoaded", highlightOnDom);
-    </script>
 </BaseLayout>

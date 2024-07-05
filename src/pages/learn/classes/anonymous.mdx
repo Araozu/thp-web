@@ -2,10 +2,12 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Anonymous classes
 ---
+import Code from "../../../components/Code.astro"
+
 # Anonymous classes
 
 
-```thp
+<Code thpcode={`
 class Logger
 {
     pub fun log(String msg)
@@ -25,9 +27,9 @@ setLogger(class
         print(msg)
     }
 })
-```
+`} />
 
-```thp
+<Code thpcode={`
 setLogger(class(Int param1) -> SomeClass(param1), SomeInterface
 {
     pub fun method()
@@ -35,4 +37,4 @@ setLogger(class(Int param1) -> SomeClass(param1), SomeInterface
         // code
     }
 })
-```
+`} />

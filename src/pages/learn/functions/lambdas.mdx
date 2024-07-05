@@ -2,13 +2,14 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Lambdas
 ---
+import Code from "../../../components/Code.astro"
 
 # Lambdas / Anonymous functions
 
 
 ## Anonymous function
 
-```thp
+<Code thpcode={`
 fun(Int x, Int y) -> Int {
     x + y
 }
@@ -17,7 +18,7 @@ fun(Int x, Int y) -> Int {
 numbers.map(fun(x) {
     x * 2
 })
-```
+`} />
 
 
 
@@ -26,7 +27,7 @@ numbers.map(fun(x) {
 By default closures **always** capture variables as **references**.
 
 
-```thp
+<Code thpcode={`
 var x = 20
 
 val f = fun() {
@@ -37,18 +38,18 @@ f()     // 20
 
 x = 30
 f()     // 30
-```
+`} />
 
 
 You can force a closure to capture variables by value.
 
-```thp
+<Code thpcode={`
 fun(parameters) clone(variables) {
     // code
 }
-```
+`} />
 
-```thp
+<Code thpcode={`
 var x = 20
 
 val f = fun() clone(x) {
@@ -59,7 +60,7 @@ f()     // 20
 
 x = 30
 f()     // 20
-```
+`} />
 
 
 ## Lambdas
@@ -70,7 +71,7 @@ Inside the lambda you can access the parameters as `$1`, `$2`, etc.
 
 Finally, lambdas be written outside of the parenthesis of function calls.
 
-```thp
+<Code thpcode={`
 numbers.map() #{
     $1 * 2
 }
@@ -80,7 +81,7 @@ numbers.map() #{
 numbers.map(fun(param1) {
     $1 * 2
 })
-```
+`} />
 
 
 

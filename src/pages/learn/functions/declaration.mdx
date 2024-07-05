@@ -2,6 +2,7 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Declaration
 ---
+import Code from "../../../components/Code.astro"
 
 # Declaration
 
@@ -10,42 +11,42 @@ Function names **must** begin with a lowercase letter.
 
 ## No parameters, no return
 
-```thp
+<Code thpcode={`
 fun say_hello()
 {
     print("Hello")
 }
 
 say_hello()
-```
+`} />
 
 
 ## With return type
 
-```thp
+<Code thpcode={`
 fun get_random_number() -> Int
 {
     Random::get(0, 35_222)
 }
 
 val number = get_random_number()
-```
+`} />
 
 ## With parameters and return type
 
-```thp
+<Code thpcode={`
 fun get_secure_random_number(Int min, Int max) -> Int
 {
     Random::get_secure(min, max)
 }
 
 val number = get_secure_random_number(0, 65535)
-```
+`} />
 
 
 ## Generic types
 
-```thp
+<Code thpcode={`
 fun get_first_item[T](Array[T] array) -> T
 {
     array[0]
@@ -55,23 +56,23 @@ val first = get_first_item[Int](numbers)
 // The type annotation is optional if the compiler can infer the type
 
 val first = get_first_item(numbers)
-```
+`} />
 
 
 ## Signature
 
 
-```thp
+<Code thpcode={`
 () -> ()
 () -> Int
 (Int, Int) -> Int
 [T](Array[T]) -> T
-```
+`} />
 
 
 ## Named arguments
 
-```thp
+<Code thpcode={`
 fun html_special_chars(
     String input,
     Int? flags,
@@ -83,13 +84,13 @@ fun html_special_chars(
 }
 
 html_special_chars(input, double_encoding: false)
-```
+`} />
 
 TBD: If & how named arguments affect the order of the parameters
 
 ## Named arguments with different names
 
-```thp
+<Code thpcode={`
 fun greet(
     String name,
     String from: city,
@@ -99,7 +100,7 @@ fun greet(
 }
 
 greet("John", from: "LA")
-```
+`} />
 
 
 

@@ -2,12 +2,13 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Tagged unions
 ---
+import Code from "../../../components/Code.astro"
 
 # Tagged unions
 
 Tagged unions can hold a value from a fixed selection of types.
 
-```thp
+<Code thpcode={`
 union Shape
 {
     Dot,
@@ -18,11 +19,11 @@ union Shape
 val dot        = Shape::Dot
 val square1    = Shape::Square(10)
 val rectangle1 = Shape::Rectangle(5, 15)
-```
+`} />
 
 ## Pattern matching
 
-```thp
+<Code thpcode={`
 match shape_1
 case ::Square(side)
 {
@@ -32,7 +33,7 @@ case ::Rectangle(length, height)
 {
     print("Area of the rectangle: {length * height}")
 }
-```
+`} />
 
 ## Internal representation
 

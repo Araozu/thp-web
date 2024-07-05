@@ -2,12 +2,13 @@
 layout: ../../../layouts/DocsLayout.astro
 title: Interfaces
 ---
+import Code from "../../../components/Code.astro"
 
 # Interfaces
 
 
 
-```thp
+<Code thpcode={`
 interface Serializable
 {
     // Methods are always public in interfaces
@@ -24,7 +25,7 @@ class Cat -> Serializable
     }
 }
 
-```
+`} />
 
 No interface inheritance.
 
