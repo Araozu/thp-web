@@ -2,6 +2,28 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import HeroSection from "../components/HeroSection.astro";
+import { thp_highlighter } from "../lexer/highlighter";
+import { leftTrimDedent } from "../components/utils";
+
+const thpcode = `union Animal {
+	Dog(String),
+	Cat(String, Int),
+}
+
+val cat_name = Post::get("cat_name") ?? "Michifu"
+val my_cat = Animal::Cat(cat_name, 9)
+
+try change_fur_color(cat) else die("Not a cat")
+
+match random_animal()
+case Dog(name)
+{ 
+	print("{name} has 1 live ")
+}
+case Cat(name, lives)
+{
+	print("{name} has {lives}")
+}`;
 ---
 
 <BaseLayout>
@@ -95,7 +117,9 @@ import HeroSection from "../components/HeroSection.astro";
                         </g>
                     </svg>
                     <div class="h-1"></div>
-                    <div id="editor" class="font-mono language-thp"></div>
+                    <div id="editor" class="font-mono language-thp">
+                        <pre set:html={thp_highlighter(leftTrimDedent(thpcode).join("\n"))}></pre>
+                    </div>
                 </div>
             </div>
         </div>
@@ -194,38 +218,4 @@ import HeroSection from "../components/HeroSection.astro";
         <br>
         Nullable types must be explicitly checked before using them.
     </HeroSection>
-
-    <script>
-        import { thp_highlighter, CodeJar } from "../lexer/highlighter";
-
-        let jar = CodeJar(document.getElementById("editor")!, thp_highlighter, {
-            tab: "    ",
-        });
-
-        jar.updateCode(
-            `union Animal {
-	Dog(String),
-	Cat(String, Int),
-}
-
-val cat_name = Post::get("cat_name") ?? "Michifu"
-val my_cat = Animal::Cat(cat_name, 9)
-
-try change_fur_color(cat) else die("Not a cat")
-
-match random_animal()
-case Dog(name)
-{ 
-	print("{name} has 1 live ")
-}
-case Cat(name, lives)
-{
-	print("{name} has {lives}")
-}`,
-        );
-    </script>
-    <script>
-        import { highlightOnDom } from "../layouts/thpHighlighter";
-        document.addEventListener("DOMContentLoaded", highlightOnDom);
-    </script>
 </BaseLayout>

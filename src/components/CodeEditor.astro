@@ -1,13 +1,11 @@
 ---
-import { trimAndDedent } from "./utils";
+import Code from "./Code.astro"
 
 const { thpcode } = Astro.props;
 ---
 
 <div class="flex h-full py-8 items-center">
     <div class="p-4 w-full">
-        <pre
-            class="language-thp"
-            data-language="thp"><code class="language-thp">{trimAndDedent(thpcode).join("\n")}</code></pre>
+        <Code thpcode={thpcode} />
     </div>
 </div>

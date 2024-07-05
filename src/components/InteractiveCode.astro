@@ -2,7 +2,7 @@
 import { lex } from "../lexer/lexer";
 import type { Instruction } from "../thp_machine/machine_parser";
 import { parse_str } from "../thp_machine/machine_parser";
-import { trimAndDedent } from "./utils";
+import { leftTrimDedent } from "./utils";
 const { code, steps } = Astro.props;
 
 function highlightCode(lines: Array<string>): string {
@@ -31,7 +31,7 @@ function highlightCode(lines: Array<string>): string {
     return outLines.join("\n");
 }
 
-const codeHtml = highlightCode(trimAndDedent(code));
+const codeHtml = highlightCode(leftTrimDedent(code));
 let instructionSet: Array<Array<Instruction>>;
 try {
     instructionSet = parse_str(steps);
