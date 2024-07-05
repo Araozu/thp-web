@@ -5,16 +5,26 @@ title: Comments
 
 # Comments
 
-Only these two:
+THP supports single and multi line comments:
+
 
 ## Single line
 
+Begin with double slash `//` and continue until the end of the line.
+
 ```thp
 // This is a single line comment
+print("hello!")
+
+print("the result is {5 + 5}") // This will print 10
 ```
 
 
 ## Multi line
+
+These begin with `/*` and end with `*/`. Everything in between is ignored.
+
+Multi line comments can be nested in THP.
 
 ```thp
 /*
@@ -30,5 +40,7 @@ Only these two:
 */
 ```
 
-TBD: Doc comments use triple slash `///`? or `/** */`?
+## Documentation comments
+
+TBD: Should doc comments use triple slash `///`? or `/** */`?
 

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/Navbar.astro";
-import CodeEditor from "../components/CodeEditor.astro";
 import HeroSection from "../components/HeroSection.astro";
 ---
 
@@ -145,6 +144,7 @@ import HeroSection from "../components/HeroSection.astro";
     }
 
     val root = DirEntry::Dir("/")
+    val test_file = DirEntry::File("test.txt")
     `}
     >
         Make invalid state irrepresentable.
@@ -164,7 +164,7 @@ import HeroSection from "../components/HeroSection.astro";
     {
         print(filename)
     }
-    else
+    case _
     {
         print("A valid file was not found")
     }
@@ -181,13 +181,18 @@ import HeroSection from "../components/HeroSection.astro";
         thpcode={`
     String? username = Globals::Post::get("username")
     
-    if username? {
+    if username?
+    {
         // username is a \`String\` here
         print("Hello, {username}")
     }
     `}
     >
-        Nulls are explicit and require handling.
+        Nulls are explicit and require handling. Types are nullable, and they
+        are used everywhere they are needed.
+        <br>
+        <br>
+        Nullable types must be explicitly checked before using them.
     </HeroSection>
 
     <script>
@@ -213,7 +218,8 @@ case Dog(name)
 { 
 	print("{name} has 1 live ")
 }
-case Cat(name, lives) {
+case Cat(name, lives)
+{
 	print("{name} has {lives}")
 }`,
         );

@@ -1,0 +1,104 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Introduction
+---
+
+# THP templating
+
+React changed the way HTML is rendered with the introduction of JSX.
+Having access and being able to create and manipulate HTML elements
+from code led to the pattern of components.
+
+On the other hand, PHP is characterized for its ability to easily render
+HTML, to the point that PHP code is conceptually written inside an
+HTML tag. However, this model doesn't play well with the components
+model pioneered by React and that is so common nowadays on front-end
+development.
+
+Creating small, reusable templates is hard with pure PHP. Instead you
+need to rely on external templating libraries, and even still, all your
+HTML is written outside the PHP file, and communicates in one way
+with weak, fragile data passing.
+
+For example, using the Plates PHP library you may create a Button component
+like so:
+
+```php
+// button.php
+function render_button(string $name) {
+    $templates = new League\Plates\Engine("./");
+    $button_html = $templates->render("button.template", ["name" => $name]);
+    return $button_html;
+}
+```
+
+```php
+// button.template.php
+<button class="some tailwind classes">
+    Hello <?= $this->e($name) ?>!
+</button>
+```
+
+This approach has many problems:
+
+- You have to create a new file for every new component,
+    polluting the file system and the project. This may be significant
+    for some web hosting providers that establish a fixed inode limit.
+- Data is passed dinamically, via strings. If either the render
+    function or the template change, the component will behave
+    incorrectly without any warning.
+- It's hard to include components inside components. Every new
+    one requires a change in 2 files.
+
+Maybe for these (and other) reasons components are not used with
+templating libraries. Instead people use sections, layouts, etc.
+
+We believe that by inverting the PHP model we can improve
+the experience of writing HTML. By having HTML inside of code,
+not code inside of HTML, we can easily create many small components
+and compose them.
+
+The following would be the equivalent in THP:
+
+```thp
+fun Button(String name) -> Html {
+    <button class="some tailwind classes">
+        Hello {name}!
+    </button>
+}
+```
+
+It is very similar to React. The HTML is inside the THP code, not the other
+way around, so you can have arbitrary logic in the component.
+
+```thp
+fun User(String name) {
+    // Get info from the database
+    val user = try Model::get_user(name)
+    else {
+        return <div>User not found!</div>
+    }
+
+    // Run other logic
+
+    <div class="some tailwind classes">
+        Hello {user.name}!
+        <br>
+        Here are your transactions:
+        #for t in user.transactions {
+            <TransactionItem t={t} />
+        }
+    </div>
+}
+
+fun TransactionItem(Transaction t) {
+    <li>
+        {t.date} - {t.name} ({t.price})
+    </li>
+}
+```
+
+
+
+
+

@@ -3,8 +3,7 @@ import { lex } from "../lexer/lexer";
 import type { Instruction } from "../thp_machine/machine_parser";
 import { parse_str } from "../thp_machine/machine_parser";
 import { trimAndDedent } from "./utils";
-const {code, steps} = Astro.props;
-
+const { code, steps } = Astro.props;
 
 function highlightCode(lines: Array<string>): string {
     let outLines: Array<string> = [];
@@ -12,12 +11,14 @@ function highlightCode(lines: Array<string>): string {
     for (const [idx, line] of lines.entries()) {
         const tokens = lex(line);
         const lineArray = [
-            `<div class=\"inline-block w-full\" :class=\"line === ${idx + 1}? 'bg-green-200 dark:bg-green-900': ''\">`
+            `<div class=\"inline-block w-full\" :class=\"line === ${idx + 1}? 'bg-green-200 dark:bg-green-900': ''\">`,
         ];
 
         for (const token of tokens) {
             if (token.token_type !== "") {
-                lineArray.push(`<span class="token ${token.token_type}">${token.v}</span>`);
+                lineArray.push(
+                    `<span class="token ${token.token_type}">${token.v}</span>`,
+                );
             } else {
                 lineArray.push(token.v);
             }
@@ -42,7 +43,8 @@ try {
 const serialized_inst = JSON.stringify(instructionSet);
 ---
 
-<div class="bg-black text-white rounded px-1"
+<div
+    class="bg-black text-white rounded px-1"
     x-data={`{
         line: 0,
         stdout: "",
@@ -52,45 +54,62 @@ const serialized_inst = JSON.stringify(instructionSet);
         state: {},
     }`}
 >
-    <span class="inline-block bg-[var(--code-theme-bg-acolor)] px-2 rounded-tl rounded-tr font-mono text-sm">thp code</span>
-    <pre class="language-thp" style="margin: 0;" data-disabled><code set:html={codeHtml}></code></pre>
+    <span
+        class="inline-block bg-[var(--code-theme-bg-acolor)] px-2 rounded-tl rounded-tr font-mono text-sm"
+        >thp code</span
+    >
+    <pre
+        class="language-thp"
+        style="margin: 0;"
+        data-disabled><code set:html={codeHtml} /></pre>
     <div class="grid grid-cols-2 font-mono text-sm">
         <div>
             <div class="p-1 border-b border-r border-white">stdout</div>
             <div class="h-24 p-1 border-r border-white">
-                <pre><code class="bg-black" x-text="stdout"></code></pre>
+                <pre><code class="bg-black" x-text="stdout" /></pre>
             </div>
         </div>
         <div>
             <div class="p-1 border-b border-white">state</div>
             <div class="h-24 p-1 overflow-y-scroll">
                 <template x-for="(value, key) in state">
-                    <div x-text="key.replaceAll(' ', '&nbsp;') + ' = ' + value"></div>
+                    <div x-text="key.replaceAll(' ', ' ') + ' = ' + value">
+                    </div>
                 </template>
             </div>
         </div>
     </div>
     <div class="border-t border-white p-1">
-        <button class="font-mono px-1 rounded bg-pink-200 dark:bg-pink-950 text-black dark:text-white disabled:opacity-50 disabled:cursor-not-allowed" @click="alpineNext($data)" :disabled="done && 'true'">
+        <button
+            class="font-mono px-1 rounded bg-pink-200 dark:bg-pink-950 text-black dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+            @click="alpineNext($data)"
+            :disabled="done && 'true'"
+        >
             Step: <span x-text="ip"></span>
         </button>
-        <button class="font-mono px-1 rounded bg-pink-200 dark:bg-pink-950 text-black dark:text-white" @click="alpineReset($data)">
+        <button
+            class="font-mono px-1 rounded bg-pink-200 dark:bg-pink-950 text-black dark:text-white"
+            @click="alpineReset($data)"
+        >
             Reset
         </button>
     </div>
 </div>
 
 <script>
-    import { InstructionType, type Instruction } from "../thp_machine/machine_parser";
+    import {
+        InstructionType,
+        type Instruction,
+    } from "../thp_machine/machine_parser";
 
     type AlpineState = {
-        line: number,
-        stdout: string,
-        ip: number,
-        inst: Array<Array<Instruction>>
-        done: boolean,
-        state: {[key: string]: string},
-    }
+        line: number;
+        stdout: string;
+        ip: number;
+        inst: Array<Array<Instruction>>;
+        done: boolean;
+        state: { [key: string]: string };
+    };
 
     /// Executes the instruction following the state of the machine.
     function alpineNext(data: AlpineState) {
@@ -108,7 +127,7 @@ const serialized_inst = JSON.stringify(instructionSet);
                     break;
                 }
                 case InstructionType.Out: {
-                    data.stdout += i.v0.slice(1, -1) + "\n"
+                    data.stdout += i.v0.slice(1, -1) + "\n";
                     break;
                 }
                 case InstructionType.Set: {
@@ -131,7 +150,7 @@ const serialized_inst = JSON.stringify(instructionSet);
     }
     // @ts-ignore
     window.alpineNext = alpineNext;
-    
+
     function alpineReset(data: AlpineState) {
         data.line = 0;
         data.stdout = "";

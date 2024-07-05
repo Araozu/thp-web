@@ -9,9 +9,9 @@ pagesLayout:
   title: Basics
   children:
   - path: hello-world
+  - path: comments
   - path: variables
   - path: datatypes
-  - path: comments
   - path: operators
 - path: flow-control
   title: Flow control
@@ -48,6 +48,10 @@ pagesLayout:
   - path: interfaces
   - path: anonymous
   - path: magic
+- path: templating
+  title: Templating
+  children:
+  - path: intro
 ---
 import InteractiveCode from "../../components/InteractiveCode.astro";
 
@@ -106,19 +110,17 @@ THP program!
 
 ## Goals
 
-- Bring static typing to PHP: Not just type hints, not just `mixed` for everything
-    that isn't a primitive type.
-- Generics & ADTs
-- Avoid implicit type conversion.
+- Bring static typing to PHP: Generics, type checks at compile and runtime.
+- Reduce implicit type conversion to a minimum.
 - Remove the inconsistencies in the language.
-- Organize the stdlib into modules.
-- Differentiate between Arrays, Tuples, Maps and Sets.
+- Organize the PHP stdlib.
+- Have clear distinctions between Arrays, Tuples, Maps and Sets.
+- Implement Union types
 - Create a **consistent** language.
 - Have typings for popular libraries (like TS's `.d.ts`).
 - Have a simple instalation and configuration (requiring just Composer).
 - Ship a fast, native binary (written in Rust) (why use PHP when we can go **_blazingly fast_**?).
 - Support in-place compilation.
-- (Try to) emit readable PHP.
 - Implement an LSP server.
 - Implement a formatter.
 
@@ -128,8 +130,7 @@ THP program!
 These are **not** aspects that THP looks to solve or implement.
 
 - Be what TypeScript is for JavaScript (PHP with types).
-- Use PHP syntax/conventions.
-- Be familiar for PHP developers.
+- Strictly adhere to PHP syntax/conventions.
 
 THP **_intentionally_** uses a different syntax from PHP to signal
 that it is a different language, and has different semantics.

@@ -6,11 +6,39 @@ import InteractiveCode from "../../../components/InteractiveCode.astro";
 
 # Hello, world!
 
-Create a file named `hello.thp` with the contents:
+## THP source code
+
+Unlike PHP, THP code is written directly. There is no need to use any `<?php` tags,
+just write the code like any other programming language.
+
+As a consequence of this, HTML templates are defined in other ways, which will be
+detailed later on.
+
+To write a hello world program write the following code in a file:
 
 ```thp
 print("Hello, world!")
 ```
 
-Then run `thp hello.thp`
+Then run `thp hello.thp` from your terminal.
+
+
+## Instruction separation
+
+THP uses whitespace to determine when a statement is over. In short,
+where PHP uses a semicolon `;`, THP uses a newline.
+
+```php
+echo("A");
+echo("B");
+echo("C");
+```
+
+```thp
+print("A")
+print("B")
+print("C")
+```
+
+As a consequence of this, there can only be 1 statement per line.
 

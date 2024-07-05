@@ -26,11 +26,11 @@ export type Token = {
  * @param code Code to lex
  * @returns An array of all the tokens found
  */
-export function lex(code: string): Array<Token> {
+export function lex(code: string, start = 0): Array<Token> {
     const code_len = code.length;
     const tokens: Array<Token> = [];
 
-    let current_pos = 0;
+    let current_pos = start;
     let current_default_token = "";
 
     while (current_pos < code_len) {
@@ -104,6 +104,34 @@ export function lex(code: string): Array<Token> {
                 const char = code[pos];
 
                 if (char === "\n") {
+                    break;
+                }
+
+                comment += char;
+                pos++;
+            }
+
+            tokens.push({ v: comment, token_type: "comment" });
+            current_pos = pos;
+            continue;
+        }
+        // try to scan a multiline comment
+        else if (c === "/" && code[current_pos + 1] === "*") {
+            // if the current default token is not empty, push it to the tokens array
+            if (current_default_token !== "") {
+                tokens.push({ v: current_default_token, token_type: "" });
+                current_default_token = "";
+            }
+
+            let comment = "";
+            let pos = current_pos;
+
+            while (pos < code_len) {
+                const char = code[pos];
+
+                if (char === "*" && code[pos + 1] === "/") {
+                    pos += 2;
+                    comment += "*/";
                     break;
                 }
 

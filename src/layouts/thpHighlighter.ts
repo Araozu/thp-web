@@ -17,7 +17,10 @@ export function highlightOnDom() {
 
         const pre_parent = el.parentElement!;
         const new_div = document.createElement("div");
-        const code = el.innerText;
+        let code = el.innerHTML;
+
+        // Replace all &lt; with < and all &gt; with >
+        code = code.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 
         el.parentElement!.className = "language-thp";
         pre_parent.removeChild(el);

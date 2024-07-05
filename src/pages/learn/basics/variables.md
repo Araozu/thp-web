@@ -6,12 +6,18 @@ title: Variables
 
 # Variables
 
-thp distinguishes between mutable and immutable variables.
+THP distinguishes between mutable and immutable variables.
 
-Variables have to be declared in THP, to avoid issues with scopes.
-It is a compile error to use undeclared variables.
+Variables must be declared in THP to avoid issues with scoping and
+to know if they are mutable/immutable.
+It's a compile error to use undeclared variables.
 
-Variable names **must** begin with a lowercase letter.
+Variable names **don't** start with a dollar sign `$`.
+
+Variable names **must** begin with a lowercase letter or an underscore.
+Then they may contain lowercase/uppercase letters, numbers and underscores.
+
+As a regex: `[a-z_][a-zA-Z0-9_]*`
 
 ## Immutable variables
 
@@ -39,7 +45,7 @@ String surname = "Doe"
 Int year_of_birth = 1984
 ```
 
-This means that if a variable has only a datatype, it is immutable.
+This means that if a variable only has a datatype, it is immutable.
 
 
 
