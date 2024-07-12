@@ -2,6 +2,8 @@
 layout: ../../../layouts/ApiLayout.astro
 ---
 import TwoColumn from "../../../components/TwoColumn.astro"
+import Code from "../../../components/Code.astro"
+import Warning from "../../../components/docs/Warning.astro"
 
 # Array
 
@@ -16,39 +18,38 @@ THP arrays are 0-indexed.
 
 ## Signature
 
-```thp
+<Code thpcode={`
 type Array[T] = Map[Int, T]
-```
+`} />
 
 Where `T` is the datatype that the Array stores. For example:
 
-```thp
+<Code thpcode={`
 Array[Int]              // An array of integers
 Array[Float]            // An array of floats
 Array[Array[String]]    // A 2-dimensional array of strings
-```
+`} />
 
 ## PHP array internals
 
+<Warning>
 TL;DR: **Never** assign to an array using an invalid index. If you do
-the program will not crash, but it will not behaved as expected
+the program will not crash, instead it will not behaved as expected
 [(this is a common problem in PHP)](https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/).
 THP tries its best to solve such behavior.
-
----
+</Warning>
 
 
 Since THP compiles down to PHP, it's important to understand how PHP
 represents arrays internally.
-
 PHP doesn't have arrays. Instead, PHP has ordered maps and syntax sugar
 to make them look like arrays.
 
 When declaring an array like:
 
-```thp
+<Code thpcode={`
 var arr = ["a", "b", "c"]
-```
+`} />
 
 in reality what goes into memory is a map with numbers as keys:
 
@@ -75,7 +76,7 @@ Invalid indexes are:
 PHP maps preserve insertion order. This means that when iterating over
 a PHP map, values are processed in FIFO.
 
-```thp
+<Code thpcode={`
 var numbers = ["a", "b", "c"]
 numbers[-10] = "?"    // Assign to a negative index
 
@@ -127,7 +128,7 @@ numbers.push("/")   // This will be at position 8
 //    -4: "???",
 //     8: "/",
 // }
-```
+`} />
 
 This is one of many fundamental flaws with PHP. The only way to solve it
 would be to check every insertion at runtime, and this would have a
@@ -146,31 +147,31 @@ abstraction, as if all indexes were valid.
 To create an empty array use square brackets.
 If you create an empty array, you need to specify the datatype.
 
-```thp
+<Code thpcode={`
 Array[Int] empty = []
-```
+`} />
 
 
 ### Creation
 
 To create an array use square brackets notation:
 
-```thp
+<Code thpcode={`
 val numbers = [0, 1, 2, 3, 4, 5]
-```
+`} />
 
 When the array is not empty, you don't need to specify a datatype.
 
 When the Array is declared over many lines, the last
 item should have a trailing comma:
 
-```thp
+<Code thpcode={`
 val colors = [
     "red",
     "blue",
     "green",  // trailing comma
 ]
-```
+`} />
 
 If it doesn't, the code formatter will automatically
 insert one for you.
@@ -182,23 +183,23 @@ Use square brackets notation to insert into an array or modify it:
 To modify an array it must be mutable, that is, assigned to a `var`
 instead of a `val`.
 
-```thp
-// This array cannot be modified, as it's declared with `val`
+<Code thpcode={`
+// This array cannot be modified, as it's declared with \`val\`
 val immutable = [1, 2, 3]
 // This is a compile time error
 immutable[0] = 322
 
-// This array can be modified, as it's declared with `var`
+// This array can be modified, as it's declared with \`var\`
 var mutable = [1, 2, 3]
 // Ok
 mutable[0] = 322
-```
+`} />
 
 To append an element to an array, use the method `push()`:
 
-```thp
+<Code thpcode={`
 mutable.push(4)
-```
+`} />
 
 Do not insert into an invalid index. See [PHP array internals](#php-array-internals) to learn why.
 
@@ -207,14 +208,14 @@ Do not insert into an invalid index. See [PHP array internals](#php-array-intern
 
 Use a `for` loop to iterate over the elements of an array:
 
-```thp
+<Code thpcode={`
 val colors = ["red", "green", "blue"]
 
 for #(_index, c) in colors
 {
     print("{c} ")
 }
-```
+`} />
 
 ```sh
 red green blue
@@ -226,9 +227,9 @@ red green blue
 
 To access a value of the array use square brackets notation:
 
-```thp
+<Code thpcode={`
 print(colors[0])
-```
+`} />
 
 Since the index might not exist, this will return a 
 [nullable type](/learn/error-handling/null/) that you have to handle.
@@ -317,6 +318,5 @@ In the parameters, <code class="token keyword">self</code> is the array to opera
         </tr>
     </tbody>
 </table>
-
 
 

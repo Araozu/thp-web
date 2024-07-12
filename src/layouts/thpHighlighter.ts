@@ -7,7 +7,7 @@ export function highlightOnDom() {
 
         // Create a visual indicador
         const indicator = document.createElement("span");
-        indicator.className = "absolute top-2 right-2 inline-block text-sm select-none opacity-75";
+        indicator.className = `absolute top-1 right-0 inline-block text-sm select-none opacity-75 ${language === "php" ? "bg-[#4f5b93]" : ""} px-2 rounded-full`;
         indicator.innerText = language;
         pre_el.appendChild(indicator);
     }

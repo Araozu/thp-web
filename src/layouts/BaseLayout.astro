@@ -37,5 +37,9 @@ const { title } = Astro.props;
         <slot />
 
         <script src="/js/alpine-3.14.0.min.js" defer></script>
+        <script>
+            import { highlightOnDom } from "./thpHighlighter";
+            document.addEventListener("DOMContentLoaded", highlightOnDom);
+        </script>
     </body>
 </html>
