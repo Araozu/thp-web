@@ -21,7 +21,7 @@ export default {
         },
         fontFamily: {
             "mono": ["'Iosevka Fixed Web'", "Iosevka", "'Iosevka Nerd Font'", "monospace"],
-            "display": ["Inter", "'Josefin Sans'", "'Fugaz One'", "sans-serif"],
+            "display": ["Outfit", "Inter", "sans-serif"],
             "body": ["Inter", "sans-serif"],
         },
 	},
