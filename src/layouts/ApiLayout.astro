@@ -24,6 +24,7 @@ const { headings } = Astro.props;
             class="py-[3.5rem] lg:pl-12 lg:pr-4 markdown min-w-0 small-container mx-auto"
         >
             <slot />
+            <div class="h-32"></div>
         </main>
 
         <div
@@ -38,6 +39,4 @@ const { headings } = Astro.props;
             </nav>
         </div>
     </div>
-
-    <div class="h-32"></div>
 </BaseLayout>

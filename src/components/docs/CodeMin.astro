@@ -1,0 +1,9 @@
+---
+import { native_highlighter } from "../../lexer/highlighter";
+
+const { thpcode, href } = Astro.props;
+
+const native_html = await native_highlighter(thpcode);
+---
+
+<a href={href} class="inline-block w-full py-2 font-mono whitespace-pre" set:html={native_html} />

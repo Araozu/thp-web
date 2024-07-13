@@ -3,6 +3,7 @@ layout: ../../../layouts/ApiLayout.astro
 ---
 import TwoColumn from "../../../components/TwoColumn.astro"
 import Code from "../../../components/Code.astro"
+import CodeMin from "../../../components/docs/CodeMin.astro"
 import Warning from "../../../components/docs/Warning.astro"
 
 # Array
@@ -176,7 +177,7 @@ val colors = [
 If it doesn't, the code formatter will automatically
 insert one for you.
 
-### Assignment
+### Assignment to elements
 
 Use square brackets notation to insert into an array or modify it:
 
@@ -211,7 +212,7 @@ Use a `for` loop to iterate over the elements of an array:
 <Code thpcode={`
 val colors = ["red", "green", "blue"]
 
-for #(_index, c) in colors
+for c in colors
 {
     print("{c} ")
 }
@@ -221,6 +222,36 @@ for #(_index, c) in colors
 red green blue
 ```
 
+A for loop automatically declares new immutable variables. It is a compile
+error to attempt to modify those, as in the following snippet:
+
+<Code thpcode={`
+val colors = ["red", "green", "blue"]
+
+for c in colors
+{
+    c = "orange"    // Compile error: Can't assign to an immutable variable
+    print("{c} ")
+}
+`} />
+
+
+You can also declare an index along with the value:
+
+<Code thpcode={`
+val colors = ["red", "green", "blue"]
+
+for index, color in colors
+{
+    println("item {index}: {c}")
+}
+`} />
+
+```sh
+item 0: red
+item 1: green
+item 2: blue
+```
 
 
 ### Access
@@ -241,6 +272,17 @@ THP arrays don't have destructuring, since the values can all be `null`.
 If you know that the number of elements is fixed and valid, use Tuples instead.
 
 
+### Operators
+
+While PHP allows using certain operators with arrays, THP disallows that.
+Methods that perform comparisons should be used instead.
+
+
+### Assignment
+
+// TODO: Detail that assignment of arrays is copy on write
+
+
 ## Methods
 
 In the parameters, <code class="token keyword">self</code> is the array to operate on.
@@ -254,25 +296,26 @@ In the parameters, <code class="token keyword">self</code> is the array to opera
     <tbody>
         <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
             <td class="px-2">
-                <p class="font-mono whitespace-pre">
-                    <span class="token keyword">fun </span>
-                    <span class="token function">filter</span>
-                    <span>[</span>
-                    <span class="token class">T</span>
-                    <span>]</span>
-                    <span>(</span>
-                    <br/>
-                    <span class="token keyword">    self</span>
-                    <span>,</span>
-                    <br />
-                    <span>    (T) -> Bool callback,</span>
-                    <br />
-                    <span>)-> </span>
-                    <span class="token class">Array</span>
-                    <span>[</span>
-                    <span class="token class">T</span>
-                    <span>]</span>
-                </p>
+                <CodeMin href="./concat" thpcode={`
+                    fun concat[T](
+                        self,
+                        Array[T]... arrays,
+                    ) -> Array[T]
+                `} />
+            </td>
+            <td>
+                Concatenate with other arrays, and return the result
+                as a new array.
+            </td>
+        </tr>
+        <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
+            <td class="px-2">
+                <CodeMin thpcode={`
+                fun filter[T](
+                    self,
+                    (T) -> (Bool) callback,
+                ) -> Array[T]
+                `} />
             </td>
             <td>
                 Filters elements using a callback function, and returns
@@ -281,17 +324,7 @@ In the parameters, <code class="token keyword">self</code> is the array to opera
         </tr>
         <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
             <td class="px-2">
-                <p class="font-mono">
-                    <span class="token keyword">fun </span>
-                    <span class="token function">push</span>
-                    <span>[</span>
-                    <span class="token class">T</span>
-                    <span>]</span>
-                    <span>(</span>
-                    <span class="token keyword">self</span>
-                    <span>, T ...elements) -> </span>
-                    <span class="token class">Int</span>
-                </p>
+                <CodeMin thpcode="fun push[T](self, T... elements) -> Int" />
             </td>
             <td>
                 Appends one or more elements to the end of the array.
@@ -300,17 +333,7 @@ In the parameters, <code class="token keyword">self</code> is the array to opera
         </tr>
         <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
             <td class="px-2">
-                <p class="font-mono">
-                    <span class="token keyword">fun </span>
-                    <span class="token function">pop</span>
-                    <span>[</span>
-                    <span class="token class">T</span>
-                    <span>]</span>
-                    <span>(</span>
-                    <span class="token keyword">self</span>
-                    <span>) -> </span>
-                    <span class="token class">T</span>
-                </p>
+                <CodeMin thpcode="fun pop[T](self) -> T" />
             </td>
             <td>
                 Removes the last value of the array, and returns it.

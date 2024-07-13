@@ -1,0 +1,112 @@
+---
+layout: ../../../../layouts/ApiLayout.astro
+---
+import Code from "../../../../components/Code.astro"
+
+# `Array.concat`
+
+Concatenate with other arrays, and return the result as a new array.
+
+## Signature
+
+<Code thpcode={`
+    fun concat[T](
+        self,
+        Array[T]... arrays,
+    ) -> Array[T]
+`} />
+
+## Parameters
+
+- `self`: The callee.
+- `Array[T]... arrays`: Multiple arrays to concatenate the current one to.
+
+## Return value
+
+`Array[T]`: A new array that contains the elements from all arrays.
+
+
+## Description
+
+Concatenates the elements of the callee and the elements of each array in the
+variable `array`. These values are returned in a new array.
+
+If called without any aditional array it returns a new array with the elements
+of `self`.
+
+The returned array is a new one. However, if the elements of the callee and the
+parameters are references, the returned array will contain references that point
+to the same memory. This is important if, for example, the arrays contain other
+arrays or objects.
+
+## Examples
+
+Example concatenating 2 arrays:
+
+<Code thpcode={`
+    val first  = [1, 2, 3]
+    val second = [4, 5, 6]
+
+    val result = first.concat(second)
+    assert_eq(result, [1, 2, 3, 4, 5, 6])
+`} />
+
+Example concatenating 3 arrays:
+
+<Code thpcode={`
+    val first  = ["a", "b"]
+    val second = ["c", "d"]
+    val third  = ["e", "f"]
+
+    val result = first.concat(second, third)
+    assert_eq(result, ["a", "b", "c", "d", "e", "f"])
+`} />
+
+Example concatenating without any other array. In this case
+`first` and `result` are different arrays:
+
+<Code thpcode={`
+    val first  = [1, 2, 3]
+
+    val result = first.concat()
+    assert_eq(result, [1, 2, 3])
+`} />
+
+Example concatenating an empty array with a filled array:
+
+<Code thpcode={`
+    val first  = []
+    val second = [10, 20, 30]
+
+    val result = first.concat(second)
+    assert_eq(result, [10, 20, 30])
+`} />
+
+
+## PHP interop
+
+This method is directly compiled to `array_merge`. Since THP guarantees that
+arrays only have numbers as keys, this will never produce invalid values due
+to merging with an array with string keys.
+
+If the arrays contain invalid keys (negative values, out of bounds) the merge
+is performed based on the insertion order, not the keys order, and the resulting
+array will have correct keys.
+
+```php
+$array_1 = [2 => "a", 0 => "b"];
+$array_2 = [1 => "c"];
+
+var_dump(array_merge($array_1, $array_2));
+```
+
+```out
+array(3) {
+  [0]=> string(1) "a"
+  [1]=> string(1) "b"
+  [2]=> string(1) "c"
+}
+```
+
+
+
