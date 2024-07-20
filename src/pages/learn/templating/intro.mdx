@@ -3,6 +3,7 @@ layout: ../../../layouts/DocsLayout.astro
 title: Introduction
 ---
 import Code from "../../../components/Code.astro"
+import Info from "../../../components/docs/Info.astro"
 
 # THP templating
 
@@ -62,7 +63,7 @@ and compose them.
 The following would be the equivalent in THP:
 
 <Code thpcode={`
-fun Button(String name) -> Html {
+fun Button(String name) -> HTML {
     <button class="some tailwind classes">
         Hello {name}!
     </button>
@@ -74,7 +75,7 @@ way around, so you can have arbitrary logic in the component.
 
 
 <Code thpcode={`
-fun User(String name) {
+fun User(String name) -> HTML {
     // Get info from the database
     val user = try Model::get_user(name)
     else {
@@ -87,17 +88,81 @@ fun User(String name) {
         Hello {user.name}!
         <br>
         Here are your transactions:
-        #for t in user.transactions {
+        @for t in user.transactions {
             <TransactionItem t={t} />
         }
     </div>
 }
 
-fun TransactionItem(Transaction t) {
+fun TransactionItem(Transaction t) -> HTML {
     <li>
         {t.date} - {t.name} ({t.price})
     </li>
 }
 `} />
+
+
+## Is this a JavaScript Front-End Framework?
+
+**No**
+
+This is an HTML templating solution. All the code is run in the backend,
+generates static HTML and sends it to the browser. There is no
+reactivity, hooks, signals, etc.
+
+If you need reactivity on the front-end and want to use this templating
+take a look at [htmx](https://htmx.org/), [Alpine.js](https://alpinejs.dev/)
+and [hyperscript](https://hyperscript.org/).
+
+
+
+## Styling
+
+We don't provide any syntax or facility for styling.
+However, this component model is good to use with TailwindCSS.
+
+
+## Conversion
+
+<Info>
+    TBD: This is a draft, subject to change.
+</Info>
+
+HTML expressions will be compiled to plain strings, and
+those will be then composed.
+
+<Code thpcode={`
+fun Sample(String name) -> HTML {
+    val user = Model::get_user(name)
+
+    <button>
+        @if user != null
+        {
+            Hello {name} (id {user.name})!
+        }
+        @else
+        {
+            Not logged in
+        }
+    </button>
+}
+`} />
+
+```php
+function Sample(name) {
+    $user = Model::get_user(name);
+
+    $__expr_1 = "";
+    if ($user !== null) {
+        $__expr_2 = user.name;
+        $__expr_1 = "Hello {$name} (id {$__expr_2})";
+    } else {
+        $__expr_1 = "Not logged in";
+    }
+
+    return "<button>{$__expr_1}</button>"
+}
+```
+
 
 

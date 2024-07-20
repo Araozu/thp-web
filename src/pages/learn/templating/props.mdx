@@ -1,0 +1,156 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Props
+---
+import Code from "../../../components/Code.astro"
+import Info from "../../../components/docs/Info.astro"
+
+# Props
+
+Props are used to send data to a children component.
+
+THP's components can receive any datatype as props,
+and they are defined as normal parameters.
+
+For example, to receive a `String` declare it as a
+parameter:
+
+<Code thpcode={`
+fun Greeter(String name) -> HTML
+{
+    <p>Hello {name}!</p>
+}
+`} />
+
+And to send its value type the parameter name as an attribute:
+
+<Code thpcode={`
+fun Home() -> HTML
+{
+    <div>
+        <Greeter name="Rose" />
+    </div>
+}
+`} />
+
+```html
+<div><p>Hello Rose</p></div>
+```
+
+You can have as many props as you'd like, of any datatype:
+
+<Code thpcode={`
+fun Greeter(String name, Int age, Array[String] friends) -> HTML
+{
+    // ...
+}
+`} />
+
+## Static props
+
+If the prop has a type `String` you can use a normal attribute.
+
+<Code thpcode={`
+fun Home() -> HTML
+{
+    <div>
+        // name is a String, so we use ""
+        <Greeter name="Rose" />
+    </div>
+}
+`} />
+
+
+## Dynamic props
+
+However, if the prop has any other datatype you must use a
+dynamic attribute (`{}`)
+
+<Code thpcode={`
+// This component receives a Cat object
+fun Sample(Cat cat) -> HTML
+{
+    // ...
+}
+
+fun Home() -> HTML
+{
+    val my_cat = Cat("Michifu")
+
+    <div>
+        <Sample cat={my_cat} />
+    </div>
+}
+`} />
+
+
+## Components as props
+
+If for some reason you want to use a component as a prop
+use the `HTML` datatype:
+
+<Code thpcode={`
+// The parameter can have any name, not only \`child\`
+fun Sample(HTML child) -> HTML
+{
+    <>
+        <p>Sup</p>
+        {child}
+    </>
+}
+`} />
+
+This, however, means that your prop component must be declared
+as an attribute:
+
+<Code thpcode={`
+fun Home() -> HTML
+{
+    <div>
+        <Sample child={<span>I am the child</span>} />
+    </div>
+}
+`} />
+
+```html
+<div>
+    <p>Sup</p>
+    <span>I am the child</span>
+</div>
+```
+
+A better solution may be to use slots.
+
+## Slots
+
+Slots allow you to write html inside a component tag.
+
+<Code thpcode={`
+fun MyButton() -> HTML
+{
+    <button>
+        // This is the slot, it will render the HTML inside the tag
+        <Slot />
+    </button>
+}
+
+fun Home() -> HTML
+{
+    <div>
+        <MyButton>
+            buy <b>now!</b>
+        </MyButton>
+    </div>
+}
+`} />
+```html
+<div>
+    <button>
+        buy <b>now!</b>
+    </button>
+</div>
+```
+
+
+
+

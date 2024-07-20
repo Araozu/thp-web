@@ -1,0 +1,194 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Components
+---
+import Code from "../../../components/Code.astro"
+import Info from "../../../components/docs/Info.astro"
+
+# Components
+
+Like React, a component is any function that returns `HTML`.
+
+<Info>
+    We still need to determine whether the functions names
+    will be uppercase or not.
+
+    For now they will be uppercase.
+</Info>
+
+<Code thpcode={`
+fun MyComponent() -> HTML
+{
+    <p>Hello templates!</p>
+}
+`} />
+
+Inside the HTML tags you can (mostly) write the HTML you already
+know.
+
+## Text interpolation
+
+Interpolation inside HTML works the same way as string interpolation.
+Use brackets to insert an expression to the HTML:
+
+<Code thpcode={`
+fun MyComponent() -> HTML
+{
+    val name = "John"
+
+    <p>Hello {name}!</p>
+}
+`} />
+
+```html
+<p>Hello John!</p>
+```
+
+You can use any expression that can be converted to a `String` inside,
+like conditionals.
+
+<Code thpcode={`
+fun MyComponent() -> HTML
+{
+    val name = "John"
+    val is_vip = true
+
+    <p>
+        {if is_vip {"Welcome"} else {"Hi"}}
+        {name}!
+    </p>
+}
+`} />
+
+```html
+<p>Welcome John!</p>
+```
+
+## Raw HTML
+
+Text interpolated is always escaped:
+
+<Code thpcode={`
+fun MyComponent() -> HTML
+{
+    val user_input = "<b>BOLD</b>"
+
+    <p>answer: {user_input}</p>
+}
+`} />
+```html
+<p>answer: &lt;b&gt;BOLD&lt;/b&gt;</p>
+```
+
+To include raw html use the `raw-html` attribute (subject to change):
+
+<Code thpcode={`
+fun MyComponent() -> HTML
+{
+    val user_input = "<b>BOLD</b>"
+
+    <p>answer: <span raw-html={user_input}></span></p>
+}
+`} />
+```html
+<p>answer: <span><b>BOLD</b></span></p>
+```
+
+
+## Dynamic attributes
+
+TODO: boolean attributes
+
+Normal attributes (plain strings) work as you'd expect:
+
+<Code thpcode={`
+fun MyComponent() -> HTML
+{
+    <button class="red">hello</button>
+}
+`} />
+```html
+<button class="red">hello</button>
+```
+
+Dynamic attributes are used when you want to use values from code.
+For those use brackets instead of double quotes:
+
+<Code thpcode={`
+fun MyComponent() -> HTML
+{
+    val button_class = if true {"blue"} else {"yellow"}
+
+    // Note the braces
+    <button class={button_class}>hello</button>
+}
+`} />
+```html
+<button class="blue">hello</button>
+```
+
+
+
+## Fragments
+
+An HTML expression consist of a single tag that may have children inside.
+If you need to return multiple tags at once you can use fragments.
+
+
+The following code doesn't work as you would expect:
+
+<Code thpcode={`
+fun MyComponent() -> HTML
+{
+    <p>hello</p>    // This is an error, an ignored expression
+    <p>world</p>
+}
+`} />
+
+Each `<p>` is a single expression, they are not grouped.
+And since we cannot have unused expressions, the code will not compile.
+
+To have these two `<p>` tags as a single expression use a fragment:
+`<></>`
+
+<Code thpcode={`
+fun MyComponent() -> HTML
+{
+    // This is the root "element"
+    <>
+        <p>hello</p>    // Now these two are together
+        <p>world</p>
+    </>
+}
+`} />
+```html
+<p>hello</p>
+<p>world</p>
+```
+
+## Composition
+
+To use a component inside another component call them as if it were an
+html tag:
+
+<Code thpcode={`
+fun User() -> HTML
+{
+    <span>I am the user</span>
+}
+
+fun MyComponent() -> HTML
+{
+    <>
+        <p>status</p>
+        <User />        // Here we are using the other component
+    </>
+}
+`} />
+```html
+<p>status</p>
+<span>world</span>
+```
+
+
+
