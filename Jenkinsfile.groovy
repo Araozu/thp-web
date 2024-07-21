@@ -16,6 +16,8 @@ pipeline {
         }
         stage('Build bundle') {
             steps {
+                sh 'rm .env || true'
+                sh 'echo "THP_BINARY=/var/lib/jenkins/bin/thp" > .env'
                 sh 'pnpm build'
             }
         }
