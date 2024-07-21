@@ -7,58 +7,90 @@ import Code from "../../../components/Code.astro"
 # Constructor/Destructor
 
 
-(for now) THP's constructors are inspired by Kotlin.
+## Constructor
 
-PHP only allows a single constructor, and so does THP.
-The basic constructor has the syntax of function parameters.
+The constructor syntax in THP is inspired by Kotlin.
+
+Constructors are declared like function definitions:
 
 <Code thpcode={`
 //          |this is the constructor |
 class Animal(String fullname, Int age)
 
-val a1 = Animal("Nal", 4)
+// Creating an instance
+val cat = Animal("Michi", 3)
 `} />
 
-The class properties can be declared in the constructor,
-using the keywords `pub`, `var`, `val`:
+A constructor declared that way is public.
+
+Note that the parameters in the constructor (`fullname`,
+`age` above) are not properties, and cannot be used
+inside the class methods, only in the
+[`init` block](#init-block) and properties declaration.
+
+To declare properties in the constructor see 
+[Constructor promotion](#constructor-promotion).
+
+### Constructor visibility
+
+If you want to declare a constructor as protected
+or private you need to add the `constructor`
+keyword, after the visibility modifier:
+
 
 <Code thpcode={`
-class Animal(
-    // Since we are using val/var, these are promoted to class properties
-    val String fullname,
-    var Int age,
-)
+// Cow has a protected constructor
+class Cow
+protected constructor(String color)
+
+// Bat has a private constructor
+class Bat
+private constructor(Int height)
+`} />
+
+
+### Init block
+
+The `init` block allow us to run code during the
+construction of the instance:
+
+<Code thpcode={`
+class Dog(String name)
 {
-    pub fun say()
+    pub String name = name
+    Int name_len = name.length
+
+    init
     {
-        // Here we are using the properties declared in the constructor
-        print("My name is {$fullname} and i'm {$age} years old")
+        print("Dog created: {name}")
     }
 }
-
-val a1 = Animal("Nal", 4)
-a1.say()    //: My name is Nal and i'm 4 years old
 `} />
+
+
+
+
+### Constructor promotion
+
+Constructor parameters can serve as class properties.
+This is done by adding a modifier and `var`/`val`.
+
+<Code thpcode={`
+class Parrot(
+    // A public property
+    pub val String name,
+    // A protected property
+    protected var Int age,
+    // A private property
+    var String last_name,
+)
+`} />
+
 
 By using this syntax you are declaring properties and assigning them
 at the same time.
 
 The contructor parameters can also have default values.
-
-
-### Constructor visibility
-
-The constructor is public by default. It can be made private/protected
-like this:
-
-<Code thpcode={`
-class Animal
-private constructor(
-    val String fullname,
-    var Int age,
-)
-{...}
-`} />
 
 
 ### Derived properties
@@ -73,7 +105,7 @@ class Animal(
 {
     // A property whose value depends on \`fullname\`
     // This is executed after the contructor
-    pub val Int name_length = $fullname.length
+    pub val Int name_length = fullname.length
 }
 
 val a2 = Animal("Doa")
@@ -81,22 +113,51 @@ print(a2.name_length)   //: 3
 `} />
 
 
-### Init block
+### Constructor that may fail
 
-If you need to additional logic in the constructor you can
-use a `init` block.
+TBD
+
+Proposal 1:
 
 <Code thpcode={`
-class Animal(
-    val String fullname,
-)
+class PrayingMantis(String name) -> self!Error
+`} />
+
+Proposal 2:
+
+<Code thpcode={`
+class PrayingMantis(String name)
+throws Error
+`} />
+
+Proposal 3:
+
+<Code thpcode={`
+class PrayingMantis(String name)
 {
-    init
+    init -> self!Error
     {
-        print("{$fullname} in contruction...")
+        // Something that may fail
     }
 }
-
-val a3 = Animal("Lola")     //: Lola in construction
 `} />
+
+
+
+## Destructor
+
+The destructor in THP is the same as PHP.
+
+<Code thpcode={`
+class Owl
+{
+    pub fun __destruct()
+    {
+        // Cleanup
+        print("Destroying Owl...")
+    }
+}
+`} />
+
+
 

@@ -86,7 +86,11 @@ export async function native_highlighter(code: string): Promise<string> {
 }
 
 function translate_token_type(tt: TokenType, value: string): string {
-    const keywords = ["throws", "extends", "constructor", "case", "static", "const", "enum", "union", "loop", "use", "break", "catch", "continue", "as", "do", "else", "finally", "for", "fun", "if", "in", "fn", "nil", "return", "throw", "try", "while", "type", "match", "with", "of", "abstract", "class", "interface", "private", "pub", "override", "open", "init", "val", "var", "mut", "clone"];
+    const keywords = ["throws", "extends", "constructor", "case", "static", "const",
+        "enum", "union", "loop", "use", "break", "catch", "continue", "as", "do",
+        "else", "finally", "for", "fun", "if", "in", "fn", "nil", "return", "throw",
+        "try", "while", "type", "match", "with", "of", "abstract", "class", "interface",
+        "private", "protected", "pub", "override", "open", "init", "val", "var", "mut", "clone"];
 
     switch (tt) {
         case "Datatype":
