@@ -1,0 +1,26 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Inheritance
+---
+import Code from "../../../components/Code.astro"
+
+# Inheritance
+
+
+
+<Code thpcode={`
+// Base class
+class Animal(var String name)
+{
+    pub fun say_name()
+    {
+        print($name)
+    }
+}
+
+// Child class
+class Cat(String name, Int lives) 
+extends Animal(name)
+
+Cat("Michi", 9).say_name()
+`} />

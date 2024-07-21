@@ -1,0 +1,102 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Constructor/Destructor
+---
+import Code from "../../../components/Code.astro"
+
+# Constructor/Destructor
+
+
+(for now) THP's constructors are inspired by Kotlin.
+
+PHP only allows a single constructor, and so does THP.
+The basic constructor has the syntax of function parameters.
+
+<Code thpcode={`
+//          |this is the constructor |
+class Animal(String fullname, Int age)
+
+val a1 = Animal("Nal", 4)
+`} />
+
+The class properties can be declared in the constructor,
+using the keywords `pub`, `var`, `val`:
+
+<Code thpcode={`
+class Animal(
+    // Since we are using val/var, these are promoted to class properties
+    val String fullname,
+    var Int age,
+)
+{
+    pub fun say()
+    {
+        // Here we are using the properties declared in the constructor
+        print("My name is {$fullname} and i'm {$age} years old")
+    }
+}
+
+val a1 = Animal("Nal", 4)
+a1.say()    //: My name is Nal and i'm 4 years old
+`} />
+
+By using this syntax you are declaring properties and assigning them
+at the same time.
+
+The contructor parameters can also have default values.
+
+
+### Constructor visibility
+
+The constructor is public by default. It can be made private/protected
+like this:
+
+<Code thpcode={`
+class Animal
+private constructor(
+    val String fullname,
+    var Int age,
+)
+{...}
+`} />
+
+
+### Derived properties
+
+You can declare properties whose values depend on values
+on the constructor.
+
+<Code thpcode={`
+class Animal(
+    val String fullname,
+)
+{
+    // A property whose value depends on \`fullname\`
+    // This is executed after the contructor
+    pub val Int name_length = $fullname.length
+}
+
+val a2 = Animal("Doa")
+print(a2.name_length)   //: 3
+`} />
+
+
+### Init block
+
+If you need to additional logic in the constructor you can
+use a `init` block.
+
+<Code thpcode={`
+class Animal(
+    val String fullname,
+)
+{
+    init
+    {
+        print("{$fullname} in contruction...")
+    }
+}
+
+val a3 = Animal("Lola")     //: Lola in construction
+`} />
+

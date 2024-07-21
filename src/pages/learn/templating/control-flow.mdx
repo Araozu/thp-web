@@ -7,3 +7,68 @@ import Info from "../../../components/docs/Info.astro"
 
 # Control flow
 
+## If expressions
+
+Use `@if`, `@else if` and `@else` to branch during the template
+creation.
+
+<Code thpcode={`
+fun User(User user) -> HTML
+{
+    <div>
+        @if user.verified
+        {
+            <p>Hello {user.name}</p>
+        }
+        @else
+        {
+            <p>Verify your account to continue</p>
+        }
+    </div>
+}
+`} />
+
+
+## Loops
+
+Use `@for`:
+
+<Code thpcode={`
+fun Users() -> HTML
+{
+    val users = User::get_all()
+
+    <div>
+        @for user in users
+        {
+            <User user={user} />
+        }
+    </div>
+}
+`} />
+
+
+## Match
+
+Use `@match` for pattern matching:
+
+<Code thpcode={`
+fun UserDetail(User user) -> HTML
+{
+    <div>
+        @match user.type
+        case ::Admin
+        {
+            <button>Delete resource</button>
+        }
+        case ::User
+        {
+            <button disable>Not allowed</button>
+        }
+    </div>
+}
+`} />
+
+
+
+

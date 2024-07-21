@@ -1,6 +1,6 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
-title: Classes
+title: Basics
 ---
 import Code from "../../../components/Code.astro"
 
@@ -8,30 +8,34 @@ import Code from "../../../components/Code.astro"
 
 Syntax and semantics heavily inspired by Kotlin.
 
+Classes in THP are significantly different than PHP.
 
-## Create a new instance of a class
+## Definition
 
-To create an instance of a class call it as if it were a function,
+A class is defined as follows:
+
+<Code thpcode={`
+class Animal
+`} />
+
+The name of the class **MUST** begin with an uppercase letter.
+
+
+
+## Instanciation
+
+To create an instance of a class call it as if it was a function,
 without `new`.
 
 <Code thpcode={`
 val animal = Animal()
 `} />
 
-## Simple class 
-
-Classes are declared with the `class` keyword.
-
-<Code thpcode={`
-class Animal
-
-val instance = Animal()
-`} />
 
 ## Properties
 
-Properties are declared with `var`/`val`.
-They **must** declare their datatype.
+Properties are declared with `var`/`val` inside a block.
+They **must** explicitly declare their datatype.
 
 <Code thpcode={`
 class Person
@@ -42,11 +46,13 @@ class Person
 
     // This is correct
     val String name = "Jane Doe"
+
+    // This is also okay
+    String name = "Jane Doe"
 }
 `} />
 
-Properties are private by default,
-but can be made public with `pub`.
+**Properties are private by default**, but can be made public with `pub`.
 
 <Code thpcode={`
 class Person
@@ -57,10 +63,22 @@ class Person
     // To make a property public use \`pub\`
     pub var Int age = 30
 }
+
+val p = Person()
+print(p.name)    // Compile error: \`name\` is private
+print(p.age)     // 30
 `} />
 
-More information about how properties interact with the constructor
-is found in the contructor section.
+Unlike PHP, to access properties and methods use dot notation `.`
+instead of an arrow `->`.
+
+Static properties are explained in the Static page.
+
+Readonly properties are explained in the Readonly page.
+
+The interaction between properties and the constructor is explained
+in the Constructor page.
+
 
 
 ## Methods
@@ -77,7 +95,7 @@ class Person
 }
 `} />
 
-Methods are private by default, and are made public with `pub`.
+**Methods are private by default**, and are made public with `pub`.
 
 <Code thpcode={`
 class Person
@@ -100,10 +118,27 @@ p.greet()           //: Hello from greet
 p.private_greet()   // Compile time error. Private method.
 `} />
 
+[Unlike PHP](https://www.php.net/manual/en/language.oop5.basic.php#language.oop5.basic.properties-methods),
+in THP a method cannot have the same name as a property and viceversa.
+Doing so is a compile error.
+
+<Code thpcode={`
+class Person
+{
+    String name = "Rose"
+
+    // This is a compile error
+    fun name() -> String {
+        "Rose"
+    }
+}
+`} />
+
+
 ## This
 
-THP uses the dollar sign `$` as this. It is **required** when
-using a class property/method.
+THP uses the dollar sign `$` as this inside classes.
+It is **required** when using a class property/method.
 
 <Code thpcode={`
 class Person
@@ -123,126 +158,6 @@ class Person
 }
 `} />
 
-## Static members
-
-Static members are detailed in their own page.
-
-
-## Constructor
-
-(for now) THP's constructors are inspired by Kotlin.
-
-PHP only allows a single constructor, and so does THP.
-The basic constructor has the syntax of function parameters.
-
-<Code thpcode={`
-//          |this is the constructor |
-class Animal(String fullname, Int age)
-
-val a1 = Animal("Nal", 4)
-`} />
-
-The class properties can be declared in the constructor,
-using the keywords `pub`, `var`, `val`:
-
-<Code thpcode={`
-class Animal(
-    // Since we are using val/var, these are promoted to class properties
-    val String fullname,
-    var Int age,
-)
-{
-    pub fun say()
-    {
-        // Here we are using the properties declared in the constructor
-        print("My name is {$fullname} and i'm {$age} years old")
-    }
-}
-
-val a1 = Animal("Nal", 4)
-a1.say()    //: My name is Nal and i'm 4 years old
-`} />
-
-By using this syntax you are declaring properties and assigning them
-at the same time.
-
-The contructor parameters can also have default values.
-
-
-### Constructor visibility
-
-The constructor is public by default. It can be made private/protected
-like this:
-
-<Code thpcode={`
-class Animal
-private constructor(
-    val String fullname,
-    var Int age,
-)
-{...}
-`} />
-
-
-### Derived properties
-
-You can declare properties whose values depend on values
-on the constructor.
-
-<Code thpcode={`
-class Animal(
-    val String fullname,
-)
-{
-    // A property whose value depends on \`fullname\`
-    // This is executed after the contructor
-    pub val Int name_length = $fullname.length
-}
-
-val a2 = Animal("Doa")
-print(a2.name_length)   //: 3
-`} />
-
-
-### Init block
-
-If you need to additional logic in the constructor you can
-use a `init` block.
-
-<Code thpcode={`
-class Animal(
-    val String fullname,
-)
-{
-    init
-    {
-        print("{$fullname} in contruction...")
-    }
-}
-
-val a3 = Animal("Lola")     //: Lola in construction
-`} />
-
-
-## Inheritance
-
-
-<Code thpcode={`
-// Base class
-class Animal(var String name)
-{
-    pub fun say_name()
-    {
-        print($name)
-    }
-}
-
-// Child class
-class Cat(String name, Int lives) 
-extends Animal(name)
-
-Cat("Michi", 9).say_name()
-`} />
 
 ## Mutable methods
 
