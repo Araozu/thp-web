@@ -2,6 +2,7 @@
 layout: ../../../layouts/SpecLayout.astro
 title: Numbers
 ---
+import Code from "../../../components/Code.astro"
 
 # Numbers
 
@@ -15,12 +16,12 @@ hexadecimal_number = "0", ("x" | "X"), hexadecimal_digit+
 decimal_number     = decimal_digit+
 ```
 
-```thp
+<Code thpcode={`
 12345
 01234   // This is a decimal number, not an octal number
 0xff25
 0XFfaA
-```
+`} />
 
 `TODO`: Implement octal `0o777` and binary `0b0110`.
 
@@ -36,14 +37,14 @@ Float = decimal_number, ".", decimal_number+, scientific_notation?
 scientific_notation = "e", ("+" | "-"), decimal_number
 ```
 
-```thp
+<Code thpcode={`
 123.456
 123.456e+4
 123.456e-2
 
 123e+10
 123e-3
-```
+`} />
 
 
 All floating point numbers must start with at least 1 digit.

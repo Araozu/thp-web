@@ -2,6 +2,7 @@
 layout: ../../../layouts/SpecLayout.astro
 title: Comment
 ---
+import Code from "../../../components/Code.astro"
 
 # Comment
 
@@ -9,8 +10,8 @@ title: Comment
 Comment = "//", any_except_new_line
 ```
 
-```thp
+<Code thpcode={`
 // This is a comment
 // 
 // Another // comment
-```
+`} />

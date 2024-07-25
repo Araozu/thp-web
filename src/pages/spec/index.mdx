@@ -20,6 +20,7 @@ pagesLayout:
   - path: ast
   - path: expression
 ---
+import Code from "../../components/Code.astro"
 
 
 # The THP Language Specification
@@ -100,11 +101,11 @@ greater than before, it emits a Indent token. If it's lower, emits a Dedent toke
 if it's the same it does nothing.
 
 
-```thp
+<Code thpcode={`
 1 + 2
     + 3
     + 4
-```
+`} />
 
 The previous code would emit the following tokens: `1` `+` `2` `NewLine` `Indent` `+` `3` `NewLine`
 `+` `4` `Dedent`
@@ -114,12 +115,12 @@ Additionaly, it is a lexical error to have wrong indentation. The lexer stores a
 previous indentation levels in a stack, and reports an error if a decrease in indentation
 doesn't match a previous level.
 
-```thp
+<Code thpcode={`
 if true {   // 0 indentation
-    print() // 4 indentation
-  print()   // 2 indentation. Error. There is no 2-indentation level
+//    print() // 4 indentation
+//  print()   // 2 indentation. Error. There is no 2-indentation level
 }
-```
+`} />
 
 All productions of the grammar ignore whitespace/indentation, except those involved in
 semicolon inference.
@@ -134,26 +135,26 @@ Statements in THP end when a new line is encountered:
 
 
 
-```thp
+<Code thpcode={`
 // The statement ends         | here, on the newline
 val value = (123 + 456) * 0.75
-```
+`} />
 
-```thp
+<Code thpcode={`
 // Each line contains a different statement. They all end on their new lines
 
 var a = 1 + 2   // a = 3
-+ 3             // this is not part of `a`, this is a different statement
-```
++ 3             // this is not part of \`a\`, this is a different statement
+`} />
 
 This is true even if the line ends with an operator:
 
-```thp
+<Code thpcode={`
 // These are still different statements
 
 var a = 1 + 2 +     // This is now a compile error, there is a hanging `+`
 3                   // This is still a different statement
-```
+`} />
 
 
 ### Parenthesis
@@ -161,16 +162,16 @@ var a = 1 + 2 +     // This is now a compile error, there is a hanging `+`
 Exception 1: When a parenthesis is open, all following whitespace is ignored
 until the closing parenthesis.
 
-```thp
+<Code thpcode={`
 // open parenthesis found, all whitespace is ignored until the closing
 name.contains(
 "weird"
     )
-```
+`} />
 
 However, for a parenthesis to begin to act, it needs to be open on the same line.
 
-```thp
+<Code thpcode={`
 // Still 2 statements, because the parenthesis is in a new line
 print
 (
@@ -181,7 +182,7 @@ print
 print(
     "hello"
 )
-```
+`} />
 
 ### Indented binary operator
 
@@ -189,22 +190,22 @@ Exception 2:
 
 - When a binary operator is followed by indentation:
 
-```thp
+<Code thpcode={`
 val sum = 1 + 2 +   // The line ends with a binary operator
     3               // There is indentation
-```
+`} />
 
 - Or when indentation is followed by a binary operator:
 
-```thp
+<Code thpcode={`
 val sum = 1 + 2
     + 3             // Indentation and a binary operator
-```
+`} />
 
 In theses cases, all whitespace will be ignored
 until the indentation returns to the initial level.
 
-```thp
+<Code thpcode={`
 // This method chain is a single statement because of the indentation
 val person = PersonBuilder()
     .set_name("john")
@@ -215,6 +216,6 @@ val person = PersonBuilder()
 
 // Here indentation returns, and a new statement begins
 print(person)
-```
+`} />
 
 

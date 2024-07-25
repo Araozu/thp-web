@@ -2,6 +2,7 @@
 layout: ../../../layouts/SpecLayout.astro
 title: String
 ---
+import Code from "../../../components/Code.astro"
 
 # String
 
@@ -19,11 +20,11 @@ escape_seq   = "\n"
 string_char  = any_unicode_except_newline_and_double_quote
 ```
 
-```thp
+<Code thpcode={`
 "hello"
 ""
 "it's me"
-"\"Mario\""
-```
+"\\"Mario\\""
+`} />
 
 `TODO`: String interpolation

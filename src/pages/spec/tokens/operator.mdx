@@ -2,6 +2,7 @@
 layout: ../../../layouts/SpecLayout.astro
 title: Operator
 ---
+import Code from "../../../components/Code.astro"
 
 # Operator
 
@@ -14,9 +15,9 @@ operator_char = "+" | "-" | "=" | "*" | "!" | "/" | "|"
               | "<" | ">" | "^" | "." | ":"
 ```
 
-```thp
+<Code thpcode={`
 + - / * % < > <= >= -> =>
-```
+`} />
 
 These are all the characters that can make an operator.
 
