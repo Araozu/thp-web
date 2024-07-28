@@ -1,10 +1,17 @@
 ---
 import { native_highlighter } from "../lexer/highlighter";
+import CodeError from "./docs/CodeError.astro";
 
 const { thpcode } = Astro.props;
 
-const native_html = await native_highlighter(thpcode);
+const [native_html, error_message] = await native_highlighter(thpcode);
 ---
 
 <pre
-    class="language-thp"><code class="language-thp" set:html={native_html} /><span class="absolute top-2 right-2 inline-block text-sm select-none opacity-75">thp</span></pre>
+    class="language-thp"><code class="language-thp" set:html={native_html} /><span class="absolute top-2 right-2 inline-block text-sm select-none opacity-75">thp
+    </span></pre>
+{
+    error_message !== null && (
+        <CodeError error_type="Lexical">{error_message}</CodeError>
+    )
+}

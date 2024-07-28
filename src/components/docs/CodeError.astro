@@ -1,0 +1,8 @@
+---
+const { error_type = "Unknown" } = Astro.props;
+---
+
+<div class="px-4 py-2 rounded bg-red-200 dark:bg-red-950">
+    <span class="inline-block font-bold">{error_type} error:</span>
+    <slot />
+</div>

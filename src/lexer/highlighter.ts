@@ -45,13 +45,13 @@ export interface LexError {
 }
 
 
-export async function native_highlighter(code: string): Promise<string> {
+export async function native_highlighter(code: string): Promise<[string, string | null]> {
     let formatted_code = leftTrimDedent(code).join("\n");
 
     const result = await native_lex(formatted_code);
 
     if (result.Err) {
-        throw new Error(JSON.stringify(result.Err.Lex) + "\n" + code);
+        return lex_error_highlighter(formatted_code, result.Err!.Lex);
     }
 
     const tokens = result.Ok!;
@@ -82,7 +82,27 @@ export async function native_highlighter(code: string): Promise<string> {
         current_pos = token_end;
     }
 
-    return output;
+    return [output, null];
+}
+
+
+/**
+ * Highlights code that has a lexic error
+ */
+function lex_error_highlighter(code: string, error: LexError): [string, string] {
+    // Create a single error token
+
+    const err_pos = error.position;
+    const before_err = code.substring(0, err_pos);
+    const err_str = code[err_pos];
+    const after_err = code.substring(err_pos + 1);
+
+    const token = `<span class="token underline decoration-wavy decoration-red-500">${err_str}</span>`;
+
+    const all = `${before_err}${token}${after_err}`;
+
+    // TODO: Transform absolute posijion (error.position) into line:column
+    return [all, error.reason + " at position " + error.position]
 }
 
 function translate_token_type(tt: TokenType, value: string): string {

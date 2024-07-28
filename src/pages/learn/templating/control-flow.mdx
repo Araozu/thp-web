@@ -57,11 +57,11 @@ fun UserDetail(User user) -> HTML
 {
     <div>
         @match user.type
-        case ::Admin
+        @case ::Admin
         {
             <button>Delete resource</button>
         }
-        case ::User
+        @case ::User
         {
             <button disable>Not allowed</button>
         }
