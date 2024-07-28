@@ -1,11 +1,6 @@
 import { spawn } from "node:child_process";
 import { leftTrimDedent } from "../components/utils";
 
-export interface LexResult {
-    Ok?: Token[]
-    Err?: Err
-}
-
 export interface Token {
     token_type: TokenType
     value: string
@@ -36,7 +31,8 @@ type TokenType =
     "FUN";
 
 export interface Err {
-    Lex: LexError
+    Lex?: LexError
+    Syntax?: SyntaxError
 }
 
 export interface LexError {
@@ -44,23 +40,72 @@ export interface LexError {
     reason: string
 }
 
+export interface SyntaxError {
+    error_start: number
+    error_end: number
+    reason: string
+}
 
-export async function native_highlighter(code: string): Promise<[string, string | null]> {
+export interface TokenizeResult {
+    Ok?: Token[],
+    TokensOnly?: [Token[], Err],
+    Err?: Err,
+}
+
+
+export async function native_highlighter(code: string): Promise<[string, string, string | null]> {
     let formatted_code = leftTrimDedent(code).join("\n");
 
     const result = await native_lex(formatted_code);
 
     if (result.Err) {
-        return lex_error_highlighter(formatted_code, result.Err!.Lex);
+        return lex_error_highlighter(formatted_code, result.Err!.Lex!);
+    }
+    else if (result.TokensOnly) {
+        // TODO
+        const [tokens, error] = result.TokensOnly!;
+        return syntax_error_highlighter(formatted_code, tokens, error.Syntax!);
     }
 
     const tokens = result.Ok!;
 
-    const input_chars = formatted_code.split("");
+    const output = highlight_tokens(formatted_code, tokens);
+
+    return [output, "", null];
+}
+
+
+/**
+ * Highlights code that has a lexic error
+ */
+function lex_error_highlighter(code: string, error: LexError): [string, string, string] {
+    // Create a single error token
+
+    const err_pos = error.position;
+    const before_err = code.substring(0, err_pos);
+    const err_str = code[err_pos];
+    const after_err = code.substring(err_pos + 1);
+
+    const token = `<span class="token underline decoration-wavy decoration-red-500">${err_str}</span>`;
+
+    const all = `${before_err}${token}${after_err}`;
+
+    // TODO: Transform absolute posijion (error.position) into line:column
+    return [all, "Lexical", error.reason + " at position " + error.position]
+}
+
+function syntax_error_highlighter(code: string, tokens: Array<Token>, error: SyntaxError): [string, string, string] {
+    const highlighted = highlight_tokens(code, tokens);
+
+    const error_message = `${error.reason} from position ${error.error_start} to ${error.error_end}`;
+    return [highlighted, "Syntax", error_message];
+}
+
+function highlight_tokens(input: string, tokens: Array<Token>): string {
+    const input_chars = input.split("");
     let output = "";
 
     let current_pos = 0;
-
     for (let i = 0; i < tokens.length; i += 1) {
         const t = tokens[i]!;
         const token_start = t.position;
@@ -82,28 +127,9 @@ export async function native_highlighter(code: string): Promise<[string, string 
         current_pos = token_end;
     }
 
-    return [output, null];
+    return output;
 }
 
-
-/**
- * Highlights code that has a lexic error
- */
-function lex_error_highlighter(code: string, error: LexError): [string, string] {
-    // Create a single error token
-
-    const err_pos = error.position;
-    const before_err = code.substring(0, err_pos);
-    const err_str = code[err_pos];
-    const after_err = code.substring(err_pos + 1);
-
-    const token = `<span class="token underline decoration-wavy decoration-red-500">${err_str}</span>`;
-
-    const all = `${before_err}${token}${after_err}`;
-
-    // TODO: Transform absolute posijion (error.position) into line:column
-    return [all, error.reason + " at position " + error.position]
-}
 
 function translate_token_type(tt: TokenType, value: string): string {
     const keywords = ["throws", "extends", "constructor", "case", "static", "const",
@@ -140,7 +166,7 @@ function translate_token_type(tt: TokenType, value: string): string {
     }
 }
 
-const native_lex = (code: string) => new Promise<LexResult>((resolve, reject) => {
+const native_lex = (code: string) => new Promise<TokenizeResult>((resolve, reject) => {
     // Get binary path from .env
     const binary = import.meta.env.THP_BINARY;
     if (!binary) {

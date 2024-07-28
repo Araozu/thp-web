@@ -4,7 +4,7 @@ import CodeError from "./docs/CodeError.astro";
 
 const { thpcode } = Astro.props;
 
-const [native_html, error_message] = await native_highlighter(thpcode);
+const [native_html, error_type, error_message] = await native_highlighter(thpcode);
 ---
 
 <pre
@@ -12,6 +12,6 @@ const [native_html, error_message] = await native_highlighter(thpcode);
     </span></pre>
 {
     error_message !== null && (
-        <CodeError error_type="Lexical">{error_message}</CodeError>
+        <CodeError error_type={error_type}>{error_message}</CodeError>
     )
 }
