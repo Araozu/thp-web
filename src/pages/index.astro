@@ -24,6 +24,8 @@ case Cat(name, lives)
 {
     print("{name} has {lives}")
 }`;
+
+const [thp_html] = await native_highlighter(leftTrimDedent(thpcode).join("\n"));
 ---
 
 <BaseLayout>
@@ -118,7 +120,7 @@ case Cat(name, lives)
                     </svg>
                     <div class="h-1"></div>
                     <div id="editor" class="font-mono language-thp">
-                        <pre set:html={native_highlighter(leftTrimDedent(thpcode).join("\n"))}></pre>
+                        <pre set:html={thp_html}></pre>
                     </div>
                 </div>
             </div>

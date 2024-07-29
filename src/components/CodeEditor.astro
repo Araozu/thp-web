@@ -1,11 +1,11 @@
 ---
 import Code from "./Code.astro"
 
-const { thpcode } = Astro.props;
+const { thpcode, no_warnings } = Astro.props;
 ---
 
 <div class="flex h-full py-8 items-center">
     <div class="p-4 w-full">
-        <Code thpcode={thpcode} />
+        <Code thpcode={thpcode} no_warnings={no_warnings} />
     </div>
 </div>
