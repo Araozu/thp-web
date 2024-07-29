@@ -22,6 +22,7 @@ type TokenType =
     "RightBrace" |
     "NewLine" |
     "Comment" |
+    "MultilineComment" |
     "Comma" |
     "INDENT" |
     "DEDENT" |
@@ -131,6 +132,7 @@ function highlight_tokens(input: string, tokens: Array<Token>, error_start = -1,
 
         let is_errored = (token_start == error_start);
 
+        // Some tokens require processing (like multiline comments)
 
         // There are some tokens that are empty, ignore them
         if (t.value == "") {
@@ -141,16 +143,40 @@ function highlight_tokens(input: string, tokens: Array<Token>, error_start = -1,
         output += input_chars.slice(current_pos, token_start).join("");
 
         // Append the token
-        const token_value = t.value.replaceAll(/</g, "&lt;").replaceAll(/>/g, "&gt;");
+        const [token_value, new_token_end] = process_token_value_and_end(t.value, t.token_type, token_end);
         const token_type = translate_token_type(t.token_type, token_value);
         output += `<span class="token ${token_type} ${is_errored ? error_classes : ""}">${token_value}</span>`;
 
-        current_pos = token_end;
+        current_pos = new_token_end;
     }
 
     return output;
 }
 
+/**
+ * Certain tokens store values that differ from the source code representation.
+ * For example, the multiline comment token stores the content of the comment
+ * without `/*` and `* /`, this function handles those cases.
+ * 
+ * @param value The value of the token
+ * @param token_type The type of the token, used to know if it needs preprocessing
+ * @param first_end The position where the token ends according to the token value
+ * @returns 
+ */
+function process_token_value_and_end(value: string, token_type: TokenType, first_end: number): [string, number] {
+    let token_value = value;
+    let new_end = first_end;
+    if (token_type === "MultilineComment") {
+        token_value = `/*${token_value}*/`;
+        new_end += 4;
+    }
+
+    // Escape html and return
+    return [
+        token_value.replaceAll(/</g, "&lt;").replaceAll(/>/g, "&gt;"),
+        new_end
+    ];
+}
 
 function translate_token_type(tt: TokenType, value: string): string {
     const keywords = ["throws", "extends", "constructor", "case", "static", "const",
@@ -176,6 +202,7 @@ function translate_token_type(tt: TokenType, value: string): string {
         case "String":
             return "string";
         case "Comment":
+        case "MultilineComment":
             return "comment";
         // keywords:
         case "VAL":

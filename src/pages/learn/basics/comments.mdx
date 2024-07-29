@@ -43,5 +43,19 @@ Multi line comments can be nested in THP.
 
 ## Documentation comments
 
-TBD: Should doc comments use triple slash `///`? or `/** */`?
+Documentation comments use triple slashes `///`.
+These use [CommonMark Markdown](https://commonmark.org/) syntax.
+
+<Code thpcode={`
+/// Transforms the format from A to B...
+///
+/// ## Errors
+///
+/// This function will error if condition
+/// X or Y is met...
+fun transform() {
+    // ...
+}
+`} />
+
 
