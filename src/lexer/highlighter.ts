@@ -52,6 +52,7 @@ export interface TokenizeResult {
     Err?: Err,
 }
 
+const error_classes = "underline decoration-wavy decoration-red-500";
 
 export async function native_highlighter(code: string): Promise<[string, string, string | null]> {
     let formatted_code = leftTrimDedent(code).join("\n");
@@ -67,7 +68,6 @@ export async function native_highlighter(code: string): Promise<[string, string,
         return lex_error_highlighter(formatted_code, result.Err!.Lex!);
     }
     else if (result.TokensOnly) {
-        // TODO
         const [tokens, error] = result.TokensOnly!;
         return syntax_error_highlighter(formatted_code, tokens, error.Syntax!);
     }
@@ -91,7 +91,7 @@ function lex_error_highlighter(code: string, error: LexError): [string, string, 
     const err_str = code[err_pos];
     const after_err = code.substring(err_pos + 1);
 
-    const token = `<span class="token underline decoration-wavy decoration-red-500">${err_str}</span>`;
+    const token = `<span class="token ${error_classes}">${err_str}</span>`;
 
     const all = `${before_err}${token}${after_err}`;
 
@@ -100,7 +100,7 @@ function lex_error_highlighter(code: string, error: LexError): [string, string, 
 }
 
 function syntax_error_highlighter(code: string, tokens: Array<Token>, error: SyntaxError): [string, string, string] {
-    const highlighted = highlight_tokens(code, tokens);
+    const highlighted = highlight_tokens(code, tokens, error.error_start, error.error_end);
 
     const error_message = `${error.reason} from position ${error.error_start} to ${error.error_end}`;
     return [highlighted, "Syntax", error_message];
@@ -110,7 +110,16 @@ function compiler_error(code: string, error: Error): [string, string, string] {
     return [code, "Fatal Compiler", error.message];
 }
 
-function highlight_tokens(input: string, tokens: Array<Token>): string {
+/**
+ * Transforms a list of tokens into colored HTML, and underlines errors
+ * if present
+ * @param input The original source code
+ * @param tokens The list of tokens
+ * @param error_start Absolute position from where the error starts.
+ * @param error_end Absolute position to where the error ends.
+ * @returns 
+ */
+function highlight_tokens(input: string, tokens: Array<Token>, error_start = -1, error_end = -1): string {
     const input_chars = input.split("");
     let output = "";
 
@@ -119,6 +128,9 @@ function highlight_tokens(input: string, tokens: Array<Token>): string {
         const t = tokens[i]!;
         const token_start = t.position;
         const token_end = t.position + t.value.length;
+
+        let is_errored = (token_start == error_start);
+
 
         // There are some tokens that are empty, ignore them
         if (t.value == "") {
@@ -131,7 +143,7 @@ function highlight_tokens(input: string, tokens: Array<Token>): string {
         // Append the token
         const token_value = t.value.replaceAll(/</g, "&lt;").replaceAll(/>/g, "&gt;");
         const token_type = translate_token_type(t.token_type, token_value);
-        output += `<span class="token ${token_type}">${token_value}</span>`;
+        output += `<span class="token ${token_type} ${is_errored ? error_classes : ""}">${token_value}</span>`;
 
         current_pos = token_end;
     }
