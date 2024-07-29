@@ -56,7 +56,12 @@ export interface TokenizeResult {
 export async function native_highlighter(code: string): Promise<[string, string, string | null]> {
     let formatted_code = leftTrimDedent(code).join("\n");
 
-    const result = await native_lex(formatted_code);
+    let result: TokenizeResult;
+    try {
+        result = await native_lex(formatted_code);
+    } catch (error) {
+        return compiler_error(formatted_code, error as Error);
+    }
 
     if (result.Err) {
         return lex_error_highlighter(formatted_code, result.Err!.Lex!);
@@ -99,6 +104,10 @@ function syntax_error_highlighter(code: string, tokens: Array<Token>, error: Syn
 
     const error_message = `${error.reason} from position ${error.error_start} to ${error.error_end}`;
     return [highlighted, "Syntax", error_message];
+}
+
+function compiler_error(code: string, error: Error): [string, string, string] {
+    return [code, "Fatal Compiler", error.message];
 }
 
 function highlight_tokens(input: string, tokens: Array<Token>): string {
@@ -192,7 +201,7 @@ const native_lex = (code: string) => new Promise<TokenizeResult>((resolve, rejec
         if (code === 0) {
             resolve(JSON.parse(response));
         } else {
-            reject(error);
+            reject(new Error(error));
         }
     });
 })

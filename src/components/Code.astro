@@ -12,6 +12,6 @@ const [native_html, error_type, error_message] = await native_highlighter(thpcod
     </span></pre>
 {
     error_message !== null && (
-        <CodeError error_type={error_type}>{error_message}</CodeError>
+        <CodeError error_type={error_type} error_message={error_message}></CodeError>
     )
 }
