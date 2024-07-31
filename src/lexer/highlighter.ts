@@ -169,6 +169,9 @@ function process_token_value_and_end(value: string, token_type: TokenType, first
     if (token_type === "MultilineComment") {
         token_value = `/*${token_value}*/`;
         new_end += 4;
+    } else if (token_type === "String") {
+        token_value = `"${token_value}"`;
+        new_end += 2;
     }
 
     // Escape html and return
