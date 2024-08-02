@@ -34,6 +34,7 @@ type TokenType =
 export interface Err {
     Lex?: LexError
     Syntax?: SyntaxError
+    Semantic?: SemanticError
 }
 
 export interface LexError {
@@ -47,8 +48,15 @@ export interface SyntaxError {
     reason: string
 }
 
+export interface SemanticError {
+    error_start: number
+    error_end: number
+    reason: string
+}
+
 export interface TokenizeResult {
     Ok?: Token[],
+    SyntaxOnly?: [Token[], Err],
     TokensOnly?: [Token[], Err],
     Err?: Err,
 }
@@ -71,6 +79,10 @@ export async function native_highlighter(code: string): Promise<[string, string,
     else if (result.TokensOnly) {
         const [tokens, error] = result.TokensOnly!;
         return syntax_error_highlighter(formatted_code, tokens, error.Syntax!);
+    }
+    else if (result.SyntaxOnly) {
+        const [tokens, error] = result.SyntaxOnly!;
+        return semantic_error_highlighter(formatted_code, tokens, error.Semantic!);
     }
 
     const tokens = result.Ok!;
@@ -105,6 +117,13 @@ function syntax_error_highlighter(code: string, tokens: Array<Token>, error: Syn
 
     const error_message = `${error.reason} from position ${error.error_start} to ${error.error_end}`;
     return [highlighted, "Syntax", error_message];
+}
+
+function semantic_error_highlighter(code: string, tokens: Array<Token>, error: SyntaxError): [string, string, string] {
+    const highlighted = highlight_tokens(code, tokens, error.error_start, error.error_end);
+
+    const error_message = `${error.reason} from position ${error.error_start} to ${error.error_end}`;
+    return [highlighted, "Semantic", error_message];
 }
 
 function compiler_error(code: string, error: Error): [string, string, string] {

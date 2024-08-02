@@ -48,7 +48,7 @@
     height: 0;
     position: relative;
     right: 2.25rem;
-    opacity: 0.1;
+    opacity: 0.2;
 }
 
 .markdown ul {
@@ -73,5 +73,10 @@
 }
 
 .markdown blockquote {
-    color: red
+    color: red;
+}
+
+.two-column a {
+    color: #2563eb;
+    text-decoration: underline;
 }
