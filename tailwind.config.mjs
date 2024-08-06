@@ -20,9 +20,9 @@ export default {
             }
         },
         fontFamily: {
-            "mono": ["'Iosevka Fixed Web'", "Iosevka", "'Iosevka Nerd Font'", "monospace"],
-            "display": ["Outfit", "Inter", "sans-serif"],
-            "body": ["Inter", "sans-serif"],
+            "mono": "var(--font-code)",
+            "display": "var(--font-display)",
+            "body": "var(--font-body)",
         },
 	},
 	corePlugins: {

@@ -19,6 +19,10 @@
 
 :root {
     --c-thp: #f472b6;
+
+    --font-display: 'Atkinson Hyperlegible', sans-serif;
+    --font-body: 'Atkinson Hyperlegible', sans-serif;
+    --font-code: "Iosevka Fixed Web", "Iosevka Nerd Font", Iosevka, monospace;
 }
 
 :root {
@@ -64,7 +68,7 @@ html {
 }
 
 body {
-    font-family: Inter, 'Fira Sans', Inter, sans-serif;
+    font-family: var(--font-body);
 }
 
 @media only screen and (max-width: 600px) {
@@ -75,7 +79,7 @@ body {
 
 pre,
 code {
-    font-family: "Iosevka Fixed Web", "Iosevka Nerd Font", Iosevka, monospace;
+    font-family: var(--font-code);
 }
 
 .button-effect-receiver {

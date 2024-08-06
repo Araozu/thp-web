@@ -48,6 +48,13 @@ Int year_of_birth = 1984
 
 This means that if a variable only has a datatype, it is immutable.
 
+It is a compile error to declare a variable of a datatype,
+but use another.
+
+<Code thpcode={`
+// Declare the variable as a String, but use a Float as its value
+String capital = 123.456
+`} />
 
 
 ## Mutable variables
