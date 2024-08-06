@@ -11,19 +11,29 @@ To represent `null` we must use nullable types, represented
 by the question mark `?` character.
 
 For instance, a POST request may have a `username` parameter,
-or it may not. This can be represented with an `String?`.
+or it may not. This can be represented with an `?String`.
 
 <Code thpcode={`
-String? new_username = POST::get("username")
+?String new_username = POST::get("username")
 `} />
 
-When we have a `Type?` we cannot use it directly. We must first
+When we have a `?Type` we cannot use it directly. We must first
 check if the value is null, and then use it.
 
+The syntax `?` returns `true` if the value is not null.
+
 <Code thpcode={`
-if new_username != null {
+if new_username?
+{
     // Here \`new_username\` is automatically casted to String
 }
+
+// you can also manually check for null
+if new_username == null
+{
+    // This is the same as above
+}
+
 `} />
 
 We must check explicitly that the value is not null. Doing
@@ -36,24 +46,24 @@ To create a nullable type we must explicitly annotate the type.
 <Code thpcode={`
 val favorite_color = null      // Error, we must define the type
 
-String? favorite_color = null  // Ok
+?String favorite_color = null  // Ok
 `} /> 
 
 Other examples:
 
 <Code thpcode={`
-fun get_first(Array[String?] values) -> String? {}
+fun get_first(Array[?String] values) -> ?String {}
 
 val result = get_first([])
 `} />
 
 ## Optional chaining
 
-If you have a `Type?` and you wish to access a field of `Type` if it exists,
-you can use the optional chaining operator.
+If you have a `?Type` and you wish to access a field of `Type` if it exists,
+you can use the optional chaining operator `?.`.
 
 <Code thpcode={`
-Person? person = ...
+?Person person = ...
 
 val name = person?.name
 `} />
@@ -62,13 +72,41 @@ val name = person?.name
 - If `person` is not null, `person?.name` will return `name`
 
 
+## Null unboxing
+
+The `!!` operator transforms a `?Type` into `Type`.
+
+If you are sure that a value cannot be `null`, you can force the
+compiler to treat it as a regular value with the `!!` operator.
+Note the two exclamation marks.
+
+<Code thpcode={`
+?String lastname = find_lastname()
+
+// Tell the compiler trust me,
+// I know this is not null
+String s = lastname!!
+`} />
+
+You can use it to chain access:
+
+<Code thpcode={`
+val children_lastname = person!!.child!!.lastname
+`} />
+
+However, if at runtime you use `!!` on a null value,
+the null value will be returned and your program will
+blow up later. So make sure to use this operator
+only when you are sure a value cannot be null.
+
+
 ## Elvis operator
 
 The Elvis operator `??` is used to give a default value in case a `null` is found.
 
 <Code thpcode={`
 // This is a function that may return a Int
-fun get_score() -> Int? {...}
+fun get_score() -> ?Int {...}
 
 val test_score = get_score() ?? 0
 `} />

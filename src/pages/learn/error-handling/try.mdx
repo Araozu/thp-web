@@ -12,14 +12,14 @@ and handled.
 
 ## Declare that a function returns an exception
 
-To declare a possible error return value the `Result` enum
-is used.
+Possible errors have their own syntax: `Error!Type`.
+This means: This may be an `Error`, or a `Type`.
 
 For example, a function that returned a `DivisionByZero`
 may be written like this:
 
 <Code thpcode={`
-fun invert(Int number) -> Int!DivisionByZero
+fun invert(Int number) -> DivisionByZero!Int
 {
     if number == 0
     {
@@ -30,25 +30,22 @@ fun invert(Int number) -> Int!DivisionByZero
 }
 `} />
 
-In the previous segment, `Int!DivisionByZero` denotates
-that the function may return either an `Int` or an `DivisionByZero`.
+In the previous segment, `DivisionByZero!Int` denotates
+that the function may return either a `DivisionByZero` error
+or an `Int`.
 
-We then can return the error or success value;
+There is no `throw` keyword, errors are just returned.
 
 
 ### Multiple error returns
 
-TODO: fix?
+TODO: properly define syntax, how this interacts with type unions.
 
-
-
-If there are multiple error types that the function can return,
-you can use the `|` operator:
+Multiple errors are chained with `!`. The last one is always
+the success value.
 
 <Code thpcode={`
-type Exceptions = Exception1 | Exception2 | Exception3
-
-fun sample() -> Int!Exceptions
+fun sample() -> Error1!Error2!Error3!Int
 { /* ... */}
 `} />
 
@@ -68,13 +65,13 @@ Use a naked `try` when you want to rethrow an error, if there is any.
 
 <InteractiveCode 
     code={`
-    fun dangerous() -> Int!Exception
+    fun dangerous() -> Exception!Int
     {   // May throw randomly
         return if Math.random() < 0.5 { 50 }
         else { Exception("Unlucky") }
     }
 
-    fun run() -> !Exception
+    fun run() -> Exception!
     {   // If \`dangerous()\` throws, the function exits with the same error.
         // Otherwise, continues
         val result = try dangerous()
@@ -156,7 +153,7 @@ Try/else will assign a new value if an expression fails.
 
 <InteractiveCode
     code={`
-    fun run(Int!Exception possible_value)
+    fun run(Exception!Int possible_value)
     {
         val mid = try possible_value else 666
 
