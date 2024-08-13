@@ -1,6 +1,12 @@
 import { spawn } from "node:child_process";
 import { leftTrimDedent } from "../components/utils";
 
+export type ReferenceItem = {
+    symbol_start: number
+    symbol_end: number
+    reference: string
+}
+
 export interface Token {
     token_type: TokenType
     value: string
@@ -55,13 +61,13 @@ export interface SemanticError {
 }
 
 export interface TokenizeResult {
-    Ok?: Token[],
+    Ok?: [Array<Token>, Array<ReferenceItem>],
     SyntaxOnly?: [Token[], Err],
     TokensOnly?: [Token[], Err],
     Err?: Err,
 }
 
-const error_classes = "underline decoration-wavy decoration-red-500";
+const error_classes = "underline underline-offset-4 decoration-wavy decoration-red-500";
 
 export async function native_highlighter(code: string): Promise<[string, string, string | null]> {
     let formatted_code = leftTrimDedent(code).join("\n");
@@ -85,7 +91,12 @@ export async function native_highlighter(code: string): Promise<[string, string,
         return semantic_error_highlighter(formatted_code, tokens, error.Semantic!);
     }
 
-    const tokens = result.Ok!;
+    const tokens = result.Ok! as unknown as Array<Token>;
+    // TODO: this is disable because the compiler has not
+    // implemented this feature yet
+    // const [tokens, references] = result.Ok!;
+    // console.log("refs:");
+    // console.log(references);
 
     const output = highlight_tokens(formatted_code, tokens);
 
@@ -107,22 +118,25 @@ function lex_error_highlighter(code: string, error: LexError): [string, string, 
     const token = `<span class="token ${error_classes}">${err_str}</span>`;
 
     const all = `${before_err}${token}${after_err}`;
+    const [error_line, error_column] = absolute_to_line_column(code, error.position);
 
     // TODO: Transform absolute posijion (error.position) into line:column
-    return [all, "Lexical", error.reason + " at position " + error.position]
+    return [all, "Lexical", error.reason + ` at line ${error_line}:${error_column} `]
 }
 
 function syntax_error_highlighter(code: string, tokens: Array<Token>, error: SyntaxError): [string, string, string] {
     const highlighted = highlight_tokens(code, tokens, error.error_start, error.error_end);
+    const [error_line, error_column] = absolute_to_line_column(code, error.error_start);
 
-    const error_message = `${error.reason} from position ${error.error_start} to ${error.error_end}`;
+    const error_message = `${error.reason} at line ${error_line}:${error_column}`;
     return [highlighted, "Syntax", error_message];
 }
 
 function semantic_error_highlighter(code: string, tokens: Array<Token>, error: SyntaxError): [string, string, string] {
     const highlighted = highlight_tokens(code, tokens, error.error_start, error.error_end);
+    const [error_line, error_column] = absolute_to_line_column(code, error.error_start);
 
-    const error_message = `${error.reason} from position ${error.error_start} to ${error.error_end}`;
+    const error_message = `${error.reason} at line ${error_line}:${error_column}`;
     return [highlighted, "Semantic", error_message];
 }
 
@@ -149,7 +163,7 @@ function highlight_tokens(input: string, tokens: Array<Token>, error_start = -1,
         const token_start = t.position;
         const token_end = t.position + t.value.length;
 
-        let is_errored = (token_start == error_start);
+        let is_errored = (token_start >= error_start && token_end <= error_end);
 
         // Some tokens require processing (like multiline comments)
 
@@ -170,6 +184,33 @@ function highlight_tokens(input: string, tokens: Array<Token>, error_start = -1,
     }
 
     return output;
+}
+
+/**
+ * Transform an absolute position in source code to a line:column combination.
+ * 
+ * Both line and column are 1-based
+ * 
+ * @param input the source code
+ * @param absolute the absolute position
+ */
+function absolute_to_line_column(input: string, absolute: number): [number, number] {
+    let line_count = 1;
+    let last_newline_pos = 0;
+
+    // Count lines
+    for (let i = 0; i < input.length; i += 1) {
+        if (i === absolute) {
+            break;
+        }
+
+        if (input[i] === "\n") {
+            line_count += 1;
+            last_newline_pos = i;
+        }
+    }
+
+    return [line_count, absolute - last_newline_pos];
 }
 
 /**
