@@ -58,3 +58,7 @@ function trimWhitespace(input: string, count: number): string {
     }
 }
 
+export function splitAndLast(s: string): string {
+    const segments = s.split("/");
+    return segments[segments.length - 1]!;
+}

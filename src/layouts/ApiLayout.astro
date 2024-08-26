@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar.astro";
 import BaseLayout from "./BaseLayout.astro";
 import TOC from "../components/TOC.astro";
 import Sidebar from "../components/ApiLayout/Sidebar.astro";
+import { splitAndLast } from "../components/utils";
 
 const { headings } = Astro.props;
 
@@ -21,7 +22,7 @@ const posts: Posts = await Astro.glob("../pages/api/std/**/*.{md,mdx}");
 
 export type Hierarchy = {
     posts: Array<Post>;
-    children: Record<string, Hierarchy>;
+    children: Record<string, [Post | null, Hierarchy]>;
 };
 
 function createHierarchy(posts: Posts): Hierarchy {
@@ -57,13 +58,17 @@ function createHierarchy(posts: Posts): Hierarchy {
             // check if folder exists, create otherwise
             if (!hierarchy.children[folderName]) {
                 // create if doesnt exist
-                hierarchy.children[folderName] = {
-                    posts: [],
-                    children: {},
-                };
+                hierarchy.children[folderName] = [
+                    null,
+                    {
+                        posts: [],
+                        children: {},
+                    },
+                ];
             }
 
-            currentHierarchy = hierarchy.children[folderName];
+            const [_, childrenHierarchy] = hierarchy.children[folderName]!;
+            currentHierarchy = childrenHierarchy;
         }
 
         // add the page
@@ -73,7 +78,32 @@ function createHierarchy(posts: Posts): Hierarchy {
     return hierarchy;
 }
 
-const hierarchy = createHierarchy(posts);
+function normalizeHierarchy(h: Hierarchy): Hierarchy {
+    let posts = h.posts;
+    for (const folderName in h.children) {
+        // search if there is a post with the same name
+        // as the folder
+        const postIdx = h.posts.findIndex(
+            (post) => splitAndLast(post.url) === folderName,
+        );
+
+        if (postIdx !== -1) {
+            const post = h.posts[postIdx]!;
+            h.children[folderName]![0] = post;
+            posts.splice(postIdx, 1);
+        }
+    }
+
+    // do the same to all children
+    // TODO
+
+    return {
+        children: h.children,
+        posts,
+    };
+}
+
+const hierarchy = normalizeHierarchy(createHierarchy(posts));
 ---
 
 <BaseLayout>
