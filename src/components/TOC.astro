@@ -25,6 +25,7 @@ function buildHierarchy(headings: any) {
             parentHeadings.get(heading.depth - 1).subheadings.push(heading);
         }
     });
+
     return toc;
 }
 ---

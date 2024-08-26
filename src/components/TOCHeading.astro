@@ -1,17 +1,22 @@
 ---
 // github.com/rezahedi/rezahedi.dev/blob/main/src/components/TOCHeading.astro
-const { heading } = Astro.props;
+const { heading, parentMono } = Astro.props;
+
+// If a heading starts with `API: `
+// then its children should be rendered with a mono font
+const isMono = heading.text.startsWith("API: ");
+const monoClass = parentMono? " font-mono" : "";
 ---
 
 <li>
-    <a class="inline-block py-1 hover:underline" href={"#" + heading.slug}>
+    <a class={"inline-block py-1 hover:underline" + monoClass} href={"#" + heading.slug}>
         {heading.text}
     </a>
     {
         heading.subheadings.length > 0 && (
             <ul class="px-2">
                 {heading.subheadings.map((subheading: any) => (
-                    <Astro.self heading={subheading} />
+                    <Astro.self heading={subheading} parentMono={isMono} />
                 ))}
             </ul>
         )

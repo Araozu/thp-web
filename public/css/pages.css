@@ -1,5 +1,5 @@
 
-.markdown h1 {
+.markdown > h1 {
     font-size: 2.25rem;
     line-height: 2.5rem;
     margin-bottom: 1rem;
@@ -8,9 +8,10 @@
     opacity: 0.9;
     font-weight: 700;
     color: var(--c-text-2);
+    scroll-margin-top: 50px;
 }
 
-.markdown h2 {
+.markdown > h2 {
     /* use these tailwind classes: text-2xl mt-10 mb-4 font-display opacity-90 font-bold text-c-text-2 */
     font-size: 1.5rem;
     line-height: 2rem;
@@ -20,9 +21,10 @@
     opacity: 0.9;
     font-weight: 600;
     color: var(--c-text-2);
+    scroll-margin-top: 5rem;
 }
 
-.markdown h2::before {
+.markdown > h2::before {
     content: "#";
     display: block;
     height: 0;
@@ -31,7 +33,12 @@
     opacity: 0.2;
 }
 
-.markdown h3 {
+.markdown > h2:target::before {
+    color: var(--c-thp);
+    opacity: 1;
+}
+
+.markdown > h3 {
     font-size: 1.35rem;
     line-height: 1.75rem;
     margin-bottom: 1rem;
@@ -40,15 +47,21 @@
     opacity: 0.9;
     font-weight: 400;
     color: var(--c-text-2);
+    scroll-margin-top: 5rem;
 }
 
-.markdown h3::before {
+.markdown > h3::before {
     content: "##";
     display: block;
     height: 0;
     position: relative;
     right: 2.25rem;
     opacity: 0.2;
+}
+
+.markdown > h3:target::before {
+    color: var(--c-thp);
+    opacity: 1;
 }
 
 .markdown ul {
@@ -60,7 +73,7 @@
     padding: 0.5rem 0;
 }
 
-.markdown > p > code {
+.markdown p > code {
     border: solid 1px var(--c-border-1);
 }
 
@@ -83,4 +96,10 @@
 .two-column a {
     color: #2563eb;
     text-decoration: underline;
+    display: inline-block;
 }
+
+.two-column h3 {
+    margin: 0.75rem 0;
+}
+
