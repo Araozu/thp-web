@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import { leftTrimDedent } from "../components/utils";
 import { HighlightLevel } from "./types";
-import type { LexError, SyntaxError, SemanticError, Token, TokenizeResult, TokenType } from "./types";
+import type { LexError, SyntaxError, Token, TokenizeResult, TokenType } from "./types";
 
 const error_classes = "underline underline-offset-4 decoration-wavy decoration-red-500";
 

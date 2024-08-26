@@ -10,22 +10,29 @@ import Code from "../../../components/Code.astro"
 
 ```ebnf
 Int = hexadecimal_number
+    | octal_number
+    | binary_number
     | decimal_number
 
 hexadecimal_number = "0", ("x" | "X"), hexadecimal_digit+
 decimal_number     = decimal_digit+
+octal_number       = "0", ("o" | "O"), octal_digit+
+binary_number      = "0", "b", binary_digit +
 ```
 
 <Code thpcode={`
 12345
 01234   // This is a decimal number, not an octal number
+0o755   // This is octal
+0b0110
 0xff25
 0XFfaA
 `} />
 
-`TODO`: Implement octal `0o777` and binary `0b0110`.
-
 `TODO`: Allow underscores `_` between any number: `1_000_000`.
+
+`TODO`: Make it an error to have a number start with a leading zero,
+to eliminate confusion with proper octal and legacy PHP octal.
 
 
 ## Float
