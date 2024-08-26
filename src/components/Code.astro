@@ -1,10 +1,11 @@
 ---
 import { native_highlighter } from "../lexer/highlighter";
+import type { HighlightLevel } from "../lexer/types";
 import CodeError from "./docs/CodeError.astro";
 
-const { thpcode, no_warnings } = Astro.props;
+const { thpcode, no_warnings, level } = Astro.props;
 
-const [native_html, error_type, error_message] = await native_highlighter(thpcode);
+const [native_html, error_type, error_message] = await native_highlighter(thpcode, level as HighlightLevel);
 ---
 
 <pre

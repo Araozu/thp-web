@@ -1,105 +1,54 @@
 import { spawn } from "node:child_process";
 import { leftTrimDedent } from "../components/utils";
-
-export type ReferenceItem = {
-    symbol_start: number
-    symbol_end: number
-    reference: string
-}
-
-export interface Token {
-    token_type: TokenType
-    value: string
-    position: number
-}
-
-type TokenType =
-    "Identifier" |
-    "Datatype" |
-    "Int" |
-    "Float" |
-    "String" |
-    "Operator" |
-    "LeftParen" |
-    "RightParen" |
-    "LeftBracket" |
-    "RightBracket" |
-    "LeftBrace" |
-    "RightBrace" |
-    "NewLine" |
-    "Comment" |
-    "MultilineComment" |
-    "Comma" |
-    "INDENT" |
-    "DEDENT" |
-    "VAL" |
-    "VAR" |
-    "EOF" |
-    "FUN";
-
-export interface Err {
-    Lex?: LexError
-    Syntax?: SyntaxError
-    Semantic?: SemanticError
-}
-
-export interface LexError {
-    position: number
-    reason: string
-}
-
-export interface SyntaxError {
-    error_start: number
-    error_end: number
-    reason: string
-}
-
-export interface SemanticError {
-    error_start: number
-    error_end: number
-    reason: string
-}
-
-export interface TokenizeResult {
-    Ok?: [Array<Token>, Array<ReferenceItem>],
-    SyntaxOnly?: [Token[], Err],
-    TokensOnly?: [Token[], Err],
-    Err?: Err,
-}
+import { HighlightLevel } from "./types";
+import type { LexError, SyntaxError, SemanticError, Token, TokenizeResult, TokenType } from "./types";
 
 const error_classes = "underline underline-offset-4 decoration-wavy decoration-red-500";
 
-export async function native_highlighter(code: string): Promise<[string, string, string | null]> {
+export async function native_highlighter(code: string, level = HighlightLevel.Lexic): Promise<[string, string, string | null]> {
     let formatted_code = leftTrimDedent(code).join("\n");
 
-    let result: TokenizeResult;
     try {
-        result = await native_lex(formatted_code);
+        let result = await native_lex(formatted_code);
+        return highlight_syntax(formatted_code, result, level);
     } catch (error) {
         return compiler_error(formatted_code, error as Error);
     }
+}
 
-    if (result.Err) {
-        return lex_error_highlighter(formatted_code, result.Err!.Lex!);
+function highlight_syntax(code: string, result: TokenizeResult, level: HighlightLevel): [string, string, string | null] {
+    let tokens_final: Array<Token>;
+
+    if (result.SemanticError) {
+        const [tokens, semanticError] = result.SemanticError;
+
+        if (level === HighlightLevel.Semantic) {
+            return semantic_error_highlighter(code, tokens, semanticError.Semantic!);
+        } else {
+            tokens_final = tokens;
+        }
+    } else if (result.SyntaxError) {
+        const [tokens, syntaxError] = result.SyntaxError;
+
+        if (level === HighlightLevel.Semantic || level === HighlightLevel.Syntactic) {
+            return syntax_error_highlighter(code, tokens, syntaxError.Syntax!);
+        } else {
+            tokens_final = tokens;
+        }
+    } else if (result.LexError) {
+        // There is no error level that bypasses a lex error
+        return lex_error_highlighter(code, result.LexError!.Lex!);
+    } else if (result.Ok) {
+        tokens_final = result.Ok;
+    } else {
+        console.error(result);
+        throw new Error("Web page error: The compiler returned a case that wasn't handled.");
     }
-    else if (result.TokensOnly) {
-        const [tokens, error] = result.TokensOnly!;
-        return syntax_error_highlighter(formatted_code, tokens, error.Syntax!);
-    }
-    else if (result.SyntaxOnly) {
-        const [tokens, error] = result.SyntaxOnly!;
-        return semantic_error_highlighter(formatted_code, tokens, error.Semantic!);
-    }
 
-    const tokens = result.Ok! as unknown as Array<Token>;
-    // TODO: this is disable because the compiler has not
-    // implemented this feature yet
-    // const [tokens, references] = result.Ok!;
-    // console.log("refs:");
-    // console.log(references);
+    // At this point all error cases have been handled
+    // and tokens_final contains valid tokens.
 
-    const output = highlight_tokens(formatted_code, tokens);
-
+    const output = highlight_tokens(code, tokens_final);
     return [output, "", null];
 }
 
