@@ -4,11 +4,19 @@ import { splitAndLast } from "../utils";
 
 const hierarchy: Hierarchy = Astro.props.hierarchy;
 
-export function postComparison(a: Post, b: Post): number {
+function postComparison(a: Post, b: Post): number {
     const s1 = splitAndLast(a.url);
     const s2 = splitAndLast(b.url);
 
     return s1 > s2 ? 0 : 1;
+}
+
+function appendSlash(s: string): string {
+    if (s.endsWith("/")) {
+        return s;
+    } else {
+        return s + "/";
+    }
 }
 ---
 
@@ -19,7 +27,7 @@ export function postComparison(a: Post, b: Post): number {
                 {folderPost !== null ? (
                     <a
                         class="inline-block rounded-2xl w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-2"
-                        href={folderPost.url}
+                        href={appendSlash(folderPost.url)}
                     >
                         {splitAndLast(folderPost.url)}
                     </a>
@@ -42,7 +50,7 @@ export function postComparison(a: Post, b: Post): number {
     hierarchy.posts.sort(postComparison).map((p) => (
         <a
             class="inline-block rounded-2xl w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-2"
-            href={p.url}
+            href={appendSlash(p.url)}
         >
             {splitAndLast(p.url)}
         </a>
