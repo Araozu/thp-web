@@ -2,8 +2,78 @@
 import Navbar from "../components/Navbar.astro";
 import BaseLayout from "./BaseLayout.astro";
 import TOC from "../components/TOC.astro";
+import Sidebar from "../components/ApiLayout/Sidebar.astro";
 
 const { headings } = Astro.props;
+
+export type Post = {
+    frontmatter: any;
+    getHeadings: any;
+    url: string;
+    file: any;
+    Content: any;
+    default: any;
+};
+type Posts = Array<Readonly<Post>>;
+
+const basePath = "/api/std";
+const posts: Posts = await Astro.glob("../pages/api/std/**/*.{md,mdx}");
+
+export type Hierarchy = {
+    posts: Array<Post>;
+    children: Record<string, Hierarchy>;
+};
+
+function createHierarchy(posts: Posts): Hierarchy {
+    const hierarchy: Hierarchy = {
+        posts: [],
+        children: {},
+    };
+
+    for (const post of posts) {
+        const postUrl: string = post.url;
+        const urlAfterBase = postUrl.split(basePath)[1] ?? "";
+
+        // handle / (index)
+        if (urlAfterBase === "") {
+            hierarchy.posts.push(post);
+            continue;
+        }
+
+        const urlSegments = urlAfterBase.split("/").slice(1);
+
+        // top level urls
+        if (urlSegments.length === 1) {
+            hierarchy.posts.push(post);
+            continue;
+        }
+
+        // folders
+        const folders = urlSegments.slice(0, -1);
+
+        // traverse the hierarchy until the neccesary hierarchy is found
+        let currentHierarchy = hierarchy;
+        for (const folderName of folders) {
+            // check if folder exists, create otherwise
+            if (!hierarchy.children[folderName]) {
+                // create if doesnt exist
+                hierarchy.children[folderName] = {
+                    posts: [],
+                    children: {},
+                };
+            }
+
+            currentHierarchy = hierarchy.children[folderName];
+        }
+
+        // add the page
+        currentHierarchy.posts.push(post);
+    }
+
+    return hierarchy;
+}
+
+const hierarchy = createHierarchy(posts);
 ---
 
 <BaseLayout>
@@ -16,7 +86,7 @@ const { headings } = Astro.props;
                 border-c-border-1 -translate-x-64 lg:translate-x-0 transition-transform"
         >
             <nav class="py-4 pr-2 overflow-x-scroll h-[calc(100vh-3rem)]">
-                <a href="/">Home page</a>
+                <Sidebar hierarchy={hierarchy} />
             </nav>
         </div>
 
@@ -39,4 +109,10 @@ const { headings } = Astro.props;
             </nav>
         </div>
     </div>
+
+    <script>
+        import { sidebarHighlight } from "./utils";
+        // Highlight the current url of the sidebar
+        document.addEventListener("DOMContentLoaded", sidebarHighlight);
+    </script>
 </BaseLayout>

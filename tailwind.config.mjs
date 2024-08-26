@@ -9,7 +9,7 @@ export default {
                 "c-text": "var(--c-text)",
                 "c-text-2": "var(--c-text-2)",
                 "c-purple": "var(--c-purple)",
-                "c-border-1": "rgba(150,150,150,0.25)",
+                "c-border-1": "var(--c-border-1)",
                 "c-purple-light": "var(--c-purple-light)",
                 "c-box-shadow": "var(--c-box-shadow)",
                 "c-ping": "var(--c-pink)",
