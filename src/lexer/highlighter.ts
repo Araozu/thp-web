@@ -5,7 +5,7 @@ import type { LexError, SyntaxError, Token, TokenizeResult, TokenType } from "./
 
 const error_classes = "underline underline-offset-4 decoration-wavy decoration-red-500";
 
-export async function native_highlighter(code: string, level = HighlightLevel.Lexic): Promise<[string, string, string | null]> {
+export async function native_highlighter(code: string, level = HighlightLevel.Syntactic): Promise<[string, string, string | null]> {
     let formatted_code = leftTrimDedent(code).join("\n");
 
     try {
@@ -193,7 +193,7 @@ function process_token_value_and_end(value: string, token_type: TokenType, first
 function translate_token_type(tt: TokenType, value: string): string {
     const keywords = ["throws", "extends", "constructor", "case", "static", "const",
         "enum", "union", "loop", "use", "break", "catch", "continue", "as", "do",
-        "else", "finally", "for", "fun", "if", "in", "fn", "nil", "return", "throw",
+        "finally", "for", "fun", "in", "fn", "nil", "return", "throw",
         "try", "while", "type", "match", "with", "of", "abstract", "class", "interface",
         "private", "protected", "pub", "override", "open", "init", "val", "var", "mut", "clone"];
 
@@ -220,6 +220,8 @@ function translate_token_type(tt: TokenType, value: string): string {
         case "VAL":
         case "VAR":
         case "FUN":
+        case "IF":
+        case "ELSE":
             return "keyword";
         default:
             return tt;

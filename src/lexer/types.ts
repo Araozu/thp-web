@@ -32,7 +32,9 @@ export type TokenType =
     "VAL" |
     "VAR" |
     "EOF" |
-    "FUN";
+    "FUN" |
+    "IF" |
+    "ELSE";
 
 export interface Err {
     Lex?: LexError
