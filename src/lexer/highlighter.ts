@@ -191,10 +191,10 @@ function process_token_value_and_end(value: string, token_type: TokenType, first
 }
 
 function translate_token_type(tt: TokenType, value: string): string {
-    const keywords = ["throws", "extends", "constructor", "case", "static", "const",
-        "enum", "union", "loop", "use", "break", "catch", "continue", "as", "do",
-        "finally", "for", "fun", "in", "fn", "nil", "return", "throw",
-        "try", "while", "type", "match", "with", "of", "abstract", "class", "interface",
+    const keywords = ["throws", "extends", "constructor", "static", "const",
+        "enum", "union", "use", "break", "catch", "continue", "as", "do",
+        "finally", "fun", "fn", "nil", "return", "throw",
+        "try", "type", "with", "of", "abstract", "class", "interface",
         "private", "protected", "pub", "override", "open", "init", "val", "var", "mut", "clone"];
 
     switch (tt) {
@@ -222,6 +222,12 @@ function translate_token_type(tt: TokenType, value: string): string {
         case "FUN":
         case "IF":
         case "ELSE":
+        case "FOR":
+        case "IN":
+        case "WHILE":
+        case "LOOP":
+        case "MATCH":
+        case "CASE":
             return "keyword";
         default:
             return tt;

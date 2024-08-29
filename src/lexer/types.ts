@@ -11,30 +11,37 @@ export interface Token {
 }
 
 export type TokenType =
-    "Identifier" |
-    "Datatype" |
-    "Int" |
-    "Float" |
-    "String" |
-    "Operator" |
-    "LeftParen" |
-    "RightParen" |
-    "LeftBracket" |
-    "RightBracket" |
-    "LeftBrace" |
-    "RightBrace" |
-    "NewLine" |
-    "Comment" |
-    "MultilineComment" |
-    "Comma" |
-    "INDENT" |
-    "DEDENT" |
-    "VAL" |
-    "VAR" |
-    "EOF" |
-    "FUN" |
-    "IF" |
-    "ELSE";
+    | "Identifier"
+    | "Datatype"
+    | "Int"
+    | "Float"
+    | "String"
+    | "Operator"
+    | "LeftParen"
+    | "RightParen"
+    | "LeftBracket"
+    | "RightBracket"
+    | "LeftBrace"
+    | "RightBrace"
+    | "NewLine"
+    | "Comment"
+    | "MultilineComment"
+    | "Comma"
+    | "INDENT"
+    | "DEDENT"
+    | "VAL"
+    | "VAR"
+    | "EOF"
+    | "FUN"
+    | "IF"
+    | "ELSE"
+    | "ELSE"
+    | "FOR"
+    | "IN"
+    | "WHILE"
+    | "MATCH"
+    | "CASE"
+    ;
 
 export interface Err {
     Lex?: LexError

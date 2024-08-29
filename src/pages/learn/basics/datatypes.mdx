@@ -60,6 +60,16 @@ Strings have interpolation with `{}`.
 print("Hello, {name}")      // Hello, Rose
 `} />
 
+Unlike PHP, THP strings are concatenated with `++`, not with `.`.
+This new operator implicitly converts any operator into a string.
+
+<Code thpcode={`
+val name = "John" ++ " " ++ "Doe"
+val greeting = "My name is " ++ name ++ " and I'm " ++ 32 ++ " years old"
+`} />
+
+The plus operator `+` is reserved for numbers.
+
 
 ## Bool
 

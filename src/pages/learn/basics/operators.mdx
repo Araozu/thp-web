@@ -71,18 +71,16 @@ number xand 1
 
 ## Strings
 
-TBD.
-
-Strings **do not use `.`** for concatenation. They use `+`.
+Strings **do not use `.`** for concatenation. They use `++`.
 
 <Code thpcode={`
-"Hello " + "world."
+"Hello " ++ "world."
 `} />
 
-However, the plus operator `+` does not implicitly convert types.
+This new operator **implicitly converts** types to string
 
 <Code thpcode={`
-"Hello " + 322      // This is an error
+"Hello " ++ 322      // 322 will be converted to "322"
 `} />
 
 

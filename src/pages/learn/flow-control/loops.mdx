@@ -8,14 +8,16 @@ import Code from "../../../components/Code.astro"
 
 ## For loop
 
-This is simmilar to PHP's `foreach`. There is no equivalent to PHP's `for`.
+THP loops are similar to PHP's `foreach`. There is no equivalent to PHP's `for`.
 
 Braces are required.
+
+### Loop over values
 
 <Code thpcode={`
 val numbers = [0, 1, 2, 3]
 
-for #(index, number) in numbers
+for number in numbers
 {
     print(number)
 }
@@ -28,12 +30,36 @@ val dict = .{
     cherries: 3,
 }
 
-for #(key, value) in dict
+for value in dict
+{
+    print("{value}")
+}
+`} />
+
+
+### Loop over keys and values
+
+<Code thpcode={`
+val numbers = [0, 1, 2, 3]
+
+for index, number in numbers
+{
+    print("{index} : {number}")
+}
+`} />
+
+<Code thpcode={`
+val dict = .{
+    apple: 10,
+    banana: 7,
+    cherries: 3,
+}
+
+for key, value in dict
 {
     print("{key} => {value}")
 }
 `} />
-
 
 
 ## While loop
@@ -50,24 +76,9 @@ while index < colors.size()
 `} />
 
 
-## Infinite loop
-
-Instead of doing `while true {}` use `loop`.
-
-<Code thpcode={`
-loop
-{
-    print("looping")
-
-    if condition
-    {
-        break
-    }
-}
-`} />
-
-
 ## Labelled loops
+
+TBD
 
 You can give labels to loops, allowing you to `break` and `continue` in nested loops.
 
