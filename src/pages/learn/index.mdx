@@ -78,60 +78,76 @@ This page details the main design desitions of the language,
 if you want to install THP go to the [installation guide](install)
 
 
-## Interactive execution
+## Why?
 
-The documentation contains snippets of interactive THP code, like this:
+PHP is an old language. It has been growing since 1995, adopting a
+lot of features from many places like C, Perl, Java, etc. This was
+done in a very inconsistent way, as detailed by Eevee in their article 
+[PHP: a fractal of bad design.](https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/)
 
-<InteractiveCode 
-    code={`
-    val x = "android"
-    var y = 17
+Along the years PHP has been improving. PHP added classes, exceptions,
+interfaces, traits, type hints and checks, functional features,
+reflection, etc., etc. However, by building on top of the existing
+language without a clear design philosophy, and by keeping backwards
+compatibility, we ended up with a messy language. The article
+above goes into detail about this.
 
-    fun f(Int a, Int b) {
-        print("hello, {a} {b}")
-    }
+In spite of this, PHP has remained widely used and loved, in a
+weird way (I'd say in the same way that people love JavaScript),
+and at the time of writing PHP 8.3 is available. However,
+PHP is to my eyes fundamentally flawed, and cannot get up to
+date without completely breaking what came before.
 
-    f(x, y)
-    `}
-    steps={`
-    step {line 1}
-    step {
-        line 2
-        set "String x" "\\"android\\""
-    }
-    step {
-        line 8
-        set "Int y" "17"
-    }
-    step {line 4}
-    step {line 5}
-    step {
-        out "hello, android 17"
-        line 6
-    }
-    step {line 8}
-    step {line 0}
-    `}
-></InteractiveCode>
+This is where THP comes in. I wanted a modern language
+that could run in the same environment that PHP does.
+And I quickly realized that building on top of PHP
+in the same way that TypeScript did for JavaScript would be
+detrimental. It would be better to create a completely new
+language, treat PHP source code as a "low level" compilation
+target, and focus entirely on the new language.
 
-Use the `Step` and `Reset` buttons to emulate the execution of a
-THP program!
+This new language would be mainly inspired by what **I** consider the best
+designed languages out there: Rust as a baseline, Zig for
+its null and error handling and Kotlin for its OOP features.
+In a way, PHP will be adapted to, say, Rust's syntax and semantics,
+instead of having Rust adapt to PHP.
+
+In pursue of this THP **will** ditch many things about PHP,
+in name of consistency. These are things that PHP devs are
+used to doing, but that I consider bad practices, hacks or
+workarounds. One example of this are variable variables on PHP:
+`$$variable`.
+
+Another critical point of THP is type safety. It is a goal
+to approach the same level of type safety that have compiled
+languages like Java/Go/Rust, and leave aside dynamic typing
+as much as possible. Types cannot be turned off, you cannot
+use `Any` to avoid typechecking, and so on.
+
+Finally, there are some additions to the language that I consider
+essential today: A good, unified LSP, type definitions,
+accesible documentation, an opinionated code formatter
+and plugins for major editors like VSCode and Neovim.
+
+
+
+
 
 ## Goals
 
-- Bring static typing to PHP: Generics, type checks at compile and runtime.
+- Bring static typing to PHP: Generics, type checks at compile and runtime, etc.
 - Reduce implicit type conversion to a minimum.
 - Remove the inconsistencies in the language.
 - Organize the PHP stdlib.
-- Have clear distinctions between Arrays, Tuples, Maps and Sets.
+- Have a clear distinctions between Arrays, Tuples, Maps and Sets.
 - Implement Union types
 - Create a **consistent** language.
 - Have typings for popular libraries (like TS's `.d.ts`).
-- Have a simple instalation and configuration (requiring just Composer).
-- Ship a fast, native binary (written in Rust) (why use PHP when we can go **_blazingly fast_**?).
+- Have a simple instalation and configuration (requiring just Composer or a binary).
+- Ship a **_blazingly fast_**, native binary, written in Rust.
 - Support in-place compilation.
-- Implement an LSP server.
-- Implement a formatter.
+- Implement a Language Server.
+- Implement an opinionated code formatter.
 
 
 ## Not goals
