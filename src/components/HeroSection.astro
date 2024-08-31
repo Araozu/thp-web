@@ -1,11 +1,8 @@
 ---
+import { HighlightLevel } from "../lexer/types";
 import CodeEditor from "./CodeEditor.astro";
 
-const { title, thpcode, subtitle } = Astro.props;
-
-if (!subtitle) {
-    throw new Error("subtitle is required");
-}
+const { title, thpcode } = Astro.props;
 
 if (!thpcode) {
     throw new Error("thpcode is required");
@@ -17,20 +14,26 @@ if (!title) {
 ---
 
 <div>
-    <div class="bg-c-thp text-c-bg">
-        <h1 class="container mx-auto font-medium py-8 text-3xl font-display">
-            {subtitle} <span class="font-black">{title}</span>
+    <div
+        class="md:bg-c-thp md:text-c-bg text-c-thp border-t-4 border-b-4 border-c-thp"
+    >
+        <h1
+            class="container mx-auto font-medium md:py-8 py-4 px-4 md:text-3xl text-2xl font-display"
+        >
+            ✅ <span class="font-black">{title}</span>
         </h1>
     </div>
 
     <div class="container mx-auto lg:grid lg:grid-cols-2 gap-4">
-        <div class="px-8 py-12 flex h-full items-center">
+        <div class="md:px-8 md:py-12 px-4 pt-6 flex h-full items-center">
             <div>
                 <slot />
             </div>
         </div>
-        <div>
-            <CodeEditor thpcode={thpcode} no_warnings={true} />
-        </div>
+        <CodeEditor
+            thpcode={thpcode}
+            no_warnings={true}
+            level={HighlightLevel.Lexic}
+        />
     </div>
 </div>

@@ -4,18 +4,16 @@ import Navbar from "../components/Navbar.astro";
 import HeroSection from "../components/HeroSection.astro";
 import { native_highlighter } from "../lexer/highlighter";
 import { leftTrimDedent } from "../components/utils";
+import { HighlightLevel } from "../lexer/types";
 
 const thpcode = `union Animal {
     Dog(String),
     Cat(String, Int),
 }
 
-val cat_name = Post::get("cat_name") ?? "Michifu"
-val my_cat = Animal::Cat(cat_name, 9)
+val my_pet = try Pets::get_first()
 
-try change_fur_color(cat) else die("Not a cat")
-
-match random_animal()
+match my_pet
 case Dog(name)
 { 
     print("{name} has 1 live ")
@@ -25,7 +23,10 @@ case Cat(name, lives)
     print("{name} has {lives}")
 }`;
 
-const [thp_html] = await native_highlighter(leftTrimDedent(thpcode).join("\n"));
+const [thp_html] = await native_highlighter(
+    leftTrimDedent(thpcode).join("\n"),
+    HighlightLevel.Lexic,
+);
 ---
 
 <BaseLayout>
@@ -49,21 +50,18 @@ const [thp_html] = await native_highlighter(leftTrimDedent(thpcode).join("\n"));
                     Inspired by Rust, Zig and Kotlin, THP has a modern syntax,
                     semantics, type system and stdlib.
                 </p>
-                <br />
-                <br />
-                <div class="text-center">
+                <div class="text-center pb-4">
                     <a
                         class="inline-block font-display text-lg rounded-full border-2 border-pink-400 py-2 px-8
-						transition-colors hover:text-black hover:bg-pink-400"
+						transition-colors hover:text-black hover:bg-pink-400 mt-2"
                         href="/learn/"
                     >
-                        Tutorial
+                        Learn
                     </a>
 
                     <a
                         class="inline-block font-display text-lg border-2 border-sky-400 py-2 px-8 mx-6 rounded-full
-						transition-colors hover:text-black hover:bg-sky-400"
-                        href="/install/"
+						transition-colors hover:text-black hover:bg-sky-400 mt-2 opacity-50 cursor-not-allowed"
                     >
                         Install
                     </a>
@@ -71,10 +69,10 @@ const [thp_html] = await native_highlighter(leftTrimDedent(thpcode).join("\n"));
             </div>
         </div>
 
-        <div class="table">
-            <div class="table-cell align-middle">
+        <div>
+            <div class="flex h-full justify-center items-center">
                 <div
-                    class="bg-[var(--code-theme-bg-color)] lg:p-6 p-2 rounded-lg relative w-full"
+                    class="bg-[var(--code-theme-bg-color)] lg:p-6 p-2 rounded-lg w-full max-w-[30rem] relative"
                 >
                     <span
                         class="absolute lg:inline-block hidden h-[35rem] w-[35rem] -z-10 top-1/2 left-1/2 rounded-full
@@ -83,7 +81,6 @@ const [thp_html] = await native_highlighter(leftTrimDedent(thpcode).join("\n"));
 							filter: blur(75px); opacity: 0.75;"
                     >
                     </span>
-
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="54"
@@ -120,16 +117,17 @@ const [thp_html] = await native_highlighter(leftTrimDedent(thpcode).join("\n"));
                     </svg>
                     <div class="h-1"></div>
                     <div id="editor" class="font-mono language-thp">
-                        <pre set:html={thp_html}></pre>
+                        <pre set:html={thp_html} />
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="h-8 md:hidden"></div>
+
     <HeroSection
-        subtitle="We've got"
-        title="generics"
+        title="Generics & Types"
         thpcode={`
     Array[Int] numbers = [0, 1, 2, 3, 4, 5]
 
@@ -148,21 +146,15 @@ const [thp_html] = await native_highlighter(leftTrimDedent(thpcode).join("\n"));
     val result = mock() as String
     `}
     >
-        THP enforces type safety at compile time and, at the programmer's
-        request, at runtime.
-        <br />
-        <br />
-        Everything has a type. There are generics. No implicit type conversions.
-        No <code>mixed</code>. No client <code>Any</code> .Type inference included.
-        <br />
-        <br />
-        All possible checks are made at compile time. Runtime checks have a small
-        performance penalty.
+        Type safety is enforced at compile time. Everything
+        has a specific type. There is no `mixed`.
+        <br>
+        <br>
+        You can use generics where neccesary.
     </HeroSection>
 
     <HeroSection
-        subtitle="We've got"
-        title="tagged unions"
+        title="Tagged unions"
         thpcode={`
     union DirEntry {
         File(String),
@@ -174,15 +166,14 @@ const [thp_html] = await native_highlighter(leftTrimDedent(thpcode).join("\n"));
     `}
     >
         Make invalid state irrepresentable.
-        <br>
+        <br />
         Model data in a type-safe way.
-        <br>
+        <br />
         Ensure all cases are handled.
     </HeroSection>
 
     <HeroSection
-        subtitle="We've got"
-        title="pattern matching"
+        title="Pattern matching"
         thpcode={`
     match test_file
     case DirEntry::File(filename)
@@ -197,15 +188,14 @@ const [thp_html] = await native_highlighter(leftTrimDedent(thpcode).join("\n"));
     `}
     >
         Match on values, tuples, enums, unions, types etc.
-        <br>
+        <br />
         Guards available!
     </HeroSection>
 
     <HeroSection
-        subtitle="We've got"
-        title="null safety"
+        title="Null safety"
         thpcode={`
-    String? username = Globals::Post::get("username")
+    String? username = Post::get("username")
     
     if username?
     {
@@ -214,10 +204,29 @@ const [thp_html] = await native_highlighter(leftTrimDedent(thpcode).join("\n"));
     }
     `}
     >
-        Nulls are explicit and require handling. Types are nullable, and they
-        are used everywhere they are needed.
+        Nulls are explicit and require handling. Types can be nullable,
+        and they must be checked before usage.
+        <br>
+        The stdlib makes extensive use of them.
+    </HeroSection>
+
+    <HeroSection
+        title="Errors as values"
+        thpcode={`
+            val user_id = POST::get("id")
+            val user = try User::find(user_id)
+            catch DBException e
+            {
+                log_error(e.message)
+                return page(.{}, 404)
+            }
+        `}
+    >
+        Exceptions are values and don't disrupt
+        control flow.
         <br>
         <br>
-        Nullable types must be explicitly checked before using them.
+        Errors cannot be ignored, and we have
+        syntax sugar to ease them.
     </HeroSection>
 </BaseLayout>
