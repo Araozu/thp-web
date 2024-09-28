@@ -43,38 +43,29 @@ export type TokenType =
     | "CASE"
     ;
 
-export interface Err {
-    Lex?: LexError
-    Syntax?: SyntaxError
-    Semantic?: SemanticError
+export interface MistiErr {
+    error_code: number
+    error_offset: number
+    labels: Array<ErrorLabel>
+    note: string | null,
+    help: string | null,
 }
 
-export interface LexError {
-    position: number
-    reason: string
-}
-
-export interface SyntaxError {
-    error_start: number
-    error_end: number
-    reason: string
-}
-
-export interface SemanticError {
-    error_start: number
-    error_end: number
-    reason: string
+export interface ErrorLabel {
+    message: string
+    start: number
+    end: number
 }
 
 export interface TokenizeResult {
     /** All checks passed */
     Ok?: Array<Token>,
     /** There were semantic errors */
-    SemanticError?: [Array<Token>, Err],
+    SemanticError?: [Array<Token>, MistiErr],
     /** There were syntax errors */
-    SyntaxError?: [Array<Token>, Err],
+    SyntaxError?: [Array<Token>, MistiErr],
     /** No checks passed */
-    LexError?: Err,
+    LexError?: MistiErr,
 }
 
 export enum HighlightLevel {

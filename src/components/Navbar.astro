@@ -31,16 +31,22 @@ const { showSidebarButton = true } = Astro.props;
             Learn
         </a>
         <a
+            href="/api/std/"
+            class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
+        >
+            Standard Library
+        </a>
+        <a
+            href="/api/help/"
+            class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
+        >
+            Help
+        </a>
+        <a
             href="/spec/"
             class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
         >
             Language spec
-        </a>
-        <a
-            href="/api/std/"
-            class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
-        >
-            std reference
         </a>
     </div>
 </nav>

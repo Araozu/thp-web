@@ -1,3 +1,8 @@
-<div class="two-column grid grid-cols-[10rem_auto]">
+---
+const {cols} = Astro.props;
+const grid_cols = cols ?? "grid-cols-[10rem_auto]";
+---
+
+<div class={`two-column grid ${grid_cols}`}>
     <slot />
 </div>

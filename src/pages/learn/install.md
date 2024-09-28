@@ -7,11 +7,13 @@ title: Install
 
 **THP is not available for public use. These are goals.**
 
-## From scratch
+## Binary
 
-Also install php (through XAMPP in windows/mac, php in linux) and Composer.
+Goal: Install THP with a single binary. Assumes that php and composer is
+available.
+
 
 ## With composer
 
-TBD, the user should be able to just run `composer require thp` and
-the proper binary should be intalled.
+TBD: Install THP with `composer require thp`
+

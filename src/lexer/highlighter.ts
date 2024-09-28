@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import { leftTrimDedent } from "../components/utils";
 import { HighlightLevel } from "./types";
-import type { LexError, SyntaxError, Token, TokenizeResult, TokenType } from "./types";
+import type { MistiErr, Token, TokenizeResult, TokenType } from "./types";
 
 const error_classes = "underline underline-offset-4 decoration-wavy decoration-red-500";
 
@@ -12,7 +12,7 @@ export async function native_highlighter(code: string, level = HighlightLevel.Sy
         let result = await native_lex(formatted_code);
         return highlight_syntax(formatted_code, result, level);
     } catch (error) {
-        return compiler_error(formatted_code, error as Error);
+        return compiler_error(formatted_code, error as MistiErr);
     }
 }
 
@@ -23,7 +23,7 @@ function highlight_syntax(code: string, result: TokenizeResult, level: Highlight
         const [tokens, semanticError] = result.SemanticError;
 
         if (level === HighlightLevel.Semantic) {
-            return semantic_error_highlighter(code, tokens, semanticError.Semantic!);
+            return semantic_error_highlighter(code, tokens, semanticError);
         } else {
             tokens_final = tokens;
         }
@@ -31,13 +31,13 @@ function highlight_syntax(code: string, result: TokenizeResult, level: Highlight
         const [tokens, syntaxError] = result.SyntaxError;
 
         if (level === HighlightLevel.Semantic || level === HighlightLevel.Syntactic) {
-            return syntax_error_highlighter(code, tokens, syntaxError.Syntax!);
+            return syntax_error_highlighter(code, tokens, syntaxError);
         } else {
             tokens_final = tokens;
         }
     } else if (result.LexError) {
         // There is no error level that bypasses a lex error
-        return lex_error_highlighter(code, result.LexError!.Lex!);
+        return lex_error_highlighter(code, result.LexError!);
     } else if (result.Ok) {
         tokens_final = result.Ok;
     } else {
@@ -56,7 +56,7 @@ function highlight_syntax(code: string, result: TokenizeResult, level: Highlight
 /**
  * Highlights code that has a lexic error
  */
-function lex_error_highlighter(code: string, error: LexError): [string, string, string] {
+function lex_error_highlighter(code: string, error: MistiErr): [string, string, string] {
     // Create a single error token
 
     const err_pos = error.position;
@@ -73,7 +73,7 @@ function lex_error_highlighter(code: string, error: LexError): [string, string, 
     return [all, "Lexical", error.reason + ` at line ${error_line}:${error_column} `]
 }
 
-function syntax_error_highlighter(code: string, tokens: Array<Token>, error: SyntaxError): [string, string, string] {
+function syntax_error_highlighter(code: string, tokens: Array<Token>, error: MistiErr): [string, string, string] {
     const highlighted = highlight_tokens(code, tokens, error.error_start, error.error_end);
     const [error_line, error_column] = absolute_to_line_column(code, error.error_start);
 
@@ -81,7 +81,7 @@ function syntax_error_highlighter(code: string, tokens: Array<Token>, error: Syn
     return [highlighted, "Syntax", error_message];
 }
 
-function semantic_error_highlighter(code: string, tokens: Array<Token>, error: SyntaxError): [string, string, string] {
+function semantic_error_highlighter(code: string, tokens: Array<Token>, error: MistiErr): [string, string, string] {
     const highlighted = highlight_tokens(code, tokens, error.error_start, error.error_end);
     const [error_line, error_column] = absolute_to_line_column(code, error.error_start);
 
@@ -89,7 +89,7 @@ function semantic_error_highlighter(code: string, tokens: Array<Token>, error: S
     return [highlighted, "Semantic", error_message];
 }
 
-function compiler_error(code: string, error: Error): [string, string, string] {
+function compiler_error(code: string, error: MistiErr): [string, string, string] {
     return [code, "Fatal Compiler", error.message];
 }
 
@@ -225,7 +225,6 @@ function translate_token_type(tt: TokenType, value: string): string {
         case "FOR":
         case "IN":
         case "WHILE":
-        case "LOOP":
         case "MATCH":
         case "CASE":
             return "keyword";

@@ -13,6 +13,7 @@ const indexSubpath = `/learn/index.mdx`;
     posts={posts}
     indexSubpath={indexSubpath}
     basePath="/learn/"
+    disable_container={!!frontmatter.disable_container}
 >
     <slot />
 </PagesLayout>

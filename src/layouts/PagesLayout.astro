@@ -10,6 +10,7 @@ const {
     posts: _posts,
     indexSubpath,
     basePath,
+    disable_container,
 } = Astro.props;
 const posts: Record<string, any>[] = _posts;
 
@@ -78,7 +79,7 @@ for (const entry of pagesIndex) {
     <Navbar />
 
     <div
-        class="lg:grid lg:grid-cols-[14rem_auto_12rem] lg:container mx-auto font-display"
+        class={`lg:grid lg:grid-cols-[14rem_auto_12rem] ${disable_container? "": "lg:container"} mx-auto font-display`}
     >
         <div
             id="sidebar"
@@ -95,7 +96,7 @@ for (const entry of pagesIndex) {
         </div>
 
         <main
-            class="py-[3.5rem] lg:pl-12 lg:pr-4 markdown min-w-0 small-container mx-auto"
+            class="pt-[3.5rem] pb-[10rem] lg:pl-12 lg:pr-4 markdown min-w-0 small-container mx-auto"
         >
             <slot />
         </main>
