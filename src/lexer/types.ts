@@ -60,12 +60,10 @@ export interface ErrorLabel {
 export interface TokenizeResult {
     /** All checks passed */
     Ok?: Array<Token>,
-    /** There were semantic errors */
-    SemanticError?: [Array<Token>, MistiErr],
-    /** There were syntax errors */
-    SyntaxError?: [Array<Token>, MistiErr],
-    /** No checks passed */
-    LexError?: MistiErr,
+    /** A non lexic error was found */
+    MixedErr?: [Array<Token>, MistiErr],
+    /** A lexic error was found */
+    Err?: MistiErr,
 }
 
 export enum HighlightLevel {

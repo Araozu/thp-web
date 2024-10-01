@@ -5,93 +5,59 @@ import type { MistiErr, Token, TokenizeResult, TokenType } from "./types";
 
 const error_classes = "underline underline-offset-4 decoration-wavy decoration-red-500";
 
-export async function native_highlighter(code: string, level = HighlightLevel.Syntactic): Promise<[string, string, string | null]> {
+/**
+ * Highlights code using the compiler
+ *
+ * Returns:
+ * - The tokens as a list of <span /> elements
+ * - An error message, if any
+ */
+export async function native_highlighter(code: string, level = HighlightLevel.Syntactic): Promise<[string, string | null]> {
     let formatted_code = leftTrimDedent(code).join("\n");
 
     try {
-        let result = await native_lex(formatted_code);
-        return highlight_syntax(formatted_code, result, level);
+        let result = await native_lex(formatted_code, level);
+        return highlight_syntax(formatted_code, result);
     } catch (error) {
         return compiler_error(formatted_code, error as MistiErr);
     }
 }
 
-function highlight_syntax(code: string, result: TokenizeResult, level: HighlightLevel): [string, string, string | null] {
-    let tokens_final: Array<Token>;
+/**
+ * Highlights code using the compiler
+ *
+ * Returns:
+ * - The tokens as a list of <span /> elements
+ * - An error message, if any
+ */
+function highlight_syntax(code: string, result: TokenizeResult): [string, string | null] {
+    if (result.Ok) {
+        const tokens_html = render_tokens(code, result.Ok);
 
-    if (result.SemanticError) {
-        const [tokens, semanticError] = result.SemanticError;
+        return [tokens_html, null];
+    } else if (result.MixedErr) {
+        const [tokens, errors] = result.MixedErr;
+        // TODO: Implement error rendering, based on the new error schema
 
-        if (level === HighlightLevel.Semantic) {
-            return semantic_error_highlighter(code, tokens, semanticError);
-        } else {
-            tokens_final = tokens;
-        }
-    } else if (result.SyntaxError) {
-        const [tokens, syntaxError] = result.SyntaxError;
+        const tokens_html = render_tokens(code, tokens);
+        return [tokens_html, `error code ${errors.error_code}`];
+    } else if (result.Err) {
+        // TODO: Implement error rendering, based on the new error schema
 
-        if (level === HighlightLevel.Semantic || level === HighlightLevel.Syntactic) {
-            return syntax_error_highlighter(code, tokens, syntaxError);
-        } else {
-            tokens_final = tokens;
-        }
-    } else if (result.LexError) {
-        // There is no error level that bypasses a lex error
-        return lex_error_highlighter(code, result.LexError!);
-    } else if (result.Ok) {
-        tokens_final = result.Ok;
+        return [code, `lexical error ${result.Err.error_code}`]
     } else {
         console.error(result);
         throw new Error("Web page error: The compiler returned a case that wasn't handled.");
     }
-
-    // At this point all error cases have been handled
-    // and tokens_final contains valid tokens.
-
-    const output = highlight_tokens(code, tokens_final);
-    return [output, "", null];
 }
 
 
-/**
- * Highlights code that has a lexic error
- */
-function lex_error_highlighter(code: string, error: MistiErr): [string, string, string] {
-    // Create a single error token
-
-    const err_pos = error.position;
-    const before_err = code.substring(0, err_pos);
-    const err_str = code[err_pos];
-    const after_err = code.substring(err_pos + 1);
-
-    const token = `<span class="token ${error_classes}">${err_str}</span>`;
-
-    const all = `${before_err}${token}${after_err}`;
-    const [error_line, error_column] = absolute_to_line_column(code, error.position);
-
-    // TODO: Transform absolute posijion (error.position) into line:column
-    return [all, "Lexical", error.reason + ` at line ${error_line}:${error_column} `]
+/** A fatal error with the THP compiler */
+function compiler_error(code: string, error: MistiErr): [string, string] {
+    console.log(error);
+    return [code, "Fatal compiler error"];
 }
 
-function syntax_error_highlighter(code: string, tokens: Array<Token>, error: MistiErr): [string, string, string] {
-    const highlighted = highlight_tokens(code, tokens, error.error_start, error.error_end);
-    const [error_line, error_column] = absolute_to_line_column(code, error.error_start);
-
-    const error_message = `${error.reason} at line ${error_line}:${error_column}`;
-    return [highlighted, "Syntax", error_message];
-}
-
-function semantic_error_highlighter(code: string, tokens: Array<Token>, error: MistiErr): [string, string, string] {
-    const highlighted = highlight_tokens(code, tokens, error.error_start, error.error_end);
-    const [error_line, error_column] = absolute_to_line_column(code, error.error_start);
-
-    const error_message = `${error.reason} at line ${error_line}:${error_column}`;
-    return [highlighted, "Semantic", error_message];
-}
-
-function compiler_error(code: string, error: MistiErr): [string, string, string] {
-    return [code, "Fatal Compiler", error.message];
-}
 
 /**
  * Transforms a list of tokens into colored HTML, and underlines errors
@@ -102,7 +68,7 @@ function compiler_error(code: string, error: MistiErr): [string, string, string]
  * @param error_end Absolute position to where the error ends.
  * @returns 
  */
-function highlight_tokens(input: string, tokens: Array<Token>, error_start = -1, error_end = -1): string {
+function render_tokens(input: string, tokens: Array<Token>, error_start = -1, error_end = -1): string {
     const input_chars = input.split("");
     let output = "";
 
@@ -233,14 +199,14 @@ function translate_token_type(tt: TokenType, value: string): string {
     }
 }
 
-const native_lex = (code: string) => new Promise<TokenizeResult>((resolve, reject) => {
+const native_lex = (code: string, level: HighlightLevel) => new Promise<TokenizeResult>((resolve, reject) => {
     // Get binary path from .env
     const binary = import.meta.env.THP_BINARY;
     if (!binary) {
         throw new Error("THP_BINARY not set in .env");
     }
 
-    const subprocess = spawn(binary, ["tokenize"]);
+    const subprocess = spawn(binary, ["tokenize", "-l", level.toString()]);
     let response = "";
     let error = "";
 
