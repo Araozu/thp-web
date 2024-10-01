@@ -67,6 +67,21 @@ class Dog(String name)
 }
 `} />
 
+This would be equilavent to the following PHP code:
+
+```php
+class Dog {
+    public string $name;
+    private int $name_len;
+
+    public function __construct(string $name) {
+        $this->name = $name;
+        $this->name_len = size($name);
+        print("Dog created: $name");
+    }
+}
+```
+
 
 
 
@@ -115,33 +130,25 @@ print(a2.name_length)   //: 3
 
 ### Constructor that may fail
 
+A constructor may only fail if there is code
+that can fail on the `init` block.
+
+
+
 TBD
 
 Proposal 1:
 
 <Code thpcode={`
-class PrayingMantis(String name) -> self!Error
-`} />
-
-Proposal 2:
-
-<Code thpcode={`
 class PrayingMantis(String name)
 throws Error
-`} />
-
-Proposal 3:
-
-<Code thpcode={`
-class PrayingMantis(String name)
 {
-    init -> self!Error
+    init -> Error!
     {
-        // Something that may fail
+        // Initialization code that may fail
     }
 }
 `} />
-
 
 
 ## Destructor
@@ -149,7 +156,7 @@ class PrayingMantis(String name)
 The destructor in THP is the same as PHP.
 
 <Code thpcode={`
-class Owl
+class Owl()
 {
     pub fun __destruct()
     {

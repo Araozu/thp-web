@@ -41,10 +41,11 @@ Placing a `mut` before the type makes the parameter a mutable
 reference. Mutable methods can be used, and the original
 data **can** be mutated.
 
-The caller *must* also use `mut`.
+The caller must define the value as `var`, and when calling
+must use `mut`.
 
 <Code thpcode={`
-val numbers = Array(0, 1, 2, 3)
+var numbers = Array(0, 1, 2, 3)
 
 push_25(mut numbers)    // Pass \`numbers\` as reference.
 
@@ -63,6 +64,8 @@ fun add_25(clone Array[Int] numbers) {
 
 Using the `clone` keyword before the type creates a mutable copy
 of the parameter (CoW). The original data will **not** be mutated.
+
+The caller must also use `clone` when calling the function.
 
 
 <Code thpcode={`

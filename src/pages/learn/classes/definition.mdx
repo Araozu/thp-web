@@ -15,11 +15,13 @@ Classes in THP are significantly different than PHP.
 A class is defined as follows:
 
 <Code thpcode={`
-class Animal
+class Animal() {}
 `} />
 
 The name of the class **MUST** begin with an uppercase letter.
 
+Classes have a parameter list even if they have no parameters
+for consistency sake.
 
 
 ## Instanciation
@@ -38,7 +40,7 @@ Properties are declared with `var`/`val` inside a block.
 They **must** explicitly declare their datatype.
 
 <Code thpcode={`
-class Person
+class Person()
 {
     // This is an error. Properties must declare their datatype,
     // even if the compiler can infer it.
@@ -55,7 +57,7 @@ class Person
 **Properties are private by default**, but can be made public with `pub`.
 
 <Code thpcode={`
-class Person
+class Person()
 {
     // Properties are private by default
     val String name = "John Doe"
@@ -86,7 +88,7 @@ in the Constructor page.
 Methods are declared with `fun`, as regular functions.
 
 <Code thpcode={`
-class Person
+class Person()
 {
     fun greet()
     {
@@ -98,7 +100,7 @@ class Person
 **Methods are private by default**, and are made public with `pub`.
 
 <Code thpcode={`
-class Person
+class Person()
 {
     // This method is private
     fun private_greet()
@@ -123,7 +125,7 @@ in THP a method cannot have the same name as a property and viceversa.
 Doing so is a compile error.
 
 <Code thpcode={`
-class Person
+class Person()
 {
     String name = "Rose"
 
@@ -141,7 +143,7 @@ THP uses the dollar sign `$` as this inside classes.
 It is **required** when using a class property/method.
 
 <Code thpcode={`
-class Person
+class Person()
 {
     val String name = "Jane Doe"
 
@@ -168,7 +170,7 @@ class Animal(var String name)
 {
     pub fun set_name(String new_name)
     {
-        $name = new_name    // Error: Cannot mutate $
+        $name = new_name    // Error: Cannot mutate $name
     }
 }
 `} />
@@ -188,22 +190,4 @@ class Animal(var String name)
 var michi = Animal("Michifu")
 michi.set_name("Garfield")
 `} />
-
-## Class constructor that may return an error
-
-Working theory:
-
-<Code thpcode={`
-class Fish(
-    val String name,
-    var Int lives = 9,
-)
-extends Animal(name)
-throws Error
-
-val fish_result = Fish("bubble")   // fish_result will be a \`Result[Fish,Error]\`
-val fish = try fish_result
-`} />
-
-
 

@@ -6,7 +6,7 @@ import Code from "../../../components/Code.astro"
 
 # Inheritance
 
-
+A class inherits from another using the `extends` keyword.
 
 <Code thpcode={`
 // Base class
@@ -20,7 +20,34 @@ class Animal(var String name)
 
 // Child class
 class Cat(String name, Int lives) 
-extends Animal(name)
+extends Animal(name) {}
 
 Cat("Michi", 9).say_name()
 `} />
+
+The call to the parent constructor is done right there, after
+the parent class name.
+
+<Code thpcode={`
+class Dog(String name) 
+extends Animal(name) {}
+//            |----|
+//  This is the call to the parent constructor
+`} />
+
+You must always call super, even if the parent doesn't
+define any parameters:
+
+<Code thpcode={`
+class Parent() {}
+
+class Child()
+extends Parent() {}
+`} />
+
+
+
+
+
+
+

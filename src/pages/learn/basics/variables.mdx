@@ -29,6 +29,15 @@ val surname = "Doe"
 val year_of_birth = 1984
 `} />
 
+It's a compile error to attempt to modify it
+
+<Code level={2} thpcode={`
+val surname = "Doe"
+surname = "Dane"    // Error
+`} />
+
+
+
 ### Datatype annotation
 
 Written after the `val` keyword but before the variable name.
@@ -64,6 +73,8 @@ Defined with `var`, followed by a variable name and a value.
 <Code level={2} thpcode={`
 var name = "John"
 var age = 32
+
+age = 33
 `} />
 
 ### Datatype annotation

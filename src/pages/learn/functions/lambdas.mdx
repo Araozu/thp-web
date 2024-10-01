@@ -9,16 +9,46 @@ import Code from "../../../components/Code.astro"
 
 ## Anonymous function
 
+An anonymous function is declared with `fn`.
+Other than not having a name, it can declare parameter
+and return types.
+
 <Code thpcode={`
-fun(Int x, Int y) -> Int {
+fn(Int x, Int y) -> Int {
     x + y
 }
+`} />
 
+Anonymous function can omit declaring those types as well:
 
+<Code thpcode={`
 numbers.map(fun(x) {
     x * 2
 })
 `} />
+
+
+## Anonymous function short form
+
+If you need an anonymous function that returns a single
+expression you can write it like this:
+
+<Code thpcode={`
+fun(x, y) = x + y
+`} />
+
+It uses an equal `=` instead of an arrow. It can contain
+only a single expression.
+
+This is common when declaring functions that immediately
+return a map.
+
+<Code thpcode={`
+fn(value) = .{
+    value
+}
+`} />
+
 
 
 
