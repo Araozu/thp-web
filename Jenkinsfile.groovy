@@ -1,10 +1,15 @@
 pipeline {
     agent {
         docker {
-            image 'gplane/pnpm:9.11.0'
+            image 'node:22'
         }
     }
     stages {
+        stage('Install pnpm') {
+            steps {
+                sh 'npm i -g pnpm'
+            }
+        }
         stage('Install dependencies') {
             steps {
                 sh 'pnpm i'
