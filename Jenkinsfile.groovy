@@ -1,11 +1,18 @@
 pipeline {
     agent {
-        docker { image 'node:14-alpine' }
+        docker {
+            image 'gplane/pnpm:9.11.0'
+        }
     }
     stages {
-        stage('Test') {
+        stage('Install dependencies') {
             steps {
-                sh 'node --version'
+                sh 'pnpm i'
+            }
+        }
+        stage('Buid') {
+            steps {
+                sh 'pnpm build'
             }
         }
     }
