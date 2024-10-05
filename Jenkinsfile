@@ -17,7 +17,7 @@ pipeline {
 		}
 		stage('Buid') {
 			steps {
-				sh 'pnpm build'
+				sh 'THP_BINARY=/var/bin/thp pnpm build'
 			}
 		}
 		stage('Deploy') {
