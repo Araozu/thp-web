@@ -22,7 +22,7 @@ pipeline {
 		}
 		stage('Deploy') {
 			steps {
-				sh 'mv dist/* /var/www/thp-lang.org/'
+				sh 'mv -f dist/* /var/www/thp-lang.org/'
 			}
 		}
 	}
