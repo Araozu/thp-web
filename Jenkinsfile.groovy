@@ -5,11 +5,6 @@ pipeline {
         }
     }
     stages {
-        stage('Clone Repository') {
-            steps {
-                git url: 'http://gitea:3333/fernando/thp-web.git', branch: 'master'
-            }
-        }
         stage('Install pnpm') {
             steps {
                 sh 'npm i -g pnpm'
@@ -22,7 +17,7 @@ pipeline {
         }
         stage('Buid') {
             steps {
-                sh 'npm build'
+                sh 'pnpm build'
             }
         }
     }
