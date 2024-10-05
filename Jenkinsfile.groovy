@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Install dependencies') {
             steps {
-                sh 'npm i'
+                sh 'pnpm i'
             }
         }
         stage('Buid') {
