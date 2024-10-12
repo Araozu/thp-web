@@ -6,10 +6,15 @@ import Code from "../../../components/Code.astro"
 
 # Declaration
 
+Functions in THP have a different syntax than PHP.
+
 Function names **must** begin with a lowercase letter.
 
 
-## No parameters, no return
+## Minimal function
+
+The following code shows a function without parameters
+and without return type:
 
 <Code thpcode={`
 fun say_hello()
@@ -20,31 +25,80 @@ fun say_hello()
 say_hello()
 `} />
 
+Functions are called the same way as in PHP.
+
 
 ## With return type
+
+If your function return any value, annotating the return
+type is __mandatory__, and it's done by placing an
+arrow `->` followed by the return datatype:
+
 
 <Code thpcode={`
 fun get_random_number() -> Int
 {
-    Random::get(0, 35_222)
+    return Random::get(0, 35_222)
 }
 
 val number = get_random_number()
 `} />
 
-## With parameters and return type
+
+It's an error to return from a function that doesn't declare
+a return type:
 
 <Code thpcode={`
-fun get_secure_random_number(Int min, Int max) -> Int
+fun get_random_number()
 {
-    Random::get_secure(min, max)
+    // Error: the function does not define a return type
+    return Random::get(0, 35_222)
 }
-
-val number = get_secure_random_number(0, 65535)
 `} />
 
 
+You can omit the `return` keyword if it's placed on the last
+expression on the function:
+
+<Code thpcode={`
+fun get_random_number() -> Int
+{
+    // The last expression of a function is
+    // automatically returned
+    Random::get(0, 35_222)
+}
+`} />
+
+
+## Function parameters
+
+Parameters are declared like C-style languages:
+`Type name`, separated by commas.
+
+
+<Code thpcode={`
+fun add(Int a, Int b) -> Int
+{
+    return a + b
+}
+
+val result = add(322, 644)
+`} />
+
+THP has different semantics on parameters concerning
+pass by value, pass by reference and copy on write.
+This is detailed in another chapter.
+
+
+
 ## Generic types
+
+Functions can declare generic types by using the syntax
+`[Type]`.
+
+The following example declares a generic `T` and uses it
+in the parameters and return type:
+
 
 <Code thpcode={`
 fun get_first_item[T](Array[T] array) -> T
@@ -57,6 +111,16 @@ val first = get_first_item[Int](numbers)
 
 val first = get_first_item(numbers)
 `} />
+
+
+## Default arguments
+
+TBD
+
+
+## Variadic arguments
+
+TBD
 
 
 ## Signature
