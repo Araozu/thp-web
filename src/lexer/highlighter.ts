@@ -116,19 +116,23 @@ function render_tokens(input: string, tokens: Array<Token>, error_labels: Array<
     // - for every label, append a new line after each error
 
     const lines = output.split("\n");
+    let offset = 0;
     for (const label of error_labels) {
         // get the line number of the label
         const [line_number, col_number] = absolute_to_line_column(input, label.start);
-        const spaces = new Array(col_number - 1).fill("&nbsp;").join("");
-        lines.splice(line_number, 0, create_inline_error_message(spaces, label.message));
-        break;
+        let spaces_len = col_number - 1;
+        if (spaces_len < 0) { spaces_len = 0 }
+
+        const spaces = new Array(spaces_len).fill("&nbsp;").join("");
+        lines.splice(line_number + offset, 0, create_inline_error_message(spaces, label.message));
+        offset += 1;
     }
 
     return lines.join("\n");
 }
 
 function create_inline_error_message(spaces: string, message: string): string {
-    return `<span class="relative inline-block w-full before:h-full before:block before:absolute before:left-0 before:w-[calc(100%+1.5rem)] before:-translate-x-3 before:bg-red-950 before:dark:bg-red-200" style="white-space: initial"><span class="relative text-red-200 dark:text-red-800">${spaces}╰╴${message}</span></span>`;
+    return `<span class="relative inline-block w-full before:h-full before:block before:absolute before:left-0 before:w-[calc(100%+1.5rem)] before:-translate-x-3 before:bg-red-200 before:dark:bg-red-950" style="white-space: initial"><span class="relative dark:text-red-200 text-red-900 font-bold">${spaces}╰╴${message}</span></span>`;
 }
 
 /**
