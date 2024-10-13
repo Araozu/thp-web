@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import { leftTrimDedent } from "../components/utils";
 import { HighlightLevel } from "./types";
-import type { MistiErr, Token, TokenizeResult, TokenType } from "./types";
+import type { ErrorLabel, MistiErr, Token, TokenizeResult, TokenType } from "./types";
 
 const error_classes = "underline underline-offset-4 decoration-wavy decoration-red-500";
 
@@ -39,7 +39,7 @@ function highlight_syntax(code: string, result: TokenizeResult): [string, string
         const [tokens, errors] = result.MixedErr;
         // TODO: Implement error rendering, based on the new error schema
 
-        const tokens_html = render_tokens(code, tokens);
+        const tokens_html = render_tokens(code, tokens, errors.labels);
         return [tokens_html, `error code ${errors.error_code}`];
     } else if (result.Err) {
         // TODO: Implement error rendering, based on the new error schema
@@ -60,17 +60,20 @@ function compiler_error(code: string, error: MistiErr): [string, string] {
 
 
 /**
- * Transforms a list of tokens into colored HTML, and underlines errors
- * if present
+ * Transforms a list of tokens into colored HTML, and underlines present errors
+ *
  * @param input The original source code
  * @param tokens The list of tokens
  * @param error_start Absolute position from where the error starts.
  * @param error_end Absolute position to where the error ends.
  * @returns 
  */
-function render_tokens(input: string, tokens: Array<Token>, error_start = -1, error_end = -1): string {
+function render_tokens(input: string, tokens: Array<Token>, error_labels: Array<ErrorLabel> = []): string {
     const input_chars = input.split("");
     let output = "";
+
+    // Collects all the token ranges in all error labels
+    const error_ranges: Array<[number, number]> = error_labels.map(l => [l.start, l.end]);
 
     let current_pos = 0;
     for (let i = 0; i < tokens.length; i += 1) {
@@ -78,7 +81,16 @@ function render_tokens(input: string, tokens: Array<Token>, error_start = -1, er
         const token_start = t.position;
         const token_end = t.position + t.value.length;
 
-        let is_errored = (token_start >= error_start && token_end <= error_end);
+        // check if the current token is in any error label
+        let is_errored = false;
+        for (const range of error_ranges) {
+            const [error_start, error_end] = range;
+
+            if (token_start >= error_start && token_end <= error_end) {
+                is_errored = true;
+                break;
+            }
+        }
 
         // Some tokens require processing (like multiline comments)
 
@@ -98,7 +110,25 @@ function render_tokens(input: string, tokens: Array<Token>, error_start = -1, er
         current_pos = new_token_end;
     }
 
-    return output;
+    // at this point `output` is a string with tokens
+    // now i want to append the label messages:
+    // - split the output by newlines
+    // - for every label, append a new line after each error
+
+    const lines = output.split("\n");
+    for (const label of error_labels) {
+        // get the line number of the label
+        const [line_number, col_number] = absolute_to_line_column(input, label.start);
+        const spaces = new Array(col_number - 1).fill("&nbsp;").join("");
+        lines.splice(line_number, 0, create_inline_error_message(spaces, label.message));
+        break;
+    }
+
+    return lines.join("\n");
+}
+
+function create_inline_error_message(spaces: string, message: string): string {
+    return `<span class="relative inline-block w-full before:h-full before:block before:absolute before:left-0 before:w-[calc(100%+1.5rem)] before:-translate-x-3 before:bg-red-950 before:dark:bg-red-200" style="white-space: initial"><span class="relative text-red-200 dark:text-red-800">${spaces}╰╴${message}</span></span>`;
 }
 
 /**
