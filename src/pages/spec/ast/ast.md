@@ -20,11 +20,20 @@ Module = (Statement | Expression)*
 
 ## Statement
 
-(At the moment) a statement is either a variable binding or a function declaration
+A statement is either a variable binding, a function declaration,
+a conditional (for now, until those becom expressions),
+for loop, while loop, or an assignment.
+
+Assignment includes the operators `= += -= *= /=`, etc. Those operators
+cannot be used elsewhere, only as part of an Assignment.
 
 ```ebnf
 Statement = VariableBinding
           | FunctionDeclaration
+          | Conditional
+          | ForLoop
+          | WhileLoop
+          | Assignment
 ```
 
 ## Expression
@@ -58,6 +67,25 @@ Block       = "{", BlockMember*, "}"
 
 BlockMember = Statement
             | Expression
+```
+
+
+## Assignment
+
+The target of an assignment can only be an identifier for now.
+In the future this will include other things like maps, arrays,
+pattern matching, destructuring, etc.
+
+```ebnf
+Assignment         = AssignmentTarget, AssignmentOperator, Expression
+
+AssignmentTarget   = Identifier
+AssignmentOperator = "="
+                   | "+="
+                   | "-="
+                   | "*/"
+                   | "/="
+                   | "%="
 ```
 
 
