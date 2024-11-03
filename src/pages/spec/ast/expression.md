@@ -9,9 +9,10 @@ The expression parser effectively implements a precedence table.
 
 | Operator   | Precedence |
 |------------|------------|
-| == !=      | 4          |
-| > >= < <=  | 3          |
-| - + ++     | 2          |
+| == !=      | 5          |
+| > >= < <=  | 4          |
+| - + ++     | 3          |
+| . ?. !.    | 2          |
 | / * %      | 1          |
 
 
@@ -22,9 +23,23 @@ Expression = Equality
 Equality   = Comparison, (("==" | "!="),             Comparison)*
 Comparison = Term,       ((">" | ">=" | "<" | "<="), Term)*
 Term       = Factor,     (("-" | "+" | "++"),        Factor)*
-Factor     = Unary,      (("/" | "*" | "%"),         Unary)*
+Factor     = DotAccess,  (("/" | "*" | "%"),         DotAccess)*
+DotAccess  = Unary,      (("."),                     Unary)*
 Unary      = ("!" | "-"), Expression
-           | FunctionCallExpression
+           | CallExpression
 ```
+
+
+## CallExpression
+
+It's so hard to properly name these constructions.
+This one groups a function call or an array access.
+
+```ebnf
+CallExpression = primary, "(", (arguments list)?, ")"
+               | primary, "[", (expression, (comma, expression)*, comma?)? "]"
+               | primary
+```
+
 
 
