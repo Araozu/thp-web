@@ -1,0 +1,43 @@
+---
+layout: ../../../../layouts/ApiLayout.astro
+---
+import Code from "../../../../components/Code.astro"
+
+# `Array.map`
+
+Applies a function to all the elements of an array,
+and returns their result in a new array.
+
+## Signature
+
+<Code thpcode={`
+    fun [A, B](Array[A] self) map(
+        (A) -> (B) map_function
+    ) -> Array[B]
+
+    fun map[B](
+        self[],
+        (A) -> (B) map_function
+    ) -> Array[B]
+`} />
+
+
+
+<Code thpcode={`
+
+fun multi_def
+| ("prosor prosor", 322) -> Float
+{
+    fmt.Println("prosor prosor %d", 322)
+}
+| (String a, Int b) -> Float
+{
+
+}
+| (String a) -> Float
+{
+
+}
+
+`} />
+

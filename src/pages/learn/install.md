@@ -5,7 +5,16 @@ title: Install
 
 # Install
 
-**THP is not available for public use. These are goals.**
+**THP is technically usable.**
+
+## From source (*nix)
+
+Requires Rust installed.
+
+Clone [the repo](https://git.araozu.dev/fernando/thp) and run
+`cargo build --release`. You'll have a `thp` binary on
+`target/release/thp`, run it and see for yourself.
+
 
 ## Binary
 
