@@ -36,7 +36,7 @@ and RegExp:
 ; comments
 
 syntax        = concatenation
-concatenation = alternation grouping
+concatenation = production1, production2
 
 alternation   = "a" | "b"
               | "c"
@@ -65,8 +65,7 @@ The compiler consists of 5 common phases:
 ## Source Code representation
 
 Source code is encoded in UTF-8, and a single UTF-8 codepoint is
-a single character. As THP is implemented using the Rust programming
-language, rules around Rust's UTF-8 usage are followed.
+a single character.
 
 
 ## Basic characters
@@ -88,9 +87,102 @@ uppercase_letter = "A".."Z"
 ```
 
 
+## Whitespace & Automatic semicolon insertion
+
+This section is being reworked on the Zig rewrite of the compiler.
+
+THP is whitespace insensitive. However, THP has special rules
+when handling statement termination in order to not use
+semicolons.
+
+Certain statements have clearly defined markers of termination.
+For example, an `if` statement always has braces `{}`, so
+the closing brace `}` is the terminator. The same with
+parenthesis, square brackets, etc.
+
+Other statements require a explicit terminator. For example,
+the assignment statement:
+
+<Code thpcode={`
+val computation = 123 + 456  // how to detect if the statement ends here
+* 789                        // or extends up to here?
+`} />
+
+In other languages a semicolon would be used to signal the end of the
+statement:
+
+```c
+int computation = 123 + 456
+* 789;
+```
+
+THP does not use semicolons. Instead, THP has 1 strict rule and 1 exception
+to the rule:
+
+### All statements end with a newline
+
+No matter the indentation, whitespace or others, every statement ends
+with a newline.
+
+<Code thpcode={`
+val compute = 1 + 2 * 3 / 4
+// statement ends here     ↑
+`} />
+
+As mentioned before, this does not affect statements that have clear delimiters.
+For example, the following code will work as expected:
+
+<Code thpcode={`
+val compute = my_function(
+    param1,
+    param2,
+) / 64
+//    ↑ statement ends here
+`} />
+
+In a way, the parenthesis will "disable" the rule.
+
+But how to have an statement span multiple lines?
+
+### Exception: operator on the next line.
+
+If the next line begins with any operator, the statement of the previous line
+continues.
+
+For example:
+
+<Code thpcode={`
+val computation = 123 + 456
+* 789
+//   ↑ statement ends here, and there is a single statement
+`} />
+
+This is so no matter the indentation:
+
+<Code thpcode={`
+// weird indentation:
+
+    val computation = 123 + 456
+  * 789
+//     ↑ statement still ends here
+`} />
+
+What is important is that an operator begins the new line.
+If the operator is left on the previous line, this will not work:
+
+<Code thpcode={`
+//       statement ends here ↓, and now there is a syntax error (dangling operator)
+val computation = 123 + 456 *
+789
+// ↑ this is a different statement
+`} />
+
+For this the parser must do look-ahead of 1 token. This is the only place the parser
+does so.
 
 
-## Whitespace
+
+## Old Whitespace rules
 
 THP is partially whitespace sensitive. It uses the following tokens: Indent, Dedent & NewLine
 to determine when an expression spans multiple lines.
