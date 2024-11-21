@@ -1,21 +1,31 @@
 pipeline {
-	agent {
-		docker {
-			image 'node:22'
-		}
-	}
 	stages {
 		stage('Install pnpm') {
+			agent {
+				docker {
+					image 'node:22'
+				}
+			}
 			steps {
 				sh 'npm i -g pnpm'
 			}
 		}
 		stage('Install dependencies') {
+			agent {
+				docker {
+					image 'node:22'
+				}
+			}
 			steps {
 				sh 'pnpm i'
 			}
 		}
 		stage('Buid') {
+			agent {
+				docker {
+					image 'node:22'
+				}
+			}
 			steps {
 				sh 'THP_BINARY=/var/bin/thp pnpm build'
 			}
