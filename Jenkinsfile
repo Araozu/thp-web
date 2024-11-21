@@ -1,9 +1,12 @@
 pipeline {
+	agent any
+
 	stages {
 		stage('Install pnpm') {
 			agent {
 				docker {
 					image 'node:22'
+					reuseNode true
 				}
 			}
 			steps {
@@ -14,6 +17,7 @@ pipeline {
 			agent {
 				docker {
 					image 'node:22'
+					reuseNode true
 				}
 			}
 			steps {
@@ -24,6 +28,7 @@ pipeline {
 			agent {
 				docker {
 					image 'node:22'
+					reuseNode true
 				}
 			}
 			steps {
