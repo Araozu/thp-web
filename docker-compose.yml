@@ -1,0 +1,23 @@
+services:
+  thp:
+    image: nginx:alpine
+    restart: unless-stopped
+    container_name: thp-lang
+    volumes:
+      - /var/www/thp-lang.org/:/usr/share/nginx/html
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.thp.rule=Host(`thp-lang.org`)"
+      - "traefik.http.routers.thp.entrypoints=websecure"
+      - "traefik.http.routers.thp.tls=true"
+      - "traefik.http.routers.thp.tls.certresolver=hetzner-resolver"
+      - "traefik.http.routers.thp.tls.domains[0].main=thp-lang.org"
+      - "traefik.http.routers.thp.tls.domains[0].sans=*.thp-lang.org"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    name: proxy
+    external: true
+
