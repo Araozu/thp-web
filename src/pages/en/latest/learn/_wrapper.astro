@@ -6,12 +6,12 @@ const { frontmatter, headings } = Astro.props;
 
 const posts = await Astro.glob("./**/*.{md,mdx}") as unknown as Array<AstroFile>;
 
-// Current dir
-const current_dir = import.meta.dirname;
+// The base of every URL under this glob
+const base_url = "/en/latest/learn"
 ---
 
 <NewDocsLayout
-    base_dir={current_dir}
+    base_url={base_url}
     frontmatter={frontmatter}
     headings={headings}
     posts={posts}
