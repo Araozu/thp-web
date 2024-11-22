@@ -92,7 +92,11 @@ for (const levels_key in second_level) {
 }
 
 const index_page = entries.find(post => post.relative_file === "/index.md" || post.relative_file === "/index.mdx");
-const basePath = index_page.url;
+if (index_page === undefined && process.env.NODE_ENV !== "production") {
+	console.error("\n\nBuilding without an index page");
+	console.error("Props base_dir:", base_dir);
+}
+const basePath = index_page?.url ?? "/";
 ---
 
 <BaseLayout title={frontmatter.title}>
