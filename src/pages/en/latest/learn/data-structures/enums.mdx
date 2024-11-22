@@ -1,0 +1,48 @@
+---
+layout: "../_wrapper.astro"
+title: Enums
+---
+import Code from "@/components/Code.astro"
+
+# Enums
+
+From the [PHP documentation](https://www.php.net/manual/en/language.enumerations.overview.php):
+
+Enums allow a developer to define a custom type that is limited to one of a discrete number of possible values.
+
+THP enums are a 1 to 1 map of PHP enums, with a slightly different syntax.
+
+## Basic enums
+
+Enums don't have a scalar value by default.
+
+<Code thpcode={`
+enum Suit
+{
+    Hearts,
+    Diamonds,
+    Clubs,
+    Spades,
+}
+
+val suit = Suit::Hearts
+`} />
+
+## Backed enums
+
+Backed enums can have a scalar for each case. The scalar values can only be
+`String` or `Int`.
+
+<Code thpcode={`
+enum Suit(String)
+{
+    Hearts = "H",
+    Diamonds = "D",
+    Clubs = "C",
+    Spades = "S",
+}
+`} />
+
+All cases must explicitly define their value, there is no automatic generation.
+
+

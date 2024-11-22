@@ -1,10 +1,11 @@
 ---
-import path from "path";
-import NewDocsLayout from "@/layouts/NewDocsLayout.astro";
+import NewDocsLayout, { type AstroFile } from "@/layouts/NewDocsLayout.astro";
 
 const { frontmatter, headings } = Astro.props;
 // Get all the posts from this dir
-const posts = await Astro.glob("./**/*.{md,mdx}");
+
+const posts = await Astro.glob("./**/*.{md,mdx}") as unknown as Array<AstroFile>;
+
 // Current dir
 const current_dir = import.meta.dirname;
 ---

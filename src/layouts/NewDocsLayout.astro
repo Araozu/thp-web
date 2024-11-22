@@ -21,6 +21,7 @@ export interface AstroFile {
 export interface Frontmatter {
   layout: string
   title: string
+  order: number
 }
 
 type Props = {
@@ -56,7 +57,8 @@ const second_level: Record<string, Array<AstroFile>> = {
 for (const post of posts_2) {
 	const fragments = post.path.split("/");
 	if (fragments.length === 3) {
-		const folder_name = fragments[1];
+		const folder_name = fragments[1]!;
+
 		// create if not exists
 		if (second_level[folder_name] === undefined) {
 			second_level[folder_name] = [];
@@ -65,21 +67,21 @@ for (const post of posts_2) {
 	}
 	else if (fragments.length === 2) {
 		// add to root folder
-		second_level["_"].push(post);
+		second_level["_"]!.push(post);
 	}
 }
 
 // transform to the layout that the sidebar expects
 
-const entries = [];
+const entries: Array<any> = [];
 for (const levels_key in second_level) {
 	if (levels_key === "_") {
 		// top level
-		const posts = second_level[levels_key];
+		const posts = second_level[levels_key]!;
 		entries.push(...posts)
 	}
 	else {
-		const posts = second_level[levels_key];
+		const posts = second_level[levels_key]!;
 		const parentEntry = {
 			path: "",
 			title: levels_key,
@@ -91,9 +93,6 @@ for (const levels_key in second_level) {
 
 const index_page = entries.find(post => post.relative_file === "/index.md" || post.relative_file === "/index.mdx");
 const basePath = index_page.url;
-
-console.log(JSON.stringify(index_page, null, 4));
-console.log(basePath);
 ---
 
 <BaseLayout title={frontmatter.title}>

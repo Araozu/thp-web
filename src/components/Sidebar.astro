@@ -7,10 +7,6 @@ const basePath: string = Astro.props.basePath;
 const entryPath = is_index_file(entry.path)? "": entry.path;
 
 const entryUrl = basePath + entryPath + (entryPath.endsWith("/")? "" : "/");
-console.table({
-	basePath,
-	entryPath,
-})
 
 function is_index_file(p) {
 	return p.endsWith("index")
@@ -35,7 +31,7 @@ function is_index_file(p) {
     entry.children && (
         <>
             <div class="mt-6 px-3 py-1 uppercase font-display text-c-text-2 font-medium">
-                {entry.title}
+                {entry.title.replaceAll("-", " ")}
             </div>
 
             <ul class="my-1">

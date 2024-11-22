@@ -1,0 +1,37 @@
+---
+layout: "../_wrapper.astro"
+title: Higher Order Functions 
+---
+import Code from "@/components/Code.astro"
+
+# Higher Order functions
+
+
+## Function as parameters
+
+<Code thpcode={`
+fun map[A, B](Array[A] input, (A) -> (B) function) -> Array[B]
+{
+    // implementation
+}
+
+`} />
+
+## Function as return
+
+<Code thpcode={`
+fun generate_generator() -> () -> Int
+{
+    // code...
+    return fun() {
+        322
+    }
+}
+
+
+val generator = generate_generator()  // A function
+val value = generate_generator()()    // An Int
+`} />
+
+
+

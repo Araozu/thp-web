@@ -1,0 +1,24 @@
+---
+layout: "../_wrapper.astro"
+title: Blocks
+---
+import Code from "@/components/Code.astro"
+
+# Blocks
+
+Blocks of code are denoted with brackets `{}`.
+
+Blocks can be assigned to variables, in which case
+they are executed and their last expression is
+returned.
+
+<Code thpcode={`
+val result = {
+    val temp = 161
+
+    temp * 2    // This will be assigned to \`result\`
+}
+
+print(result)   // 322
+`} />
+
