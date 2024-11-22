@@ -42,16 +42,14 @@ const {
 const base_len = base_url.length;
 
 const posts_2 = posts
-	.map(post => {
-	return {
+	.map(post => ({
 		...post,
 		title: post.frontmatter.title,
 		// this should be a path relative to the base url.
 		// e.g if base_url is `/spec`, then this instead of
 		// being `/spec/ast/tokens` would be `/ast/tokens`
 		path: post.url.substring(base_len),
-	}
-	})
+	}))
 	.sort((p1, p2) => p1.frontmatter.order > p2.frontmatter.order? 1 : -1);
 
 // build a hierarchy of the files
@@ -75,39 +73,42 @@ for (const post of posts_2) {
 	}
 }
 
-// transform to the layout that the sidebar expects
+// build a folder hierarchy (only 2 levels)
 
 const entries: Array<any> = [];
-for (const levels_key in second_level) {
+const levels_keys = Object.keys(second_level).toSorted();
+
+// The key `_` contains the top level links. Always insert those
+const top_level_posts = second_level["_"]!;
+// sort
+const sorted_posts = top_level_posts.toSorted(sort_posts);
+entries.push(...sorted_posts);
+
+for (const levels_key of levels_keys) {
 	if (levels_key === "_") {
-		// top level
-		const posts = second_level[levels_key]!;
-		entries.push(...posts)
+		// top level, already inserted
+		continue;
 	}
 	else {
 		const posts = second_level[levels_key]!;
+		const sorted_posts = posts.toSorted(sort_posts);
 		const parentEntry = {
 			path: "",
 			title: levels_key,
-			children: posts,
+			children: sorted_posts,
 			url: "",
 		};
 		entries.push(parentEntry);
 	}
 }
 
-/*
-const index_page = posts_2.find(post => post.relative_file === "/index.md" || post.relative_file === "/index.mdx");
-if (index_page === undefined) {
-	console.error("\n\nBuilding without an index page");
-	console.error(import.meta.dirname);
-	console.error("base_path", base_dir);
-	console.error("entries len", entries.length);
-	entries.forEach(e => console.log("\t"+e.url));
-	throw new Error("No entries");
+function sort_posts(p1, p2) {
+	if (!!p1.frontmatter.order && !!p2.frontmatter.order) {
+		return p1.frontmatter.order > p2.frontmatter.order ? 1 : -1;
+	} else {
+		return p1.title > p2.title? 1 : -1;
+	}
 }
-const basePath = index_page?.url ?? "/";
-*/
 ---
 
 <BaseLayout title={frontmatter.title}>

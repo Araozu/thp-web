@@ -17,7 +17,7 @@ export function leftTrimDedent(input: string): Array<string> {
     // Get indentation level of the first line
     let indentationLevel = 0;
     for (const char of lines[0]!) {
-        if (char === " ") {
+        if (char === " " || char === "\n") {
             indentationLevel += 1;
         } else {
             break;
@@ -33,7 +33,7 @@ export function leftTrimDedent(input: string): Array<string> {
         output.push(trimWhitespace(line, indentationLevel));
     }
 
-    if (output.length > 1 &&  output[output.length - 1] === "") {
+    if (output.length > 1 && output[output.length - 1] === "") {
         output = output.slice(0, -1);
     }
 
