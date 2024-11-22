@@ -14,12 +14,10 @@ const thpcode = `union Animal {
 val my_pet = try Pets::get_first()
 
 match my_pet
-case Dog(name)
-{ 
+case Dog(name) {
     print("{name} has 1 live ")
 }
-case Cat(name, lives)
-{
+case Cat(name, lives) {
     print("{name} has {lives}")
 }`;
 
@@ -177,12 +175,10 @@ const [thp_html] = await native_highlighter(
         thpcode={`
     match test_file
     case DirEntry::File(filename)
-        if !filename.starts_with(".")
-    {
+    if !filename.starts_with(".") {
         print(filename)
     }
-    case _
-    {
+    case _ {
         print("A valid file was not found")
     }
     `}
@@ -196,9 +192,8 @@ const [thp_html] = await native_highlighter(
         title="Null safety"
         thpcode={`
     String? username = Post::get("username")
-    
-    if username?
-    {
+
+    if username? {
         // username is a \`String\` here
         print("Hello, {username}")
     }
@@ -215,8 +210,7 @@ const [thp_html] = await native_highlighter(
         thpcode={`
             val user_id = POST::get("id")
             val user = try User::find(user_id)
-            catch DBException e
-            {
+            catch DBException e {
                 log_error(e.message)
                 return page(.{}, 404)
             }

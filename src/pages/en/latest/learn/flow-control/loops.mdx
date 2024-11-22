@@ -17,8 +17,7 @@ Braces are required.
 <Code thpcode={`
 val numbers = [0, 1, 2, 3]
 
-for number in numbers
-{
+for number in numbers {
     print(number)
 }
 `} />
@@ -30,8 +29,7 @@ val dict = .{
     cherries: 3,
 }
 
-for value in dict
-{
+for value in dict {
     print("{value}")
 }
 `} />
@@ -42,8 +40,7 @@ for value in dict
 <Code thpcode={`
 val numbers = [0, 1, 2, 3]
 
-for index, number in numbers
-{
+for index, number in numbers {
     print("{index} : {number}")
 }
 `} />
@@ -55,8 +52,7 @@ val dict = .{
     cherries: 3,
 }
 
-for key, value in dict
-{
+for key, value in dict {
     print("{key} => {value}")
 }
 `} />
@@ -68,8 +64,7 @@ for key, value in dict
 val colors = ["red", "green", "blue"]
 var index = 0
 
-while index < colors.size()
-{
+while index < colors.size() {
     print("{colors[index]}")
     index += 1
 }
@@ -83,10 +78,8 @@ TBD
 You can give labels to loops, allowing you to `break` and `continue` in nested loops.
 
 <Code thpcode={`
-:top for i in values_1
-{
-    for j in values_2
-    {
+:top for i in values_1 {
+    for j in values_2 {
         // ...
         break :top
     }

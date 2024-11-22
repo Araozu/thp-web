@@ -40,8 +40,7 @@ Properties are declared with `var`/`val` inside a block.
 They **must** explicitly declare their datatype.
 
 <Code thpcode={`
-class Person()
-{
+class Person() {
     // This is an error. Properties must declare their datatype,
     // even if the compiler can infer it.
     val name = "Jane Doe"
@@ -57,8 +56,7 @@ class Person()
 **Properties are private by default**, but can be made public with `pub`.
 
 <Code thpcode={`
-class Person()
-{
+class Person() {
     // Properties are private by default
     val String name = "John Doe"
 
@@ -88,10 +86,8 @@ in the Constructor page.
 Methods are declared with `fun`, as regular functions.
 
 <Code thpcode={`
-class Person()
-{
-    fun greet()
-    {
+class Person() {
+    fun greet() {
         print("Hello")
     }
 }
@@ -100,17 +96,14 @@ class Person()
 **Methods are private by default**, and are made public with `pub`.
 
 <Code thpcode={`
-class Person()
-{
+class Person() {
     // This method is private
-    fun private_greet()
-    {
+    fun private_greet() {
         print("Hello from private method")
     }
 
     // Use \`pub\` to make a method public
-    pub fun greet()
-    {
+    pub fun greet() {
         print("Hello from greet")
     }
 }
@@ -125,8 +118,7 @@ in THP a method cannot have the same name as a property and viceversa.
 Doing so is a compile error.
 
 <Code thpcode={`
-class Person()
-{
+class Person() {
     String name = "Rose"
 
     // This is a compile error
@@ -143,17 +135,14 @@ THP uses the dollar sign `$` as this inside classes.
 It is **required** when using a class property/method.
 
 <Code thpcode={`
-class Person()
-{
+class Person() {
     val String name = "Jane Doe"
 
-    pub fun get_name() -> String
-    {
+    pub fun get_name() -> String {
         return $name
     }
 
-    pub fun greet()
-    {
+    pub fun greet() {
         val person_name = $get_name()
         print("Hello, I'm {person_name}")
     }
@@ -166,10 +155,8 @@ class Person()
 By default methods cannot mutate the state of the object.
 
 <Code thpcode={`
-class Animal(var String name)
-{
-    pub fun set_name(String new_name)
-    {
+class Animal(var String name) {
+    pub fun set_name(String new_name) {
         $name = new_name    // Error: Cannot mutate $name
     }
 }
@@ -179,10 +166,8 @@ To do so the method must be annotated. The caller must also
 declare a mutable variable.
 
 <Code thpcode={`
-class Animal(var String name)
-{
-    pub mut fun set_name(String new_name)
-    {
+class Animal(var String name) {
+    pub mut fun set_name(String new_name) {
         $name = new_name    // Ok
     }
 }

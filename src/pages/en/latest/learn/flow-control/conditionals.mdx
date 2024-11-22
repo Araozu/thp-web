@@ -14,16 +14,13 @@ import Code from "@/components/Code.astro"
 
 
 <Code thpcode={`
-if condition
-{
+if condition {
     // code
 }
-else if condition2
-{
+else if condition2 {
     // more code
 }
-else
-{
+else {
     // even more code
 }
 
@@ -38,8 +35,7 @@ val result = if condition { value1 } else { value2 }
 TBD
 
 <Code thpcode={`
-if variable is Datatype
-{
+if variable is Datatype {
     // code using variable
 }
 `} />
@@ -52,13 +48,11 @@ TBD
 <Code thpcode={`
 val user_id = POST::get("user_id")
 
-if Some(user_id) = user_id
-{
+if Some(user_id) = user_id {
     print("user_id exists: {user_id}")
 }
 
-if Some(user_id) = user_id && user_id > 0
-{
+if Some(user_id) = user_id && user_id > 0 {
     print("user_id is greater than 0: {user_id}")
 }
 `} />

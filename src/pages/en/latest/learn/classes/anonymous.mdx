@@ -8,10 +8,8 @@ import Code from "@/components/Code.astro"
 
 
 <Code thpcode={`
-class Logger
-{
-    pub fun log(String msg)
-    {
+class Logger {
+    pub fun log(String msg) {
         print(msg)
     }
 }
@@ -20,20 +18,16 @@ class Logger
 setLogger(Logger())
 
 // Using an anonymous class
-setLogger(class
-{
-    pub fun log(String msg)
-    {
+setLogger(class {
+    pub fun log(String msg) {
         print(msg)
     }
 })
 `} />
 
 <Code thpcode={`
-setLogger(class(Int param1) -> SomeClass(param1), SomeInterface
-{
-    pub fun method()
-    {
+setLogger(class(Int param1) -> SomeClass(param1), SomeInterface {
+    pub fun method() {
         // code
     }
 })

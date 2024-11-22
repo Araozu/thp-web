@@ -55,13 +55,11 @@ The `init` block allow us to run code during the
 construction of the instance:
 
 <Code thpcode={`
-class Dog(String name)
-{
+class Dog(String name) {
     pub String name = name
     Int name_len = name.length
 
-    init
-    {
+    init {
         print("Dog created: {name}")
     }
 }
@@ -141,10 +139,8 @@ Proposal 1:
 
 <Code thpcode={`
 class PrayingMantis(String name)
-throws Error
-{
-    init -> Error!
-    {
+throws Error {
+    init -> Error! {
         // Initialization code that may fail
     }
 }
@@ -156,10 +152,8 @@ throws Error
 The destructor in THP is the same as PHP.
 
 <Code thpcode={`
-class Owl()
-{
-    pub fun __destruct()
-    {
+class Owl() {
+    pub fun __destruct() {
         // Cleanup
         print("Destroying Owl...")
     }
