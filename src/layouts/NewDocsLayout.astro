@@ -69,8 +69,6 @@ for (const post of posts_2) {
 	}
 }
 
-console.log(JSON.stringify(second_level, null, 4));
-
 // transform to the layout that the sidebar expects
 
 const entries = [];
@@ -80,13 +78,22 @@ for (const levels_key in second_level) {
 		const posts = second_level[levels_key];
 		entries.push(...posts)
 	}
+	else {
+		const posts = second_level[levels_key];
+		const parentEntry = {
+			path: "",
+			title: levels_key,
+			children: posts,
+		};
+		entries.push(parentEntry);
+	}
 }
 
-
-const index_page = posts_2.find(post => post.relative_file === "/index.md" || post.relative_file === "/index.mdx");
+const index_page = entries.find(post => post.relative_file === "/index.md" || post.relative_file === "/index.mdx");
 const basePath = index_page.url;
 
-const pagesIndex = posts_2;
+console.log(JSON.stringify(index_page, null, 4));
+console.log(basePath);
 ---
 
 <BaseLayout title={frontmatter.title}>

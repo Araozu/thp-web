@@ -7,6 +7,10 @@ const basePath: string = Astro.props.basePath;
 const entryPath = is_index_file(entry.path)? "": entry.path;
 
 const entryUrl = basePath + entryPath + (entryPath.endsWith("/")? "" : "/");
+console.table({
+	basePath,
+	entryPath,
+})
 
 function is_index_file(p) {
 	return p.endsWith("index")
@@ -38,7 +42,7 @@ function is_index_file(p) {
                 {entry.children!.map((nextEntry) => (
                     <Astro.self
                         entry={nextEntry}
-                        basePath={`${basePath}${entry.path}/`}
+                        basePath={`${basePath}${entry.path}`}
                     />
                 ))}
             </ul>
