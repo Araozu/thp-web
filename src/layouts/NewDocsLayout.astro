@@ -40,17 +40,17 @@ const {
 
 const base_dir_end = base_dir.length;
 
-const posts_2 = posts.map(post => ({
-	...post,
-	relative_file: post.file.substring(base_dir_end),
-	path: post.file.substring(base_dir_end),
-	title: post.frontmatter.title,
-}))
+const posts_2 = posts
+	.map(post => ({
+		...post,
+		relative_file: post.file.substring(base_dir_end),
+		path: post.file.substring(base_dir_end).replace(/\.mdx?$/, ""),
+		title: post.frontmatter.title,
+	}))
+	.sort((p1, p2) => p1.frontmatter.order > p2.frontmatter.order? 1 : -1);
 
 const index_page = posts_2.find(post => post.relative_file === "/index.md" || post.relative_file === "/index.mdx");
 const basePath = index_page.url;
-
-console.log(JSON.stringify(index_page, null, 4));
 
 const pagesIndex = posts_2;
 ---
