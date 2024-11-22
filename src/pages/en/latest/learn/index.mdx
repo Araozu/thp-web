@@ -1,0 +1,246 @@
+---
+layout: "./_wrapper.astro"
+title: Welcome
+---
+import InteractiveCode from "@/components/InteractiveCode.astro";
+import Code from "@/components/Code.astro"
+
+
+# Welcome
+
+Welcome to the documentation of the THP programming languague.
+
+THP is a new programming language that compiles to PHP.
+
+![Accurate visual description of THP](/img/desc_thp.jpg)
+
+
+This page details the main design desitions of the language,
+if you want to install THP go to the [installation guide](install)
+
+
+## Why?
+
+PHP is an old language. It has been growing since 1995, adopting a
+lot of features from many places like C, Perl, Java, etc. This was
+done in a very inconsistent way, as detailed by Eevee in their article 
+[PHP: a fractal of bad design.](https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/)
+
+Along the years PHP has been improving. PHP added classes, exceptions,
+interfaces, traits, type hints and checks, functional features,
+reflection, etc., etc. However, by building on top of the existing
+language without a clear design philosophy, and by keeping backwards
+compatibility, we ended up with a messy language. The article
+above goes into detail about this.
+
+In spite of this, PHP has remained widely used and loved, in a
+weird way (I'd say in the same way that people love JavaScript),
+and at the time of writing PHP 8.3 is available. However,
+PHP is to my eyes fundamentally flawed, and cannot get up to
+date without completely breaking what came before.
+
+This is where THP comes in. I wanted a modern language
+that could run in the same environment that PHP does.
+And I quickly realized that building on top of PHP
+in the same way that TypeScript did for JavaScript would be
+detrimental. It would be better to create a completely new
+language, treat PHP source code as a "low level" compilation
+target, and focus entirely on the new language.
+
+This new language would be mainly inspired by what **I** consider the best
+designed languages out there: Rust as a baseline, Zig for
+its null and error handling and Kotlin for its OOP features.
+In a way, PHP will be adapted to, say, Rust's syntax and semantics,
+instead of having Rust adapt to PHP.
+
+In pursue of this THP **will** ditch many things about PHP,
+in name of consistency. These are things that PHP devs are
+used to doing, but that I consider bad practices, hacks or
+workarounds. One example of this are variable variables on PHP:
+`$$variable`.
+
+Another critical point of THP is type safety. It is a goal
+to approach the same level of type safety that have compiled
+languages like Java/Go/Rust, and leave aside dynamic typing
+as much as possible. Types cannot be turned off, you cannot
+use `Any` to avoid typechecking, and so on.
+
+Finally, there are some additions to the language that I consider
+essential today: A good, unified LSP, type definitions,
+accesible documentation, an opinionated code formatter
+and plugins for major editors like VSCode and Neovim.
+
+
+
+
+
+## Goals
+
+- Bring static typing to PHP: Generics, type checks at compile and runtime, etc.
+- Reduce implicit type conversion to a minimum.
+- Remove the inconsistencies in the language.
+- Organize the PHP stdlib.
+- Have a clear distinctions between Arrays, Tuples, Maps and Sets.
+- Implement Union types
+- Create a **consistent** language.
+- Have typings for popular libraries (like TS's `.d.ts`).
+- Have a simple instalation and configuration (requiring just Composer or a binary).
+- Ship a **_blazingly fast_**, native binary, ~~written in Rust~~ now rewritten in Zig!.
+- Support in-place compilation.
+- Implement a Language Server.
+- Implement an opinionated code formatter.
+
+![Friendship ended with Rust, now Zig is my best friend.](/img/mudasir.jpg)
+
+
+## Not goals
+
+These are **not** things that THP wants to solve or implement
+
+- Be what TypeScript is for JavaScript (PHP with types).
+- Strictly adhere to PHP syntax/conventions.
+
+THP **_intentionally_** uses a different syntax from PHP to signal
+that it is a different language, and has different semantics.
+
+
+## Some differences with PHP
+
+```php
+// PHP
+$has_key = str_contains($haystack, 'needle');
+print("has key? " . $has_key);
+```
+
+<Code thpcode={`
+// THP
+val has_key = haystack.contains("needle")
+print("has key? " + has_key)
+`} />
+
+- Explicit variable declaration
+- No `$` for variable names (and thus no `$$variable`, use a map instead)
+- No semicolons
+- Use methods on common datatypes
+- Strings use only double quotes
+- String concatenation with `+`
+
+
+<br/>
+<br/>
+
+```php
+// PHP
+$obj = [
+    'names' => ['Toni', 'Stark'],
+    'age' => 33,
+    'numbers' => [32, 64, 128]
+]
+```
+
+<Code thpcode={`
+// THP
+val obj = .{
+    names: #("Toni", "Stark"), // Tuple
+    age: 33,
+    numbers: [32, 64, 128]
+}
+`} />
+
+- Tuples, Arrays, Sets, Maps are clearly different
+- JSON-like object syntax
+
+<br/>
+<br/>
+
+```php
+// PHP
+$cat = new Cat("Michifu", 7);
+$cat->meow();
+```
+
+
+<Code thpcode={`
+// THP
+val cat = Cat("Michifu", 7)
+cat.meow()
+`} />
+
+- Instantiate classes without `new`
+- Use dot `.` instead of arrow `->` syntax
+
+<br/>
+<br/>
+
+```php
+// PHP
+use \Some\Deeply\Nested\Class
+use \Some\Deeply\Nested\Interface
+```
+
+
+<Code thpcode={`
+// THP
+use Some::Deeply::Nested::{Class, Interface}
+`} />
+
+- Different module syntax
+- Explicit module declaration
+- PSR-4 required
+- No `include`, `include_once`, `require` or `require_once`
+
+<br/>
+<br/>
+
+
+Other things:
+
+- Pattern matching
+- ADTs
+
+
+## Runtime changes
+
+Where possible THP will compile to available PHP functions/classes/methods/etc.
+
+For example:
+
+<Code thpcode={`
+// This expression
+val greeting = 
+    match get_person()
+    case Some(person) if person.age > 18
+    { 
+        "Welcome, {person.name}"
+    }
+    case Some(person)
+    {
+        "I'm sorry {person.name}, you need to be 18 or older"
+    }
+    case None
+    {
+        "Nobody is here"
+    }
+`} />
+
+```php
+// Would compile to:
+$greeting = null;
+$_person = get_person();
+if ($_person !== null) {
+    if ($_person["age"] > 18) {
+        $greeting = "Welcome, " . $_person["name"];
+    }
+    else {
+        $greeting = "I'm sorry " . $_person["name"] . ", you need to be 18 or older";
+    }
+}
+else {
+    $greeting = "Nobody is here";
+}
+```
+
+However, more advanced datatypes & helper functions will require a sort of
+runtime (new classes/functions/etc) or abuse the language's syntax/semantics.
+
+

@@ -4,10 +4,15 @@ import type { PageEntry } from "../layouts/PagesLayout.astro";
 const entry: PageEntry = Astro.props.entry;
 const basePath: string = Astro.props.basePath;
 
-const entryPath = entry.path === "index"? "": entry.path;
+const entryPath = is_index_file(entry.path)? "": entry.path;
 
 const entryUrl = basePath + entryPath + (entryPath.endsWith("/")? "" : "/");
 
+function is_index_file(p) {
+	return p.endsWith("index")
+		|| p.endsWith("index.md")
+		|| p.endsWith("index.mdx")
+}
 ---
 
 {

@@ -1,0 +1,19 @@
+---
+import path from "path";
+import NewDocsLayout from "@/layouts/NewDocsLayout.astro";
+
+const { frontmatter, headings } = Astro.props;
+// Get all the posts from this dir
+const posts = await Astro.glob("./**/*.{md,mdx}");
+// Current dir
+const current_dir = import.meta.dirname;
+---
+
+<NewDocsLayout
+    base_dir={current_dir}
+    frontmatter={frontmatter}
+    headings={headings}
+    posts={posts}
+>
+    <slot />
+</NewPagesLayout>
