@@ -1,5 +1,5 @@
 ---
-layout: ../../../layouts/SpecLayout.astro
+layout: "../_wrapper.astro"
 title: New line
 ---
 

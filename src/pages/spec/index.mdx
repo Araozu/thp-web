@@ -1,26 +1,8 @@
 ---
-layout: ../../layouts/SpecLayout.astro
+layout: "./_wrapper.astro"
 title: Welcome
-pagesLayout:
-- path: index
-- path: tokens
-  title: Tokens
-  children:
-  - path: tokens
-  - path: numbers
-  - path: identifier
-  - path: string
-  - path: comments
-  - path: operator
-  - path: grouping
-  - path: newline
-- path: ast
-  title: THP AST
-  children:
-  - path: ast
-  - path: expression
 ---
-import Code from "../../components/Code.astro"
+import Code from "@/components/Code.astro"
 
 
 # The THP Language Specification
