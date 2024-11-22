@@ -49,6 +49,40 @@ const posts_2 = posts
 	}))
 	.sort((p1, p2) => p1.frontmatter.order > p2.frontmatter.order? 1 : -1);
 
+// build a hierarchy of the files
+const second_level: Record<string, Array<AstroFile>> = {
+	"_": [],
+};
+for (const post of posts_2) {
+	const fragments = post.path.split("/");
+	if (fragments.length === 3) {
+		const folder_name = fragments[1];
+		// create if not exists
+		if (second_level[folder_name] === undefined) {
+			second_level[folder_name] = [];
+		}
+		second_level[folder_name].push(post);
+	}
+	else if (fragments.length === 2) {
+		// add to root folder
+		second_level["_"].push(post);
+	}
+}
+
+console.log(JSON.stringify(second_level, null, 4));
+
+// transform to the layout that the sidebar expects
+
+const entries = [];
+for (const levels_key in second_level) {
+	if (levels_key === "_") {
+		// top level
+		const posts = second_level[levels_key];
+		entries.push(...posts)
+	}
+}
+
+
 const index_page = posts_2.find(post => post.relative_file === "/index.md" || post.relative_file === "/index.mdx");
 const basePath = index_page.url;
 
@@ -68,7 +102,7 @@ const pagesIndex = posts_2;
         >
             <nav class="py-4 pr-2 overflow-x-scroll h-[calc(100vh-3rem)]">
                 {
-                    pagesIndex.map((entry) => (
+                    entries.map((entry) => (
                         <Sidebar entry={entry} basePath={basePath} />
                     ))
                 }
