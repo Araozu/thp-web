@@ -12,7 +12,7 @@ const error_classes = "underline underline-offset-4 decoration-wavy decoration-r
  * - The tokens as a list of <span /> elements
  * - An error message, if any
  */
-export async function native_highlighter(code: string, level = HighlightLevel.Syntactic): Promise<[string, string | null]> {
+export async function native_highlighter(code: string, level = HighlightLevel.Lexic): Promise<[string, string | null]> {
     let formatted_code = leftTrimDedent(code).join("\n");
 
     try {
