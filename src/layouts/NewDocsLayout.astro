@@ -129,9 +129,6 @@ const rc = url_components[1] ?? "";
 		>
 			<nav class="py-4 pr-2 overflow-x-scroll h-[calc(100vh-3rem)]">
 				<div class="mb-2 relative" x-data="{open: false}">
-					<div>
-						<span> Language version: </span>
-					</div>
 					<button
 						class="bg-c-bg text-c-text border border-c-primary rounded px-3 w-full font-mono mt-2 flex items-center hover:dark:bg-zinc-800 transition-colors cursor-pointer text-left"
 						@click="open = !open"
@@ -152,6 +149,7 @@ const rc = url_components[1] ?? "";
 						</svg>
 					</button>
 					<div
+						x-cloak
 						x-bind:class="open? '': 'hidden'"
 						class="bottom-0 w-full absolute"
 					>

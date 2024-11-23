@@ -25,6 +25,8 @@
   --font-code: "Iosevka Fixed Web", "Iosevka Nerd Font", Iosevka, monospace;
 }
 
+[x-cloak] { display: none !important; }
+
 :root {
   --c-bg: #121212;
   --c-text: rgb(200, 200, 200);

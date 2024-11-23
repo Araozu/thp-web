@@ -24,13 +24,13 @@ const { showSidebarButton = true, version = "latest" } = Astro.props;
 			Learn
 		</a>
 		<a
-			href="/api/std/"
+			href={`/en/${version}/api/std/`}
 			class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
 		>
 			Standard Library
 		</a>
 		<a
-			href="/spec/"
+			href={`/en/${version}/spec/`}
 			class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
 		>
 			Language spec
