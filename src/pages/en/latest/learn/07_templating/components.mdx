@@ -2,8 +2,9 @@
 layout: "../_wrapper.astro"
 title: Components
 ---
-import Code from "@/components/Code.astro"
-import Info from "@/components/docs/Info.astro"
+
+import Code from "@/components/Code.astro";
+import Info from "@/components/docs/Info.astro";
 
 # Components
 
@@ -14,14 +15,17 @@ Like React, a component is any function that returns `HTML`.
     will be uppercase or not.
 
     For now they will be uppercase.
+
 </Info>
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun MyComponent() -> HTML
 {
     <p>Hello templates!</p>
 }
-`} />
+`}
+/>
 
 Inside the HTML tags you can (mostly) write the HTML you already
 know.
@@ -37,6 +41,7 @@ fun MyComponent() -> HTML
     val name = "John"
 
     <p>Hello {name}!</p>
+
 }
 `} />
 
@@ -57,6 +62,7 @@ fun MyComponent() -> HTML
         {if is_vip {"Welcome"} else {"Hi"}}
         {name}!
     </p>
+
 }
 `} />
 
@@ -74,8 +80,10 @@ fun MyComponent() -> HTML
     val user_input = "<b>BOLD</b>"
 
     <p>answer: {user_input}</p>
+
 }
 `} />
+
 ```html
 <p>answer: &lt;b&gt;BOLD&lt;/b&gt;</p>
 ```
@@ -88,12 +96,15 @@ fun MyComponent() -> HTML
     val user_input = "<b>BOLD</b>"
 
     <p>answer: <span raw-html={user_input}></span></p>
+
 }
 `} />
-```html
-<p>answer: <span><b>BOLD</b></span></p>
-```
 
+```html
+<p>
+  answer: <span><b>BOLD</b></span>
+</p>
+```
 
 ## Dynamic attributes
 
@@ -101,12 +112,14 @@ TODO: boolean attributes
 
 Normal attributes (plain strings) work as you'd expect:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun MyComponent() -> HTML
 {
     <button class="red">hello</button>
 }
-`} />
+`}
+/>
 ```html
 <button class="red">hello</button>
 ```
@@ -121,29 +134,30 @@ fun MyComponent() -> HTML
 
     // Note the braces
     <button class={button_class}>hello</button>
+
 }
 `} />
+
 ```html
 <button class="blue">hello</button>
 ```
-
-
 
 ## Fragments
 
 An HTML expression consist of a single tag that may have children inside.
 If you need to return multiple tags at once you can use fragments.
 
-
 The following code doesn't work as you would expect:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun MyComponent() -> HTML
 {
     <p>hello</p>    // This is an error, an ignored expression
     <p>world</p>
 }
-`} />
+`}
+/>
 
 Each `<p>` is a single expression, they are not grouped.
 And since we cannot have unused expressions, the code will not compile.
@@ -151,7 +165,8 @@ And since we cannot have unused expressions, the code will not compile.
 To have these two `<p>` tags as a single expression use a fragment:
 `<></>`
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun MyComponent() -> HTML
 {
     // This is the root "element"
@@ -160,7 +175,8 @@ fun MyComponent() -> HTML
         <p>world</p>
     </>
 }
-`} />
+`}
+/>
 ```html
 <p>hello</p>
 <p>world</p>
@@ -179,16 +195,14 @@ fun User() -> HTML
 
 fun MyComponent() -> HTML
 {
-    <>
-        <p>status</p>
-        <User />        // Here we are using the other component
-    </>
-}
-`} />
+
+<>
+  <p>status</p>
+  <User /> // Here we are using the other component
+</>
+} `} />
+
 ```html
 <p>status</p>
 <span>world</span>
 ```
-
-
-

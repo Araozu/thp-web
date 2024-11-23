@@ -3,7 +3,8 @@ layout: "../_wrapper.astro"
 title: Datatypes
 order: 4
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Datatypes
 
@@ -28,49 +29,53 @@ Int char_code = 0b01000110
 // IMPORTANT!
 // Since Octal starts with \`0o\`, using just a leading 0
 // will result in a decimal!
-Int not_octal = 032     // This is 32, not 26
+Int not_octal = 032 // This is 32, not 26
 `} />
 
 // TODO: Make it a compile error to have leading zeroes,
 and force users to use `0o` for octal
 
-
 ## Float
 
 Same as php float
 
-
-<Code thpcode={`
+<Code
+  thpcode={`
 Float pi = 3.141592
 Float light = 2.99e+8
-`} />
-
+`}
+/>
 
 ## String
 
 THP strings use **only** double quotes. Single quotes are
 used elsewhere.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 String name = "Rose"
-`} />
+`}
+/>
 
 Strings have interpolation with `{}`.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 print("Hello, {name}")      // Hello, Rose
-`} />
+`}
+/>
 
 Unlike PHP, THP strings are concatenated with `++`, not with `.`.
 This new operator implicitly converts any operator into a string.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 val name = "John" ++ " " ++ "Doe"
 val greeting = "My name is " ++ name ++ " and I'm " ++ 32 ++ " years old"
-`} />
+`}
+/>
 
 The plus operator `+` is reserved for numbers.
-
 
 ## Bool
 
@@ -84,4 +89,3 @@ Bool is_false = false
 // This is a compile error
 val invalid = TRUE
 `} />
-

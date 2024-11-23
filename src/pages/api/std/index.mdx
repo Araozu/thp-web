@@ -1,8 +1,9 @@
 ---
 layout: ../../../layouts/ApiLayout.astro
 ---
-import TwoColumn from "../../../components/TwoColumn.astro"
-import Code from "../../../components/Code.astro"
+
+import TwoColumn from "../../../components/TwoColumn.astro";
+import Code from "../../../components/Code.astro";
 
 # module `std`
 
@@ -28,12 +29,14 @@ if (str_contains("abc", "a")) {
 In THP there is no `str_contains` function. Instead, you'd call the
 `contains` method on the string:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 if "abc".contains("a")
 {
     // ...
 }
-`} />
+`}
+/>
 
 ## On naming
 
@@ -56,10 +59,11 @@ If you need to use a PHP class with a lowercase name you can use the following s
 class animal {}
 ```
 
-<Code thpcode={`
+<Code
+  thpcode={`
 val my_animal = 'animal()
-`} />
-
+`}
+/>
 
 ## API: Datatypes
 
@@ -96,5 +100,3 @@ A [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) double precision floating p
 Prints text into stdout.
 
 </TwoColumn>
-
-

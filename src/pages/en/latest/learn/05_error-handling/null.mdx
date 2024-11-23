@@ -2,7 +2,8 @@
 layout: "../_wrapper.astro"
 title: Nullable types
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Nullable types
 
@@ -13,9 +14,11 @@ by the question mark `?` character.
 For instance, a POST request may have a `username` parameter,
 or it may not. This can be represented with an `?String`.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 ?String new_username = POST::get("username")
-`} />
+`}
+/>
 
 When we have a `?Type` we cannot use it directly. We must first
 check if the value is null, and then use it.
@@ -31,7 +34,7 @@ if new_username?
 // you can also manually check for null
 if new_username == null
 {
-    // This is the same as above
+// This is the same as above
 }
 
 `} />
@@ -46,8 +49,8 @@ To create a nullable type we must explicitly annotate the type.
 <Code thpcode={`
 val favorite_color = null      // Error, we must define the type
 
-?String favorite_color = null  // Ok
-`} /> 
+?String favorite_color = null // Ok
+`} />
 
 Other examples:
 
@@ -71,7 +74,6 @@ val name = person?.name
 - If `person` is null, `person?.name` will return `null`
 - If `person` is not null, `person?.name` will return `name`
 
-
 ## Null unboxing
 
 The `!!` operator transforms a `?Type` into `Type`.
@@ -90,15 +92,16 @@ String s = lastname!!
 
 You can use it to chain access:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 val children_lastname = person!!.child!!.lastname
-`} />
+`}
+/>
 
 However, if at runtime you use `!!` on a null value,
 the null value will be returned and your program will
 blow up later. So make sure to use this operator
 only when you are sure a value cannot be null.
-
 
 ## Elvis operator
 
@@ -114,13 +117,12 @@ val test_score = get_score() ?? 0
 For the above code:
 
 - If `get_score()` is not null, `??` will return `get_score()`
-- If `get_score()` *is* null, `??` will return `0`
+- If `get_score()` _is_ null, `??` will return `0`
 
 You can use the Elvis operator to return early
 
-<Code thpcode={`
+<Code
+  thpcode={`
 val username = get_username() ?? return
-`} />
-
-
-
+`}
+/>

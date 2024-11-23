@@ -1,11 +1,11 @@
 ---
 layout: "../_wrapper.astro"
-title: Higher Order Functions 
+title: Higher Order Functions
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Higher Order functions
-
 
 ## Function as parameters
 
@@ -28,10 +28,6 @@ fun generate_generator() -> () -> Int
     }
 }
 
-
-val generator = generate_generator()  // A function
-val value = generate_generator()()    // An Int
+val generator = generate_generator() // A function
+val value = generate_generator()() // An Int
 `} />
-
-
-

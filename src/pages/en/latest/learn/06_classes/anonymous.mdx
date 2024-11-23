@@ -2,10 +2,10 @@
 layout: "../_wrapper.astro"
 title: Anonymous classes
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Anonymous classes
-
 
 <Code thpcode={`
 class Logger {
@@ -19,16 +19,18 @@ setLogger(Logger())
 
 // Using an anonymous class
 setLogger(class {
-    pub fun log(String msg) {
-        print(msg)
-    }
+pub fun log(String msg) {
+print(msg)
+}
 })
 `} />
 
-<Code thpcode={`
+<Code
+  thpcode={`
 setLogger(class(Int param1) -> SomeClass(param1), SomeInterface {
     pub fun method() {
         // code
     }
 })
-`} />
+`}
+/>

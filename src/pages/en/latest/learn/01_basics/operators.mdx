@@ -3,10 +3,10 @@ layout: "../_wrapper.astro"
 title: Operators
 order: 5
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Operators
-
 
 Most of the PHP operators are present in THP.
 
@@ -17,13 +17,13 @@ var number = 322
 
 number + 1
 number - 1
-number * 1
+number \* 1
 number / 1
 number % 2
 
 number += 1
 number -= 1
-number *= 1
+number \*= 1
 number /= 1
 number %= 2
 `} />
@@ -36,7 +36,7 @@ use `+=` or `-=` instead.
 number += 1
 
 // instead of
-number++   // This is a compile error
+number++ // This is a compile error
 `} />
 
 ### Comparison
@@ -44,61 +44,70 @@ number++   // This is a compile error
 These operators will not do implicit type conversion. They can
 only be used with same datatypes.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 v1 < v2
 v1 <= v2
 v1 > v2
 v1 >= v2
-`} />
+`}
+/>
 
 There is only `==` and `!=`. They are equivalent to `===` and `!==`.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 v1 == v2
 v1 != v2
-`} />
-
+`}
+/>
 
 ### Bitwise
 
 TBD
 
-<Code thpcode={`
+<Code
+  thpcode={`
 number and 1
 number or 2
 number xor 1
 number xand 1
-`} />
+`}
+/>
 
 ## Strings
 
 Strings **do not use `.`** for concatenation. They use `++`.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 "Hello " ++ "world."
-`} />
+`}
+/>
 
 This new operator **implicitly converts** types to string
 
-<Code thpcode={`
+<Code
+  thpcode={`
 "Hello " ++ 322      // 322 will be converted to "322"
-`} />
-
+`}
+/>
 
 ## Boolean
 
 These operators work **only with booleans**, they do not perform
 type coercion.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 c1 && c2
 c1 || c2
-`} />
+`}
+/>
 
 ## Ternary
 
 There is no ternary operator. See [Conditionals](/learn/flow-control/conditionals) for alternatives.
-
 
 ## Null
 
@@ -112,9 +121,6 @@ person?.name ?? "Jane"
 person?.greet?.()
 
 if person? {
-    person.name
+person.name
 }
 `} />
-
-
-

@@ -2,10 +2,10 @@
 layout: "../_wrapper.astro"
 title: Constructor/Destructor
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Constructor/Destructor
-
 
 ## Constructor
 
@@ -28,7 +28,7 @@ Note that the parameters in the constructor (`fullname`,
 inside the class methods, only in the
 [`init` block](#init-block) and properties declaration.
 
-To declare properties in the constructor see 
+To declare properties in the constructor see
 [Constructor promotion](#constructor-promotion).
 
 ### Constructor visibility
@@ -36,7 +36,6 @@ To declare properties in the constructor see
 If you want to declare a constructor as protected
 or private you need to add the `constructor`
 keyword, after the visibility modifier:
-
 
 <Code thpcode={`
 // Cow has a protected constructor
@@ -47,7 +46,6 @@ protected constructor(String color)
 class Bat
 private constructor(Int height)
 `} />
-
 
 ### Init block
 
@@ -62,6 +60,7 @@ class Dog(String name) {
     init {
         print("Dog created: {name}")
     }
+
 }
 `} />
 
@@ -80,15 +79,13 @@ class Dog {
 }
 ```
 
-
-
-
 ### Constructor promotion
 
 Constructor parameters can serve as class properties.
 This is done by adding a modifier and `var`/`val`.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 class Parrot(
     // A public property
     pub val String name,
@@ -97,14 +94,13 @@ class Parrot(
     // A private property
     var String last_name,
 )
-`} />
-
+`}
+/>
 
 By using this syntax you are declaring properties and assigning them
 at the same time.
 
 The contructor parameters can also have default values.
-
 
 ### Derived properties
 
@@ -122,43 +118,40 @@ class Animal(
 }
 
 val a2 = Animal("Doa")
-print(a2.name_length)   //: 3
+print(a2.name_length) //: 3
 `} />
-
 
 ### Constructor that may fail
 
 A constructor may only fail if there is code
 that can fail on the `init` block.
 
-
-
 TBD
 
 Proposal 1:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 class PrayingMantis(String name)
 throws Error {
     init -> Error! {
         // Initialization code that may fail
     }
 }
-`} />
-
+`}
+/>
 
 ## Destructor
 
 The destructor in THP is the same as PHP.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 class Owl() {
     pub fun __destruct() {
         // Cleanup
         print("Destroying Owl...")
     }
 }
-`} />
-
-
-
+`}
+/>

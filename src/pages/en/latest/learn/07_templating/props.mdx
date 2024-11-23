@@ -2,8 +2,9 @@
 layout: "../_wrapper.astro"
 title: Props
 ---
-import Code from "@/components/Code.astro"
-import Info from "@/components/docs/Info.astro"
+
+import Code from "@/components/Code.astro";
+import Info from "@/components/docs/Info.astro";
 
 # Props
 
@@ -15,23 +16,27 @@ and they are defined as normal parameters.
 For example, to receive a `String` declare it as a
 parameter:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun Greeter(String name) -> HTML
 {
     <p>Hello {name}!</p>
 }
-`} />
+`}
+/>
 
 And to send its value type the parameter name as an attribute:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun Home() -> HTML
 {
     <div>
         <Greeter name="Rose" />
     </div>
 }
-`} />
+`}
+/>
 
 ```html
 <div><p>Hello Rose</p></div>
@@ -39,18 +44,21 @@ fun Home() -> HTML
 
 You can have as many props as you'd like, of any datatype:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun Greeter(String name, Int age, Array[String] friends) -> HTML
 {
     // ...
 }
-`} />
+`}
+/>
 
 ## Static props
 
 If the prop has a type `String` you can use a normal attribute.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun Home() -> HTML
 {
     <div>
@@ -58,8 +66,8 @@ fun Home() -> HTML
         <Greeter name="Rose" />
     </div>
 }
-`} />
-
+`}
+/>
 
 ## Dynamic props
 
@@ -75,21 +83,22 @@ fun Sample(Cat cat) -> HTML
 
 fun Home() -> HTML
 {
-    val my_cat = Cat("Michifu")
+val my_cat = Cat("Michifu")
 
     <div>
         <Sample cat={my_cat} />
     </div>
+
 }
 `} />
-
 
 ## Components as props
 
 If for some reason you want to use a component as a prop
 use the `HTML` datatype:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 // The parameter can have any name, not only \`child\`
 fun Sample(HTML child) -> HTML
 {
@@ -98,24 +107,27 @@ fun Sample(HTML child) -> HTML
         {child}
     </>
 }
-`} />
+`}
+/>
 
 This, however, means that your prop component must be declared
 as an attribute:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun Home() -> HTML
 {
     <div>
         <Sample child={<span>I am the child</span>} />
     </div>
 }
-`} />
+`}
+/>
 
 ```html
 <div>
-    <p>Sup</p>
-    <span>I am the child</span>
+  <p>Sup</p>
+  <span>I am the child</span>
 </div>
 ```
 
@@ -136,21 +148,16 @@ fun MyButton() -> HTML
 
 fun Home() -> HTML
 {
-    <div>
-        <MyButton>
-            buy <b>now!</b>
-        </MyButton>
-    </div>
-}
-`} />
+
+<div>
+  <MyButton>
+    buy <b>now!</b>
+  </MyButton>
+</div>
+} `} />
+
 ```html
 <div>
-    <button>
-        buy <b>now!</b>
-    </button>
+  <button>buy <b>now!</b></button>
 </div>
 ```
-
-
-
-

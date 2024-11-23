@@ -69,7 +69,6 @@ BlockMember = Statement
             | Expression
 ```
 
-
 ## Assignment
 
 The target of an assignment can only be an identifier for now.
@@ -87,5 +86,3 @@ AssignmentOperator = "="
                    | "/="
                    | "%="
 ```
-
-

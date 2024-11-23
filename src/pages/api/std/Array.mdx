@@ -1,10 +1,11 @@
 ---
 layout: ../../../layouts/ApiLayout.astro
 ---
-import TwoColumn from "../../../components/TwoColumn.astro"
-import Code from "../../../components/Code.astro"
-import CodeMin from "../../../components/docs/CodeMin.astro"
-import Warning from "../../../components/docs/Warning.astro"
+
+import TwoColumn from "../../../components/TwoColumn.astro";
+import Code from "../../../components/Code.astro";
+import CodeMin from "../../../components/docs/CodeMin.astro";
+import Warning from "../../../components/docs/Warning.astro";
 
 # Array
 
@@ -19,27 +20,31 @@ THP arrays are 0-indexed.
 
 ## Signature
 
-<Code thpcode={`
+<Code
+  thpcode={`
 type Array[T] = Map[Int, T]
-`} />
+`}
+/>
 
 Where `T` is the datatype that the Array stores. For example:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 Array[Int]              // An array of integers
 Array[Float]            // An array of floats
 Array[Array[String]]    // A 2-dimensional array of strings
-`} />
+`}
+/>
 
 ## PHP array internals
 
 <Warning>
-TL;DR: **Never** assign to an array using an invalid index. If you do
-the program will not crash, instead it will not behaved as expected
-[(this is a common problem in PHP)](https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/).
-THP tries its best to solve such behavior.
+  TL;DR: **Never** assign to an array using an invalid index. If you do the
+  program will not crash, instead it will not behaved as expected [(this is a
+  common problem in
+  PHP)](https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/). THP tries
+  its best to solve such behavior.
 </Warning>
-
 
 Since THP compiles down to PHP, it's important to understand how PHP
 represents arrays internally.
@@ -48,9 +53,11 @@ to make them look like arrays.
 
 When declaring an array like:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 var arr = ["a", "b", "c"]
-`} />
+`}
+/>
 
 in reality what goes into memory is a map with numbers as keys:
 
@@ -83,51 +90,51 @@ numbers[-10] = "?"    // Assign to a negative index
 
 // Now the array will be (using thp notation):
 // .{
-//     0: "a",
-//     1: "b",
-//     2: "c",
-//   -10: "?",
+// 0: "a",
+// 1: "b",
+// 2: "c",
+// -10: "?",
 // }
 
-numbers[7] = "!"    // Out of bounds assignment
+numbers[7] = "!" // Out of bounds assignment
 
 // Now the array will be:
 // .{
-//     0: "a",
-//     1: "b",
-//     2: "c",
-//   -10: "?",
-//     7: "!",
+// 0: "a",
+// 1: "b",
+// 2: "c",
+// -10: "?",
+// 7: "!",
 // }
 
 // In this loop, values will be printed following when
 // they were inserted, not by order of the index.
-for #(_, value) in numbers
+for #(\_, value) in numbers
 {
-    print("{value} ")   // Will print: a b c ? !
+print("{value} ") // Will print: a b c ? !
 }
 
 numbers[-4] = "???"
 // .{
-//     0: "a",
-//     1: "b",
-//     2: "c",
-//   -10: "?",
-//     7: "!",
-//    -4: "???",
+// 0: "a",
+// 1: "b",
+// 2: "c",
+// -10: "?",
+// 7: "!",
+// -4: "???",
 // }
 
 // When pushing, the value will be assigned to the highest key + 1
-numbers.push("/")   // This will be at position 8
+numbers.push("/") // This will be at position 8
 
 // .{
-//     0: "a",
-//     1: "b",
-//     2: "c",
-//   -10: "?",
-//     7: "!",
-//    -4: "???",
-//     8: "/",
+// 0: "a",
+// 1: "b",
+// 2: "c",
+// -10: "?",
+// 7: "!",
+// -4: "???",
+// 8: "/",
 // }
 `} />
 
@@ -135,11 +142,8 @@ This is one of many fundamental flaws with PHP. The only way to solve it
 would be to check every insertion at runtime, and this would have a
 performance penalty.
 
-
 From now on, the documentation will continue to work with the Array
 abstraction, as if all indexes were valid.
-
-
 
 ## Usage
 
@@ -148,31 +152,36 @@ abstraction, as if all indexes were valid.
 To create an empty array use square brackets.
 If you create an empty array, you need to specify the datatype.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 Array[Int] empty = []
-`} />
-
+`}
+/>
 
 ### Creation
 
 To create an array use square brackets notation:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 val numbers = [0, 1, 2, 3, 4, 5]
-`} />
+`}
+/>
 
 When the array is not empty, you don't need to specify a datatype.
 
 When the Array is declared over many lines, the last
 item should have a trailing comma:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 val colors = [
     "red",
     "blue",
     "green",  // trailing comma
 ]
-`} />
+`}
+/>
 
 If it doesn't, the code formatter will automatically
 insert one for you.
@@ -198,12 +207,13 @@ mutable[0] = 322
 
 To append an element to an array, use the method `push()`:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 mutable.push(4)
-`} />
+`}
+/>
 
 Do not insert into an invalid index. See [PHP array internals](#php-array-internals) to learn why.
-
 
 ### Iteration
 
@@ -214,7 +224,7 @@ val colors = ["red", "green", "blue"]
 
 for c in colors
 {
-    print("{c} ")
+print("{c} ")
 }
 `} />
 
@@ -230,11 +240,10 @@ val colors = ["red", "green", "blue"]
 
 for c in colors
 {
-    c = "orange"    // Compile error: Can't assign to an immutable variable
-    print("{c} ")
+c = "orange" // Compile error: Can't assign to an immutable variable
+print("{c} ")
 }
 `} />
-
 
 You can also declare an index along with the value:
 
@@ -243,7 +252,7 @@ val colors = ["red", "green", "blue"]
 
 for index, color in colors
 {
-    println("item {index}: {c}")
+println("item {index}: {c}")
 }
 `} />
 
@@ -253,93 +262,89 @@ item 1: green
 item 2: blue
 ```
 
-
 ### Access
 
 To access a value of the array use square brackets notation:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 print(colors[0])
-`} />
+`}
+/>
 
-Since the index might not exist, this will return a 
+Since the index might not exist, this will return a
 [nullable type](/learn/error-handling/null/) that you have to handle.
-
 
 ### Destructuring
 
 THP arrays don't have destructuring, since the values can all be `null`.
 If you know that the number of elements is fixed and valid, use Tuples instead.
 
-
 ### Operators
 
 While PHP allows using certain operators with arrays, THP disallows that.
 Methods that perform comparisons should be used instead.
 
-
 ### Assignment
 
 // TODO: Detail that assignment of arrays is copy on write
-
 
 ## Methods
 
 In the parameters, <code class="token keyword">self</code> is the array to operate on.
 
-
 <table class="table-fixed w-full border-collapse border-2 dark:border-zinc-900 border-stone-400">
-    <thead>
-        <td class="p-2">Method</td>
-        <td class="py-2">Description</td>
-    </thead>
-    <tbody>
-        <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
-            <td class="px-2">
-                <CodeMin href="./concat" thpcode={`
+  <thead>
+    <td class="p-2">Method</td>
+    <td class="py-2">Description</td>
+  </thead>
+  <tbody>
+    <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
+      <td class="px-2">
+        <CodeMin
+          href="./concat"
+          thpcode={`
                     fun concat[T](
                         self,
                         Array[T]... arrays,
                     ) -> Array[T]
-                `} />
-            </td>
-            <td>
-                Concatenate with other arrays, and return the result
-                as a new array.
-            </td>
-        </tr>
-        <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
-            <td class="px-2">
-                <CodeMin thpcode={`
+                `}
+        />
+      </td>
+      <td>
+        Concatenate with other arrays, and return the result as a new array.
+      </td>
+    </tr>
+    <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
+      <td class="px-2">
+        <CodeMin
+          thpcode={`
                 fun filter[T](
                     self,
                     (T) -> (Bool) callback,
                 ) -> Array[T]
-                `} />
-            </td>
-            <td>
-                Filters elements using a callback function, and returns
-                them in a new array.
-            </td>
-        </tr>
-        <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
-            <td class="px-2">
-                <CodeMin thpcode="fun push[T](self, T... elements) -> Int" />
-            </td>
-            <td>
-                Appends one or more elements to the end of the array.
-                Returns the new length of the array.
-            </td>
-        </tr>
-        <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
-            <td class="px-2">
-                <CodeMin thpcode="fun pop[T](self) -> T" />
-            </td>
-            <td>
-                Removes the last value of the array, and returns it.
-            </td>
-        </tr>
-    </tbody>
+                `}
+        />
+      </td>
+      <td>
+        Filters elements using a callback function, and returns them in a new
+        array.
+      </td>
+    </tr>
+    <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
+      <td class="px-2">
+        <CodeMin thpcode="fun push[T](self, T... elements) -> Int" />
+      </td>
+      <td>
+        Appends one or more elements to the end of the array. Returns the new
+        length of the array.
+      </td>
+    </tr>
+    <tr class="dark:odd:bg-zinc-900 odd:bg-stone-200">
+      <td class="px-2">
+        <CodeMin thpcode="fun pop[T](self) -> T" />
+      </td>
+      <td>Removes the last value of the array, and returns it.</td>
+    </tr>
+  </tbody>
 </table>
-
-

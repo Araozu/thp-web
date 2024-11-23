@@ -2,10 +2,10 @@
 layout: "../_wrapper.astro"
 title: Static
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Static in classes
-
 
 ## Class constants
 
@@ -17,17 +17,15 @@ class Cat
 
 static Cat
 {
-    const CONSTANT = "constant value"
+const CONSTANT = "constant value"
 }
 
 print(Cat::CONSTANT)
 `} />
 
-
 ## Static methods
 
 aka. plain, old functions
-
 
 <Code thpcode={`
 static Cat
@@ -41,11 +39,9 @@ static Cat
 Cat::static_method()
 `} />
 
-
 ## Static properties
 
 aka. global variables
-
 
 <Code thpcode={`
 static Cat
@@ -53,11 +49,7 @@ static Cat
     pub var access_count = 0
 }
 
-print(Cat::access_count)    // 0
+print(Cat::access_count) // 0
 Cat::access_count += 1
-print(Cat::access_count)    // 1
+print(Cat::access_count) // 1
 `} />
-
-
-
-

@@ -2,8 +2,9 @@
 layout: "../_wrapper.astro"
 title: Try/Exceptions
 ---
+
 import InteractiveCode from "@/components/InteractiveCode.astro";
-import Code from "@/components/Code.astro"
+import Code from "@/components/Code.astro";
 
 # Try/exceptions
 
@@ -27,6 +28,7 @@ fun invert(Int number) -> DivisionByZero!Int
     }
 
     return 1 / number
+
 }
 `} />
 
@@ -36,7 +38,6 @@ or an `Int`.
 
 There is no `throw` keyword, errors are just returned.
 
-
 ### Multiple error returns
 
 TODO: properly define syntax, how this interacts with type unions.
@@ -44,12 +45,12 @@ TODO: properly define syntax, how this interacts with type unions.
 Multiple errors are chained with `!`. The last one is always
 the success value.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun sample() -> Error1!Error2!Error3!Int
 { /* ... */}
-`} />
-
-
+`}
+/>
 
 ## Error handling
 
@@ -110,17 +111,17 @@ Use a naked `try` when you want to rethrow an error, if there is any.
         unset " = = ="
         set " dangerous()" "Int 50"
     }
-`}
-></InteractiveCode>
 
+`}
+
+> </InteractiveCode>
 
 In the previous example:
 
 - If `dangerous()` returns an `Exception`, this exception
-    will be returned by `run()`;
+  will be returned by `run()`;
 - If `dangerous()` succeedes, its value is assigned
-    to `result`, and the function continues executing.
-
+  to `result`, and the function continues executing.
 
 ### Try/return
 
@@ -136,16 +137,16 @@ fun run() -> Int
     val result = try dangerous() return 0
 
     // ...
+
 }
 `} />
 
 In the previous example:
 
 - If `dangerous()` fails, its error will be ignored, and `0` will
-    be returned from `run()`.
+  be returned from `run()`.
 - If `dangerous()` succeedes, its value will be assigned to `result`,
-    and the function continues executing.
-
+  and the function continues executing.
 
 ### Try/else
 
@@ -210,7 +211,9 @@ Try/else will assign a new value if an expression fails.
     }
     step{line 0}
     `}
+
 >
+
 </InteractiveCode>
 
 - If `possible_value` is an error, the value `666` is used.
@@ -218,11 +221,9 @@ Try/else will assign a new value if an expression fails.
 
 Either way, the function will continue executing.
 
-
 ### Try/catch
 
 Try/catch allows the error to be manually used & handled.
-
 
 <Code thpcode={`
 fun run()
@@ -239,12 +240,14 @@ fun run()
         // Return a new value to be assigned to \`result\`
         0
     }
+
 }
 `} />
 
 A try/catch may have many `catch` clauses:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 try dangerous()
 catch Exception1 e
 {...}
@@ -252,6 +255,5 @@ catch Exception2 e
 {...}
 catch Exception3 e
 {...}
-`} />
-
-
+`}
+/>

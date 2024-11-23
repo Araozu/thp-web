@@ -34,5 +34,3 @@ pub enum TokenType {
 ```
 
 Every keyword has its own token.
-
-

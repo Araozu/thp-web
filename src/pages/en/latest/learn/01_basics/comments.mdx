@@ -3,12 +3,12 @@ layout: "../_wrapper.astro"
 title: Comments
 order: 2
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Comments
 
 THP supports single and multi line comments:
-
 
 ## Single line
 
@@ -21,33 +21,37 @@ print("hello!")
 print("the result is {5 + 5}") // This will print 10
 `} />
 
-
 ## Multi line
 
 These begin with `/*` and end with `*/`. Everything in between is ignored.
 
 Multi line comments can be nested in THP.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 /*
     This is a
     multiline comment
 */
-`} />
+`}
+/>
 
-<Code thpcode={`
+<Code
+  thpcode={`
 /*
     Multiline comments
     can be /* nested */
 */
-`} />
+`}
+/>
 
 ## Documentation comments
 
 Documentation comments use triple slashes `///`.
 These use [CommonMark Markdown](https://commonmark.org/) syntax.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 /// Transforms the format from A to B...
 ///
 /// ## Errors
@@ -57,6 +61,5 @@ These use [CommonMark Markdown](https://commonmark.org/) syntax.
 fun transform() {
     // ...
 }
-`} />
-
-
+`}
+/>

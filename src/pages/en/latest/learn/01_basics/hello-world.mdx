@@ -3,8 +3,9 @@ layout: "../_wrapper.astro"
 title: Hello world
 order: 1
 ---
+
 import InteractiveCode from "@/components/InteractiveCode.astro";
-import Code from "@/components/Code.astro"
+import Code from "@/components/Code.astro";
 
 # Hello, world!
 
@@ -18,12 +19,13 @@ detailed later on.
 
 To write a hello world program write the following code in a file:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 print("Hello, world!")
-`} />
+`}
+/>
 
 Then run `thp hello.thp` from your terminal.
-
 
 ## Instruction separation
 
@@ -36,11 +38,12 @@ echo("B");
 echo("C");
 ```
 
-<Code thpcode={`
+<Code
+  thpcode={`
 print("A")
 print("B")
 print("C")
-`} />
+`}
+/>
 
 As a consequence of this, there can only be 1 statement per line.
-

@@ -2,7 +2,8 @@
 layout: "../_wrapper.astro"
 title: Basics
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Classes
 
@@ -14,25 +15,27 @@ Classes in THP are significantly different than PHP.
 
 A class is defined as follows:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 class Animal() {}
-`} />
+`}
+/>
 
 The name of the class **MUST** begin with an uppercase letter.
 
 Classes have a parameter list even if they have no parameters
 for consistency sake.
 
-
 ## Instanciation
 
 To create an instance of a class call it as if it was a function,
 without `new`.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 val animal = Animal()
-`} />
-
+`}
+/>
 
 ## Properties
 
@@ -50,6 +53,7 @@ class Person() {
 
     // This is also okay
     String name = "Jane Doe"
+
 }
 `} />
 
@@ -62,11 +66,12 @@ class Person() {
 
     // To make a property public use \`pub\`
     pub var Int age = 30
+
 }
 
 val p = Person()
-print(p.name)    // Compile error: \`name\` is private
-print(p.age)     // 30
+print(p.name) // Compile error: \`name\` is private
+print(p.age) // 30
 `} />
 
 Unlike PHP, to access properties and methods use dot notation `.`
@@ -79,19 +84,19 @@ Readonly properties are explained in the Readonly page.
 The interaction between properties and the constructor is explained
 in the Constructor page.
 
-
-
 ## Methods
 
 Methods are declared with `fun`, as regular functions.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 class Person() {
     fun greet() {
         print("Hello")
     }
 }
-`} />
+`}
+/>
 
 **Methods are private by default**, and are made public with `pub`.
 
@@ -106,11 +111,12 @@ class Person() {
     pub fun greet() {
         print("Hello from greet")
     }
+
 }
 
 val p = Person()
-p.greet()           //: Hello from greet
-p.private_greet()   // Compile time error. Private method.
+p.greet() //: Hello from greet
+p.private_greet() // Compile time error. Private method.
 `} />
 
 [Unlike PHP](https://www.php.net/manual/en/language.oop5.basic.php#language.oop5.basic.properties-methods),
@@ -125,9 +131,9 @@ class Person() {
     fun name() -> String {
         "Rose"
     }
+
 }
 `} />
-
 
 ## This
 
@@ -146,21 +152,23 @@ class Person() {
         val person_name = $get_name()
         print("Hello, I'm {person_name}")
     }
+
 }
 `} />
-
 
 ## Mutable methods
 
 By default methods cannot mutate the state of the object.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 class Animal(var String name) {
     pub fun set_name(String new_name) {
         $name = new_name    // Error: Cannot mutate $name
     }
 }
-`} />
+`}
+/>
 
 To do so the method must be annotated. The caller must also
 declare a mutable variable.
@@ -175,4 +183,3 @@ class Animal(var String name) {
 var michi = Animal("Michifu")
 michi.set_name("Garfield")
 `} />
-

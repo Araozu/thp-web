@@ -2,8 +2,9 @@
 layout: "../_wrapper.astro"
 title: Introduction
 ---
-import Code from "@/components/Code.astro"
-import Info from "@/components/docs/Info.astro"
+
+import Code from "@/components/Code.astro";
+import Info from "@/components/docs/Info.astro";
 
 # THP templating
 
@@ -44,13 +45,13 @@ function render_button(string $name) {
 This approach has many problems:
 
 - You have to create a new file for every new component,
-    polluting the file system and the project. This may be significant
-    for some web hosting providers that establish a fixed inode limit.
+  polluting the file system and the project. This may be significant
+  for some web hosting providers that establish a fixed inode limit.
 - Data is passed dinamically, via strings. If either the render
-    function or the template change, the component will behave
-    incorrectly without any warning.
+  function or the template change, the component will behave
+  incorrectly without any warning.
 - It's hard to include components inside components. Every new
-    one requires a change in 2 files.
+  one requires a change in 2 files.
 
 Maybe for these (and other) reasons components are not used with
 templating libraries. Instead people use sections, layouts, etc.
@@ -62,17 +63,18 @@ and compose them.
 
 The following would be the equivalent in THP:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun Button(String name) -> HTML {
     <button class="some tailwind classes">
         Hello {name}!
     </button>
 }
-`} />
+`}
+/>
 
 It is very similar to React. The HTML is inside the THP code, not the other
 way around, so you can have arbitrary logic in the component.
-
 
 <Code thpcode={`
 fun User(String name) -> HTML {
@@ -92,15 +94,15 @@ fun User(String name) -> HTML {
             <TransactionItem t={t} />
         }
     </div>
+
 }
 
 fun TransactionItem(Transaction t) -> HTML {
-    <li>
-        {t.date} - {t.name} ({t.price})
-    </li>
-}
-`} />
 
+<li>
+  {t.date} - {t.name} ({t.price})
+</li>
+} `} />
 
 ## Is this a JavaScript Front-End Framework?
 
@@ -114,19 +116,14 @@ If you need reactivity on the front-end and want to use this templating
 take a look at [htmx](https://htmx.org/), [Alpine.js](https://alpinejs.dev/)
 and [hyperscript](https://hyperscript.org/).
 
-
-
 ## Styling
 
 We don't provide any syntax or facility for styling.
 However, this component model is good to use with TailwindCSS.
 
-
 ## Conversion
 
-<Info>
-    TBD: This is a draft, subject to change.
-</Info>
+<Info>TBD: This is a draft, subject to change.</Info>
 
 HTML expressions will be compiled to plain strings, and
 those will be then composed.
@@ -145,6 +142,7 @@ fun Sample(String name) -> HTML {
             Not logged in
         }
     </button>
+
 }
 `} />
 
@@ -163,6 +161,3 @@ function Sample(name) {
     return "<button>{$__expr_1}</button>"
 }
 ```
-
-
-

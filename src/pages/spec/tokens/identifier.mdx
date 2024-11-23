@@ -2,7 +2,8 @@
 layout: "../_wrapper.astro"
 title: Identifiers & Datatypes
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Identifiers & Datatypes
 
@@ -19,14 +20,15 @@ Identifier        = (underscore | lowercase_letter), identifier_letter*
 identifier_letter = underscore | lowercase_letter | uppercase_letter | decimal_digit
 ```
 
-<Code thpcode={`
+<Code
+  thpcode={`
 identifier
 _identifier
 _123
 _many_letters
 camelCase
-`} />
-
+`}
+/>
 
 ## Datatype
 
@@ -34,22 +36,23 @@ camelCase
 Datatype = uppercase_letter, indentifier_letter*
 ```
 
-<Code thpcode={`
+<Code
+  thpcode={`
 Datatype
 PDO
 WEIRD_DATATYPE
-`} />
-
+`}
+/>
 
 ## Keywords
 
 The following are (currently) THP keywords:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 val     var     fun
-`} />
+`}
+/>
 
 Keywords are scanned first as identifiers, then transformed
 to their respective tokens.
-
-

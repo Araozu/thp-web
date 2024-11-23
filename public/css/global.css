@@ -1,110 +1,110 @@
 /* Iosevka web */
 @font-face {
-    font-family: "Iosevka Fixed Web";
-    font-display: swap;
-    font-weight: 400;
-    font-stretch: normal;
-    font-style: normal;
-    src: url("/Iosevka/Regular.woff2") format("woff2");
+  font-family: "Iosevka Fixed Web";
+  font-display: swap;
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: normal;
+  src: url("/Iosevka/Regular.woff2") format("woff2");
 }
 
 @font-face {
-    font-family: 'Iosevka Fixed Web';
-    font-display: swap;
-    font-weight: 700;
-    font-stretch: normal;
-    font-style: normal;
-    src: url('/Iosevka/Bold.woff2') format('woff2');
+  font-family: "Iosevka Fixed Web";
+  font-display: swap;
+  font-weight: 700;
+  font-stretch: normal;
+  font-style: normal;
+  src: url("/Iosevka/Bold.woff2") format("woff2");
 }
 
 :root {
-    --c-thp: #f472b6;
+  --c-thp: #f472b6;
 
-    --font-display: 'Atkinson Hyperlegible', sans-serif;
-    --font-body: 'Atkinson Hyperlegible', sans-serif;
-    --font-code: "Iosevka Fixed Web", "Iosevka Nerd Font", Iosevka, monospace;
+  --font-display: "Atkinson Hyperlegible", sans-serif;
+  --font-body: "Atkinson Hyperlegible", sans-serif;
+  --font-code: "Iosevka Fixed Web", "Iosevka Nerd Font", Iosevka, monospace;
 }
 
 :root {
-    --c-bg: #121212;
-    --c-text: rgb(200, 200, 200);
-    --c-text-2: white;
-    --c-primary: #884b6a;
-    --c-purple: #7F669D;
-    --c-purple-light: #BA94D1;
-    --c-box-shadow: #FBFACD;
-    --c-pink: #AE508D;
-    --c-link: #38bdf8;
+  --c-bg: #121212;
+  --c-text: rgb(200, 200, 200);
+  --c-text-2: white;
+  --c-primary: #884b6a;
+  --c-purple: #7f669d;
+  --c-purple-light: #ba94d1;
+  --c-box-shadow: #fbfacd;
+  --c-pink: #ae508d;
+  --c-link: #38bdf8;
 
-    --c-nav-bg: rgb(18, 18, 18, 0.5);
-    --c-secondary: rgba(136, 75, 106, 0.5);
+  --c-nav-bg: rgb(18, 18, 18, 0.5);
+  --c-secondary: rgba(136, 75, 106, 0.5);
 }
 
 @media (prefers-color-scheme: light) {
-    :root {
-        --c-bg: rgb(255, 253, 255);
-        --c-text: #121212;
-        --c-text-2: black;
-        --c-purple: #374259;
-        --c-purple-light: #BA94D1;
-        --c-box-shadow: #374259;
-        --c-primary: rgb(255, 180, 180);
-        --c-pink: #374259;
-        --c-link: #0284c7;
-        --c-border-1: #909090;
+  :root {
+    --c-bg: rgb(255, 253, 255);
+    --c-text: #121212;
+    --c-text-2: black;
+    --c-purple: #374259;
+    --c-purple-light: #ba94d1;
+    --c-box-shadow: #374259;
+    --c-primary: rgb(255, 180, 180);
+    --c-pink: #374259;
+    --c-link: #0284c7;
+    --c-border-1: #909090;
 
-        --c-nav-bg: rgb(255, 247, 255, 0.5);
-        --c-secondary: rgba(255, 255, 240, 0.5);
-    }
+    --c-nav-bg: rgb(255, 247, 255, 0.5);
+    --c-secondary: rgba(255, 255, 240, 0.5);
+  }
 }
 
 html {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 @media screen and (min-width: 1600px) {
-    html {
-        font-size: 17px;
-    }
+  html {
+    font-size: 17px;
+  }
 }
 
 body {
-    font-family: var(--font-body);
+  font-family: var(--font-body);
 }
 
 @media only screen and (max-width: 600px) {
-    #editor {
-        font-size: 0.9em;
-    }
+  #editor {
+    font-size: 0.9em;
+  }
 }
 
 pre,
 code {
-    font-family: var(--font-code);
+  font-family: var(--font-code);
 }
 
 .button-effect-receiver {
-    transition: transform 150ms;
+  transition: transform 150ms;
 }
 
 .button-effect:hover .button-effect-receiver {
-    transform: translateX(-3px) translateY(-3px);
+  transform: translateX(-3px) translateY(-3px);
 }
 
 .markdown p {
-    margin: 0.75rem 0;
+  margin: 0.75rem 0;
 }
 
 /* Used by headers generated from markdown */
 .heading-linked :hover::after {
-    color: var(--c-primary);
-    content: "#";
-    display: inline-block;
-    font-size: 1em;
-    line-height: 1;
-    margin-left: 0.5rem;
+  color: var(--c-primary);
+  content: "#";
+  display: inline-block;
+  font-size: 1em;
+  line-height: 1;
+  margin-left: 0.5rem;
 }
 
 .heading-linked :hover {
-    text-decoration: underline var(--c-primary);
+  text-decoration: underline var(--c-primary);
 }

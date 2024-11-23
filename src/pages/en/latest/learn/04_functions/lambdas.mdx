@@ -2,10 +2,10 @@
 layout: "../_wrapper.astro"
 title: Lambdas
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Lambdas / Anonymous functions
-
 
 ## Anonymous function
 
@@ -13,29 +13,34 @@ An anonymous function is declared with `fn`.
 Other than not having a name, it can declare parameter
 and return types.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fn(Int x, Int y) -> Int {
     x + y
 }
-`} />
+`}
+/>
 
 Anonymous function can omit declaring those types as well:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 numbers.map(fun(x) {
     x * 2
 })
-`} />
-
+`}
+/>
 
 ## Anonymous function short form
 
 If you need an anonymous function that returns a single
 expression you can write it like this:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun(x, y) = x + y
-`} />
+`}
+/>
 
 It uses an equal `=` instead of an arrow. It can contain
 only a single expression.
@@ -43,55 +48,53 @@ only a single expression.
 This is common when declaring functions that immediately
 return a map.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fn(value) = .{
     value
 }
-`} />
-
-
-
+`}
+/>
 
 ## Closure types
 
 By default closures **always** capture variables as **references**.
 
-
 <Code thpcode={`
 var x = 20
 
 val f = fun() {
-    print(x)
+print(x)
 }
 
-f()     // 20
+f() // 20
 
 x = 30
-f()     // 30
+f() // 30
 `} />
-
 
 You can force a closure to capture variables by value.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun(parameters) clone(variables) {
     // code
 }
-`} />
+`}
+/>
 
 <Code thpcode={`
 var x = 20
 
 val f = fun() clone(x) {
-    print(x)
+print(x)
 }
 
-f()     // 20
+f() // 20
 
 x = 30
-f()     // 20
+f() // 20
 `} />
-
 
 ## Lambdas
 
@@ -109,9 +112,6 @@ numbers.map() #{
 // the above lambda is equivalent to:
 
 numbers.map(fun(param1) {
-    $1 * 2
+$1 \* 2
 })
 `} />
-
-
-

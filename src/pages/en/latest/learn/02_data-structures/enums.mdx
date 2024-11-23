@@ -2,7 +2,8 @@
 layout: "../_wrapper.astro"
 title: Enums
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Enums
 
@@ -33,7 +34,8 @@ val suit = Suit::Hearts
 Backed enums can have a scalar for each case. The scalar values can only be
 `String` or `Int`.
 
-<Code thpcode={`
+<Code
+  thpcode={`
 enum Suit(String)
 {
     Hearts = "H",
@@ -41,8 +43,7 @@ enum Suit(String)
     Clubs = "C",
     Spades = "S",
 }
-`} />
+`}
+/>
 
 All cases must explicitly define their value, there is no automatic generation.
-
-

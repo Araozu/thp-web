@@ -2,7 +2,8 @@
 layout: "../_wrapper.astro"
 title: Magic methods
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Magic methods
 
@@ -12,14 +13,13 @@ Don't get special treatment.
 
 class Cat
 {
-    pub fun __sleep() -> Array[String]
-    {
-        // logic
-    }
+pub fun \_\_sleep() -> Array[String]
+{
+// logic
+}
 }
 
 `} />
-
 
 <Code thpcode={`
 val option = Some("GAAA")

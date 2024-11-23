@@ -1,8 +1,9 @@
 ---
 layout: ../../../layouts/ApiLayout.astro
 ---
-import TwoColumn from "../../../components/TwoColumn.astro"
-import Code from "../../../components/Code.astro"
+
+import TwoColumn from "../../../components/TwoColumn.astro";
+import Code from "../../../components/Code.astro";
 
 # `print`
 
@@ -10,9 +11,11 @@ Prints to stdout.
 
 ## Signature
 
-<Code thpcode={`
+<Code
+  thpcode={`
 fun print(String value) {}
-`} />
+`}
+/>
 
 ## Description
 
@@ -20,10 +23,8 @@ Prints a single `String` into stdout. Doesn't return anything.
 
 ## Examples
 
-<Code thpcode={`
+<Code
+  thpcode={`
 print("Hello world!")
-`} />
-
-
-
-
+`}
+/>

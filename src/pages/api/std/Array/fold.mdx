@@ -1,7 +1,8 @@
 ---
 layout: ../../../../layouts/ApiLayout.astro
 ---
-import Code from "../../../../components/Code.astro"
+
+import Code from "../../../../components/Code.astro";
 
 # `Array.fold`
 
@@ -11,13 +12,15 @@ the left.
 
 ## Signature
 
-<Code thpcode={`
+<Code
+  thpcode={`
     fun fold[A, B](
         self[A],
         B init,
         (B acc, A next) -> (B) transform_function,
     ) -> B
-`} />
+`}
+/>
 
 ## Parameters
 
@@ -31,7 +34,6 @@ the left.
 - Otherwise, returns the result of applying `transform_function` to the accumulator `acc`,
   and the next element `next`.
 
-
 ## Description
 
 Fold allows you to transform an array of `A` into a single `B`, following
@@ -39,20 +41,21 @@ an arbitraty function.
 
 For example, let's say that you have an array of numbers:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 val digits = [1, 9, 9, 5]
-`} />
+`}
+/>
 
 And you want to join all digits into a String like `"1985"`. You can
 achieve this with a fold.
-
 
 <Code thpcode={`
 val digits = [1, 9, 8, 5]
 val init = ""
 fun f(String acc, Int next) = acc ++ next
 
-digits.fold("", f)	// "1985"
+digits.fold("", f) // "1985"
 `} />
 
 - `f` is a function that takes a previous value (known as the accumulator)
@@ -93,10 +96,12 @@ The `transform_function` can be any function, and can operate over any type.
 For example, you could sum all numbers instead of concatenating
 like this:
 
-<Code thpcode={`
+<Code
+  thpcode={`
 val digits = [1, 9, 8, 5]
 digits.fold(0, fun(acc, next) = acc + next)	// 23
-`} />
+`}
+/>
 
 ```php
 f( f( f( f(0, 1), 9), 8), 5)
@@ -118,8 +123,3 @@ val result = builder.build()
 `} />
 
 Or anything.
-
-
-
-
-

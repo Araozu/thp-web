@@ -7,38 +7,33 @@ const post_url = entry.url + (entry.url.endsWith("/") ? "" : "/");
 // this may deal with folders.
 // if so, it will turn any `-` into whitespace,
 // and remove any leading number
-const entry_title = entry.title
-	.replaceAll("-", " ")
-	.replaceAll(/\d+_/g, "");
-
+const entry_title = entry.title.replaceAll("-", " ").replaceAll(/\d+_/g, "");
 ---
 
 {
-    !entry.children && (
-        <li>
-            <a
-                class="inline-block rounded-lg w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-1"
-                href={post_url}
-            >
-                {entry.title}
-            </a>
-        </li>
-    )
+	!entry.children && (
+		<li>
+			<a
+				class="inline-block rounded-lg w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-1"
+				href={post_url}
+			>
+				{entry.title}
+			</a>
+		</li>
+	)
 }
 {
-    entry.children && (
-        <>
-            <div class="mt-6 px-3 py-1 uppercase font-display text-c-text-2 font-medium">
-                {entry_title}
-            </div>
+	entry.children && (
+		<>
+			<div class="mt-6 px-3 py-1 uppercase font-display text-c-text-2 font-medium">
+				{entry_title}
+			</div>
 
-            <ul class="my-1">
-                {entry.children!.map((nextEntry) => (
-                    <Astro.self
-                        entry={nextEntry}
-                    />
-                ))}
-            </ul>
-        </>
-    )
+			<ul class="my-1">
+				{entry.children!.map((nextEntry) => (
+					<Astro.self entry={nextEntry} />
+				))}
+			</ul>
+		</>
+	)
 }

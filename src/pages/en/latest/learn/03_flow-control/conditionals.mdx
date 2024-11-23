@@ -2,7 +2,8 @@
 layout: "../_wrapper.astro"
 title: Conditionals
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Conditionals
 
@@ -11,7 +12,6 @@ import Code from "@/components/Code.astro"
 - Braces are required
 - Paretheses for the condition are not required.
 - There's no ternary operator
-
 
 <Code thpcode={`
 if condition {
@@ -24,22 +24,20 @@ else {
     // even more code
 }
 
-
 val result = if condition { value1 } else { value2 }
 `} />
-
-
 
 ## Check for datatypes
 
 TBD
 
-<Code thpcode={`
+<Code
+  thpcode={`
 if variable is Datatype {
     // code using variable
 }
-`} />
-
+`}
+/>
 
 ## If variable is of enum
 
@@ -49,13 +47,10 @@ TBD
 val user_id = POST::get("user_id")
 
 if Some(user_id) = user_id {
-    print("user_id exists: {user_id}")
+print("user_id exists: {user_id}")
 }
 
 if Some(user_id) = user_id && user_id > 0 {
-    print("user_id is greater than 0: {user_id}")
+print("user_id is greater than 0: {user_id}")
 }
 `} />
-
-
-

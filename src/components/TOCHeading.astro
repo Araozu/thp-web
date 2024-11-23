@@ -5,20 +5,23 @@ const { heading, parentMono } = Astro.props;
 // If a heading starts with `API: `
 // then its children should be rendered with a mono font
 const isMono = heading.text.startsWith("API: ");
-const monoClass = parentMono? " font-mono" : "";
+const monoClass = parentMono ? " font-mono" : "";
 ---
 
 <li>
-    <a class={"inline-block py-1 hover:underline" + monoClass} href={"#" + heading.slug}>
-        {heading.text}
-    </a>
-    {
-        heading.subheadings.length > 0 && (
-            <ul class="px-2">
-                {heading.subheadings.map((subheading: any) => (
-                    <Astro.self heading={subheading} parentMono={isMono} />
-                ))}
-            </ul>
-        )
-    }
+	<a
+		class={"inline-block py-1 hover:underline" + monoClass}
+		href={"#" + heading.slug}
+	>
+		{heading.text}
+	</a>
+	{
+		heading.subheadings.length > 0 && (
+			<ul class="px-2">
+				{heading.subheadings.map((subheading: any) => (
+					<Astro.self heading={subheading} parentMono={isMono} />
+				))}
+			</ul>
+		)
+	}
 </li>

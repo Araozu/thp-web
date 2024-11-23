@@ -2,7 +2,8 @@
 layout: "../_wrapper.astro"
 title: Numbers
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Numbers
 
@@ -20,7 +21,8 @@ binary_number      = "0", ("b" | "B"), binary_digit+
 decimal_number     = "1".."9", decimal_digit*
 ```
 
-<Code thpcode={`
+<Code
+  thpcode={`
 12345
 01234   // This is an error, a decimal number cant have
         // leading zeroes
@@ -28,11 +30,10 @@ decimal_number     = "1".."9", decimal_digit*
 0b0110
 0xff25
 0XFfaA
-`} />
+`}
+/>
 
 `TODO`: Allow underscores `_` between any number: `1_000_000`.
-
-
 
 ## Float
 
@@ -52,12 +53,7 @@ scientific_notation = "e", ("+" | "-"), decimal_digit+
 123e-3
 `} />
 
-
 All floating point numbers must start with at least 1 digit.
- `.5` is not a valid floating point number.
-
+`.5` is not a valid floating point number.
 
 `TODO`: Allow scientific notation to omit the `+`/`-`: `10e4`.
-
-
-

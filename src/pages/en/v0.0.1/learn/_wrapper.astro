@@ -9,8 +9,8 @@ const posts = (await Astro.glob(
 )) as unknown as Array<AstroFile>;
 
 // The base of every URL under this glob
-const base_url = "/en/latest/learn";
-const version = "latest";
+const base_url = "/en/v0.0.1/learn";
+const version = "v0.0.1";
 ---
 
 <NewDocsLayout

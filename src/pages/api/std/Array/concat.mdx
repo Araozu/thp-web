@@ -1,7 +1,8 @@
 ---
 layout: ../../../../layouts/ApiLayout.astro
 ---
-import Code from "../../../../components/Code.astro"
+
+import Code from "../../../../components/Code.astro";
 
 # `Array.concat`
 
@@ -9,12 +10,14 @@ Concatenate with other arrays, and return the result as a new array.
 
 ## Signature
 
-<Code thpcode={`
+<Code
+  thpcode={`
     fun concat[T](
         self,
         Array[T]... arrays,
     ) -> Array[T]
-`} />
+`}
+/>
 
 ## Parameters
 
@@ -24,7 +27,6 @@ Concatenate with other arrays, and return the result as a new array.
 ## Return value
 
 `Array[T]`: A new array that contains the elements from all arrays.
-
 
 ## Description
 
@@ -49,6 +51,7 @@ Example concatenating 2 arrays:
 
     val result = first.concat(second)
     assert_eq(result, [1, 2, 3, 4, 5, 6])
+
 `} />
 
 Example concatenating 3 arrays:
@@ -60,6 +63,7 @@ Example concatenating 3 arrays:
 
     val result = first.concat(second, third)
     assert_eq(result, ["a", "b", "c", "d", "e", "f"])
+
 `} />
 
 Example concatenating without any other array. In this case
@@ -70,6 +74,7 @@ Example concatenating without any other array. In this case
 
     val result = first.concat()
     assert_eq(result, [1, 2, 3])
+
 `} />
 
 Example concatenating an empty array with a filled array:
@@ -80,8 +85,8 @@ Example concatenating an empty array with a filled array:
 
     val result = first.concat(second)
     assert_eq(result, [10, 20, 30])
-`} />
 
+`} />
 
 ## PHP interop
 
@@ -107,6 +112,3 @@ array(3) {
   [2]=> string(1) "c"
 }
 ```
-
-
-

@@ -8,12 +8,12 @@ import { splitAndLast } from "../components/utils";
 const { headings } = Astro.props;
 
 export type Post = {
-    frontmatter: any;
-    getHeadings: any;
-    url: string;
-    file: any;
-    Content: any;
-    default: any;
+	frontmatter: any;
+	getHeadings: any;
+	url: string;
+	file: any;
+	Content: any;
+	default: any;
 };
 type Posts = Array<Readonly<Post>>;
 
@@ -21,128 +21,128 @@ const basePath = "/api/std";
 const posts: Posts = await Astro.glob("../pages/api/std/**/*.{md,mdx}");
 
 export type Hierarchy = {
-    posts: Array<Post>;
-    children: Record<string, [Post | null, Hierarchy]>;
+	posts: Array<Post>;
+	children: Record<string, [Post | null, Hierarchy]>;
 };
 
 function createHierarchy(posts: Posts): Hierarchy {
-    const hierarchy: Hierarchy = {
-        posts: [],
-        children: {},
-    };
+	const hierarchy: Hierarchy = {
+		posts: [],
+		children: {},
+	};
 
-    for (const post of posts) {
-        const postUrl: string = post.url;
-        const urlAfterBase = postUrl.split(basePath)[1] ?? "";
+	for (const post of posts) {
+		const postUrl: string = post.url;
+		const urlAfterBase = postUrl.split(basePath)[1] ?? "";
 
-        // handle / (index)
-        if (urlAfterBase === "") {
-            hierarchy.posts.push(post);
-            continue;
-        }
+		// handle / (index)
+		if (urlAfterBase === "") {
+			hierarchy.posts.push(post);
+			continue;
+		}
 
-        const urlSegments = urlAfterBase.split("/").slice(1);
+		const urlSegments = urlAfterBase.split("/").slice(1);
 
-        // top level urls
-        if (urlSegments.length === 1) {
-            hierarchy.posts.push(post);
-            continue;
-        }
+		// top level urls
+		if (urlSegments.length === 1) {
+			hierarchy.posts.push(post);
+			continue;
+		}
 
-        // folders
-        const folders = urlSegments.slice(0, -1);
+		// folders
+		const folders = urlSegments.slice(0, -1);
 
-        // traverse the hierarchy until the neccesary hierarchy is found
-        let currentHierarchy = hierarchy;
-        for (const folderName of folders) {
-            // check if folder exists, create otherwise
-            if (!hierarchy.children[folderName]) {
-                // create if doesnt exist
-                hierarchy.children[folderName] = [
-                    null,
-                    {
-                        posts: [],
-                        children: {},
-                    },
-                ];
-            }
+		// traverse the hierarchy until the neccesary hierarchy is found
+		let currentHierarchy = hierarchy;
+		for (const folderName of folders) {
+			// check if folder exists, create otherwise
+			if (!hierarchy.children[folderName]) {
+				// create if doesnt exist
+				hierarchy.children[folderName] = [
+					null,
+					{
+						posts: [],
+						children: {},
+					},
+				];
+			}
 
-            const [_, childrenHierarchy] = hierarchy.children[folderName]!;
-            currentHierarchy = childrenHierarchy;
-        }
+			const [_, childrenHierarchy] = hierarchy.children[folderName]!;
+			currentHierarchy = childrenHierarchy;
+		}
 
-        // add the page
-        currentHierarchy.posts.push(post);
-    }
+		// add the page
+		currentHierarchy.posts.push(post);
+	}
 
-    return hierarchy;
+	return hierarchy;
 }
 
 function normalizeHierarchy(h: Hierarchy): Hierarchy {
-    let posts = h.posts;
-    for (const folderName in h.children) {
-        // search if there is a post with the same name
-        // as the folder
-        const postIdx = h.posts.findIndex(
-            (post) => splitAndLast(post.url) === folderName,
-        );
+	let posts = h.posts;
+	for (const folderName in h.children) {
+		// search if there is a post with the same name
+		// as the folder
+		const postIdx = h.posts.findIndex(
+			(post) => splitAndLast(post.url) === folderName,
+		);
 
-        if (postIdx !== -1) {
-            const post = h.posts[postIdx]!;
-            h.children[folderName]![0] = post;
-            posts.splice(postIdx, 1);
-        }
-    }
+		if (postIdx !== -1) {
+			const post = h.posts[postIdx]!;
+			h.children[folderName]![0] = post;
+			posts.splice(postIdx, 1);
+		}
+	}
 
-    // do the same to all children
-    // TODO
+	// do the same to all children
+	// TODO
 
-    return {
-        children: h.children,
-        posts,
-    };
+	return {
+		children: h.children,
+		posts,
+	};
 }
 
 const hierarchy = normalizeHierarchy(createHierarchy(posts));
 ---
 
 <BaseLayout>
-    <Navbar />
+	<Navbar />
 
-    <div class="lg:grid lg:grid-cols-[14rem_auto_12rem] lg:container mx-auto">
-        <div
-            id="sidebar"
-            class="pt-12 h-screen lg:sticky top-0 fixed z-10 bg-c-bg w-60 lg:w-auto border-r-2 lg:border-0
+	<div class="lg:grid lg:grid-cols-[14rem_auto_12rem] lg:container mx-auto">
+		<div
+			id="sidebar"
+			class="pt-12 h-screen lg:sticky top-0 fixed z-10 bg-c-bg w-60 lg:w-auto border-r-2 lg:border-0
                 border-c-border-1 -translate-x-64 lg:translate-x-0 transition-transform"
-        >
-            <nav class="py-4 pr-2 overflow-x-scroll h-[calc(100vh-3rem)]">
-                <Sidebar hierarchy={hierarchy} />
-            </nav>
-        </div>
+		>
+			<nav class="py-4 pr-2 overflow-x-scroll h-[calc(100vh-3rem)]">
+				<Sidebar hierarchy={hierarchy} />
+			</nav>
+		</div>
 
-        <main
-            class="py-[3.5rem] lg:pl-12 lg:pr-4 markdown min-w-0 small-container mx-auto"
-        >
-            <slot />
-            <div class="h-32"></div>
-        </main>
+		<main
+			class="py-[3.5rem] lg:pl-12 lg:pr-4 markdown min-w-0 small-container mx-auto"
+		>
+			<slot />
+			<div class="h-32"></div>
+		</main>
 
-        <div
-            class="lg:pt-12 hidden lg:block pt-4 max-h-screen overflow-x-scroll sticky top-0"
-        >
-            <nav class="rounded-md lg:mt-10">
-                <h2 class="font-display font-medium pb-2 text-c-text-2">
-                    On this page
-                </h2>
+		<div
+			class="lg:pt-12 hidden lg:block pt-4 max-h-screen overflow-x-scroll sticky top-0"
+		>
+			<nav class="rounded-md lg:mt-10">
+				<h2 class="font-display font-medium pb-2 text-c-text-2">
+					On this page
+				</h2>
 
-                <TOC headings={headings} />
-            </nav>
-        </div>
-    </div>
+				<TOC headings={headings} />
+			</nav>
+		</div>
+	</div>
 
-    <script>
-        import { sidebarHighlight } from "./utils";
-        // Highlight the current url of the sidebar
-        document.addEventListener("DOMContentLoaded", sidebarHighlight);
-    </script>
+	<script>
+		import { sidebarHighlight } from "./utils";
+		// Highlight the current url of the sidebar
+		document.addEventListener("DOMContentLoaded", sidebarHighlight);
+	</script>
 </BaseLayout>

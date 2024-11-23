@@ -2,11 +2,10 @@
 layout: "../_wrapper.astro"
 title: Interfaces
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Interfaces
-
-
 
 <Code thpcode={`
 interface Serializable
@@ -15,17 +14,14 @@ interface Serializable
     fun serialize() -> String
 }
 
-
-
 class Cat -> Serializable
 {
-    pub fun Serializable() -> String
-    {
-        // code
-    }
+pub fun Serializable() -> String
+{
+// code
+}
 }
 
 `} />
 
 No interface inheritance.
-

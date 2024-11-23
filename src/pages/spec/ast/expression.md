@@ -7,15 +7,13 @@ title: Expression
 
 The expression parser effectively implements a precedence table.
 
-| Operator   | Precedence |
-|------------|------------|
-| == !=      | 5          |
-| > >= < <=  | 4          |
-| - + ++     | 3          |
-| . ?. !.    | 2          |
-| / * %      | 1          |
-
-
+| Operator  | Precedence |
+| --------- | ---------- |
+| == !=     | 5          |
+| > >= < <= | 4          |
+| - + ++    | 3          |
+| . ?. !.   | 2          |
+| / \* %    | 1          |
 
 ```ebnf
 Expression = Equality
@@ -29,7 +27,6 @@ Unary      = ("!" | "-"), Expression
            | CallExpression
 ```
 
-
 ## CallExpression
 
 It's so hard to properly name these constructions.
@@ -40,6 +37,3 @@ CallExpression = primary, "(", (arguments list)?, ")"
                | primary, "[", (expression, (comma, expression)*, comma?)? "]"
                | primary
 ```
-
-
-

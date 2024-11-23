@@ -22,111 +22,107 @@ case Cat(name, lives) {
 }`;
 
 const [thp_html] = await native_highlighter(
-    leftTrimDedent(thpcode).join("\n"),
-    HighlightLevel.Lexic,
+	leftTrimDedent(thpcode).join("\n"),
+	HighlightLevel.Lexic,
 );
 ---
 
 <BaseLayout>
-    <Navbar showSidebarButton={false} />
+	<Navbar showSidebarButton={false} />
 
-    <div
-        class="container mx-auto lg:py-16 pb-2 pt-20 lg:grid 2xl:grid-cols-[auto_32rem] lg:grid-cols-[auto_36rem] gap-4 lg:px-10 px-2 min-h-[85vh]"
-    >
-        <div class="lg:pl-10 table">
-            <div class="table-cell align-middle">
-                <h1
-                    class="font-display font-bold text-c-text-2 lg:text-5xl text-3xl lg:text-left text-center leading-tight"
-                >
-                    A modern, type safe,
-                    <br class="hidden lg:inline-block" />
-                    secure language
-                    <br class="hidden lg:inline-block" />
-                    compiled to PHP
-                </h1>
-                <p class="text-c-text text-lg pt-6 lg:pr-12">
-                    Inspired by Rust, Zig and Kotlin, THP has a modern syntax,
-                    semantics, type system and stdlib.
-                </p>
-                <div class="text-center pb-4">
-                    <a
-                        class="inline-block font-display text-lg rounded-full border-2 border-pink-400 py-2 px-8
+	<div
+		class="container mx-auto lg:py-16 pb-2 pt-20 lg:grid 2xl:grid-cols-[auto_32rem] lg:grid-cols-[auto_36rem] gap-4 lg:px-10 px-2 min-h-[85vh]"
+	>
+		<div class="lg:pl-10 table">
+			<div class="table-cell align-middle">
+				<h1
+					class="font-display font-bold text-c-text-2 lg:text-5xl text-3xl lg:text-left text-center leading-tight"
+				>
+					A modern, type safe,
+					<br class="hidden lg:inline-block" />
+					secure language
+					<br class="hidden lg:inline-block" />
+					compiled to PHP
+				</h1>
+				<p class="text-c-text text-lg pt-6 lg:pr-12">
+					Inspired by Rust, Zig and Kotlin, THP has a modern syntax, semantics,
+					type system and stdlib.
+				</p>
+				<div class="text-center pb-4">
+					<a
+						class="inline-block font-display text-lg rounded-full border-2 border-pink-400 py-2 px-8
 						transition-colors hover:text-black hover:bg-pink-400 mt-2"
-                        href="/en/latest/learn/"
-                    >
-                        Learn
-                    </a>
+						href="/en/latest/learn/"
+					>
+						Learn
+					</a>
 
-                    <a
-                        class="inline-block font-display text-lg border-2 border-sky-400 py-2 px-8 mx-6 rounded-full
+					<a
+						class="inline-block font-display text-lg border-2 border-sky-400 py-2 px-8 mx-6 rounded-full
 						transition-colors hover:text-black hover:bg-sky-400 mt-2 opacity-50 cursor-not-allowed"
-                    >
-                        Install
-                    </a>
-                </div>
-            </div>
-        </div>
+					>
+						Install
+					</a>
+				</div>
+			</div>
+		</div>
 
-        <div>
-            <div class="flex h-full justify-center items-center">
-                <div
-                    class="bg-[var(--code-theme-bg-color)] lg:p-6 p-2 rounded-lg w-full max-w-[30rem] relative"
-                >
-                    <span
-                        class="absolute lg:inline-block hidden h-[35rem] w-[35rem] -z-10 top-1/2 left-1/2 rounded-full
+		<div>
+			<div class="flex h-full justify-center items-center">
+				<div
+					class="bg-[var(--code-theme-bg-color)] lg:p-6 p-2 rounded-lg w-full max-w-[30rem] relative"
+				>
+					<span
+						class="absolute lg:inline-block hidden h-[35rem] w-[35rem] -z-10 top-1/2 left-1/2 rounded-full
 							transform -translate-x-1/2 -translate-y-1/2"
-                        style="background-image: conic-gradient(from 180deg at 50% 50%,#5BCEFA 0deg,#a853ba 180deg,#F5A9B8 1turn);
+						style="background-image: conic-gradient(from 180deg at 50% 50%,#5BCEFA 0deg,#a853ba 180deg,#F5A9B8 1turn);
 							filter: blur(75px); opacity: 0.75;"
-                    >
-                    </span>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="54"
-                        height="14"
-                        viewBox="0 0 54 14"
-                    >
-                        <g
-                            fill="none"
-                            fill-rule="evenodd"
-                            transform="translate(1 1)"
-                        >
-                            <circle
-                                cx="6"
-                                cy="6"
-                                r="6"
-                                fill="#FF5F56"
-                                stroke="#E0443E"
-                                stroke-width=".5"></circle>
-                            <circle
-                                cx="26"
-                                cy="6"
-                                r="6"
-                                fill="#FFBD2E"
-                                stroke="#DEA123"
-                                stroke-width=".5"></circle>
-                            <circle
-                                cx="46"
-                                cy="6"
-                                r="6"
-                                fill="#27C93F"
-                                stroke="#1AAB29"
-                                stroke-width=".5"></circle>
-                        </g>
-                    </svg>
-                    <div class="h-1"></div>
-                    <div id="editor" class="font-mono language-thp">
-                        <pre set:html={thp_html} />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+					>
+					</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="54"
+						height="14"
+						viewBox="0 0 54 14"
+					>
+						<g fill="none" fill-rule="evenodd" transform="translate(1 1)">
+							<circle
+								cx="6"
+								cy="6"
+								r="6"
+								fill="#FF5F56"
+								stroke="#E0443E"
+								stroke-width=".5"></circle>
+							<circle
+								cx="26"
+								cy="6"
+								r="6"
+								fill="#FFBD2E"
+								stroke="#DEA123"
+								stroke-width=".5"></circle>
+							<circle
+								cx="46"
+								cy="6"
+								r="6"
+								fill="#27C93F"
+								stroke="#1AAB29"
+								stroke-width=".5"></circle>
+						</g>
+					</svg>
+					<div class="h-1"></div>
+					<div id="editor" class="font-mono language-thp">
+						<pre set:html={thp_html} />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <div class="h-8 md:hidden"></div>
+	<div class="h-8 md:hidden"></div>
 
-    <HeroSection
-        title="Generics & Types"
-        thpcode={`
+	<HeroSection
+		title="Generics & Types"
+		thpcode={`
     Array[Int] numbers = [0, 1, 2, 3, 4, 5]
 
     numbers.push("7")  // Compile error: expected an Int, found a String
@@ -143,17 +139,17 @@ const [thp_html] = await native_highlighter(
     // Ok
     val result = mock() as String
     `}
-    >
-        Type safety is enforced at compile time. Everything
-        has a specific type. There is no `mixed`.
-        <br>
-        <br>
-        You can use generics where neccesary.
-    </HeroSection>
+	>
+		Type safety is enforced at compile time. Everything has a specific type.
+		There is no `mixed`.
+		<br />
+		<br />
+		You can use generics where neccesary.
+	</HeroSection>
 
-    <HeroSection
-        title="Tagged unions"
-        thpcode={`
+	<HeroSection
+		title="Tagged unions"
+		thpcode={`
     union DirEntry {
         File(String),
         Dir(String),
@@ -162,17 +158,17 @@ const [thp_html] = await native_highlighter(
     val root = DirEntry::Dir("/")
     val test_file = DirEntry::File("test.txt")
     `}
-    >
-        Make invalid state irrepresentable.
-        <br />
-        Model data in a type-safe way.
-        <br />
-        Ensure all cases are handled.
-    </HeroSection>
+	>
+		Make invalid state irrepresentable.
+		<br />
+		Model data in a type-safe way.
+		<br />
+		Ensure all cases are handled.
+	</HeroSection>
 
-    <HeroSection
-        title="Pattern matching"
-        thpcode={`
+	<HeroSection
+		title="Pattern matching"
+		thpcode={`
     match test_file
     case DirEntry::File(filename)
     if !filename.starts_with(".") {
@@ -182,15 +178,15 @@ const [thp_html] = await native_highlighter(
         print("A valid file was not found")
     }
     `}
-    >
-        Match on values, tuples, enums, unions, types etc.
-        <br />
-        Guards available!
-    </HeroSection>
+	>
+		Match on values, tuples, enums, unions, types etc.
+		<br />
+		Guards available!
+	</HeroSection>
 
-    <HeroSection
-        title="Null safety"
-        thpcode={`
+	<HeroSection
+		title="Null safety"
+		thpcode={`
     String? username = Post::get("username")
 
     if username? {
@@ -198,16 +194,16 @@ const [thp_html] = await native_highlighter(
         print("Hello, {username}")
     }
     `}
-    >
-        Nulls are explicit and require handling. Types can be nullable,
-        and they must be checked before usage.
-        <br>
-        The stdlib makes extensive use of them.
-    </HeroSection>
+	>
+		Nulls are explicit and require handling. Types can be nullable, and they
+		must be checked before usage.
+		<br />
+		The stdlib makes extensive use of them.
+	</HeroSection>
 
-    <HeroSection
-        title="Errors as values"
-        thpcode={`
+	<HeroSection
+		title="Errors as values"
+		thpcode={`
             val user_id = POST::get("id")
             val user = try User::find(user_id)
             catch DBException e {
@@ -215,12 +211,10 @@ const [thp_html] = await native_highlighter(
                 return page(.{}, 404)
             }
         `}
-    >
-        Exceptions are values and don't disrupt
-        control flow.
-        <br>
-        <br>
-        Errors cannot be ignored, and we have
-        syntax sugar to ease them.
-    </HeroSection>
+	>
+		Exceptions are values and don't disrupt control flow.
+		<br />
+		<br />
+		Errors cannot be ignored, and we have syntax sugar to ease them.
+	</HeroSection>
 </BaseLayout>

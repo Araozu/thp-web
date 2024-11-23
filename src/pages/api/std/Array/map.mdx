@@ -1,7 +1,8 @@
 ---
 layout: ../../../../layouts/ApiLayout.astro
 ---
-import Code from "../../../../components/Code.astro"
+
+import Code from "../../../../components/Code.astro";
 
 # `Array.map`
 
@@ -19,16 +20,15 @@ and returns their result in a new array.
         self[],
         (A) -> (B) map_function
     ) -> Array[B]
+
 `} />
-
-
 
 <Code thpcode={`
 
 fun multi_def
 | ("prosor prosor", 322) -> Float
 {
-    fmt.Println("prosor prosor %d", 322)
+fmt.Println("prosor prosor %d", 322)
 }
 | (String a, Int b) -> Float
 {
@@ -40,4 +40,3 @@ fun multi_def
 }
 
 `} />
-

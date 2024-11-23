@@ -2,7 +2,8 @@
 layout: "../_wrapper.astro"
 title: Tagged unions
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Tagged unions
 
@@ -16,14 +17,15 @@ union Shape
     Rectangle(Int, Int),
 }
 
-val dot        = Shape::Dot
-val square1    = Shape::Square(10)
+val dot = Shape::Dot
+val square1 = Shape::Square(10)
 val rectangle1 = Shape::Rectangle(5, 15)
 `} />
 
 ## Pattern matching
 
-<Code thpcode={`
+<Code
+  thpcode={`
 match shape_1
 case ::Square(side)
 {
@@ -33,7 +35,8 @@ case ::Rectangle(length, height)
 {
     print("Area of the rectangle: {length * height}")
 }
-`} />
+`}
+/>
 
 ## Internal representation
 
@@ -41,7 +44,6 @@ When compiled down to PHP, tagged unions are a combination of an enum and an arr
 
 THP creates an enum of the same name and with the same cases, and the values
 are contained as part of an array.
-
 
 ```php
 // The first snippet is compiled to:
@@ -56,4 +58,3 @@ $dot        = [Shape::Dot];
 $square1    = [Shape::Square, 10];
 $rectangle1 = [Shape::Rectangle, 5, 15]
 ```
-

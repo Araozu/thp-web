@@ -2,7 +2,8 @@
 layout: "../_wrapper.astro"
 title: Comment
 ---
-import Code from "@/components/Code.astro"
+
+import Code from "@/components/Code.astro";
 
 # Comment
 
@@ -10,8 +11,10 @@ import Code from "@/components/Code.astro"
 Comment = "//", any_except_new_line
 ```
 
-<Code thpcode={`
+<Code
+  thpcode={`
 // This is a comment
 // 
 // Another // comment
-`} />
+`}
+/>

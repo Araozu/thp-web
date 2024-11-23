@@ -5,54 +5,54 @@ import { splitAndLast } from "../utils";
 const hierarchy: Hierarchy = Astro.props.hierarchy;
 
 function postComparison(a: Post, b: Post): number {
-    const s1 = splitAndLast(a.url);
-    const s2 = splitAndLast(b.url);
+	const s1 = splitAndLast(a.url);
+	const s2 = splitAndLast(b.url);
 
-    return s1 > s2 ? 0 : 1;
+	return s1 > s2 ? 0 : 1;
 }
 
 function appendSlash(s: string): string {
-    if (s.endsWith("/")) {
-        return s;
-    } else {
-        return s + "/";
-    }
+	if (s.endsWith("/")) {
+		return s;
+	} else {
+		return s + "/";
+	}
 }
 ---
 
 {
-    Object.entries(hierarchy.children).map(
-        ([folderName, [folderPost, children]]) => (
-            <>
-                {folderPost !== null ? (
-                    <a
-                        class="inline-block rounded-2xl w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-2"
-                        href={appendSlash(folderPost.url)}
-                    >
-                        {splitAndLast(folderPost.url)}
-                    </a>
-                ) : (
-                    <div class="mt-6 px-2 py-1 uppercase font-display text-c-text-2 font-medium">
-                        {folderName}
-                    </div>
-                )}
+	Object.entries(hierarchy.children).map(
+		([folderName, [folderPost, children]]) => (
+			<>
+				{folderPost !== null ? (
+					<a
+						class="inline-block rounded-2xl w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-2"
+						href={appendSlash(folderPost.url)}
+					>
+						{splitAndLast(folderPost.url)}
+					</a>
+				) : (
+					<div class="mt-6 px-2 py-1 uppercase font-display text-c-text-2 font-medium">
+						{folderName}
+					</div>
+				)}
 
-                <div class="pl-2 my-1">
-                    <ul class="border-l border-c-border-1">
-                        <Astro.self hierarchy={children} />
-                    </ul>
-                </div>
-            </>
-        ),
-    )
+				<div class="pl-2 my-1">
+					<ul class="border-l border-c-border-1">
+						<Astro.self hierarchy={children} />
+					</ul>
+				</div>
+			</>
+		),
+	)
 }
 {
-    hierarchy.posts.sort(postComparison).map((p) => (
-        <a
-            class="inline-block rounded-2xl w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-2"
-            href={appendSlash(p.url)}
-        >
-            {splitAndLast(p.url)}
-        </a>
-    ))
+	hierarchy.posts.sort(postComparison).map((p) => (
+		<a
+			class="inline-block rounded-2xl w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-2"
+			href={appendSlash(p.url)}
+		>
+			{splitAndLast(p.url)}
+		</a>
+	))
 }
