@@ -110,7 +110,10 @@ function sort_posts(p1, p2) {
 	}
 }
 
-const versions = ["latest", "v0.0.1"];
+const versions = ["latest", "v0.0.1"].filter((x) => x !== version);
+const url_components = base_url.split(version);
+const lc = url_components[0] ?? "";
+const rc = url_components[1] ?? "";
 ---
 
 <BaseLayout title={frontmatter.title}>
@@ -125,22 +128,51 @@ const versions = ["latest", "v0.0.1"];
                 border-c-border-1 -translate-x-64 lg:translate-x-0 transition-transform"
 		>
 			<nav class="py-4 pr-2 overflow-x-scroll h-[calc(100vh-3rem)]">
-				<form class="pb-8 px-1">
-					<label for="version-select">THP version:</label>
-					<select
-						id="version-select"
-						class="bg-c-bg text-c-on-bg border border-pink-700 rounded px-3 p-1 w-full font-mono"
-						x-on:change="console.log(':D')"
+				<div class="mb-2 relative" x-data="{open: false}">
+					<div>
+						<span> Language version: </span>
+					</div>
+					<button
+						class="bg-c-bg text-c-text border border-c-primary rounded px-3 w-full font-mono mt-2 flex items-center hover:dark:bg-zinc-800 transition-colors cursor-pointer text-left"
+						@click="open = !open"
 					>
-						{
-							versions.map((x) => (
-								<option selected={x === version} value={x}>
-									{x}
-								</option>
-							))
-						}
-					</select>
-				</form>
+						<span class="inline-block w-full">
+							{version}
+						</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="32"
+							height="32"
+							fill="var(--c-primary)"
+							viewBox="0 0 256 256"
+							style="padding-bottom: 4px"
+							><path
+								d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"
+							></path>
+						</svg>
+					</button>
+					<div
+						x-bind:class="open? '': 'hidden'"
+						class="bottom-0 w-full absolute"
+					>
+						<div
+							class="absolute top-0 w-full bg-c-bg border border-c-primary rounded"
+						>
+							{
+								versions.map((x) => (
+									<a
+										class="px-3 py-1 hover:dark:bg-zinc-800 transition-colors font-mono inline-block w-full text-left"
+										href={`${lc}${x}${rc}`}
+									>
+										{x}
+									</a>
+								))
+							}
+						</div>
+					</div>
+				</div>
+
+				<hr class="my-6" />
 
 				{entries.map((entry) => <Sidebar entry={entry} />)}
 			</nav>
