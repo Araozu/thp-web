@@ -123,6 +123,18 @@ function sort_posts(p1, p2) {
                 border-c-border-1 -translate-x-64 lg:translate-x-0 transition-transform"
         >
             <nav class="py-4 pr-2 overflow-x-scroll h-[calc(100vh-3rem)]">
+
+		<form class="pb-8 px-1">
+			<label for="version-select">THP version:</label>
+			<select 
+				id="version-select"
+				class="bg-c-bg text-c-on-bg border border-pink-700 rounded px-3 p-1 w-full font-mono"
+			>
+				<option selected>latest</option>
+				<option>v0.0.1</option>
+			</select>
+		</form>
+
                 {
                     entries.map((entry) => (
                         <Sidebar entry={entry} />
