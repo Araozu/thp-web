@@ -18,7 +18,9 @@ export type Post = {
 type Posts = Array<Readonly<Post>>;
 
 const basePath = "/api/std";
-const posts: Posts = await Astro.glob("../pages/api/std/**/*.{md,mdx}");
+const posts: Posts = await Astro.glob(
+	"../pages/en/latest/api/std/**/*.{md,mdx}",
+);
 
 export type Hierarchy = {
 	posts: Array<Post>;
