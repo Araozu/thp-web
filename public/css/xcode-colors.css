@@ -101,6 +101,7 @@ pre[class*="language-"] ::selection {
 
 :not(pre) > code {
   background-color: var(--code-theme-bg-color);
+  color: var(--code-theme-color);
   padding: 0 0.25rem;
   border-radius: 5px;
 }
