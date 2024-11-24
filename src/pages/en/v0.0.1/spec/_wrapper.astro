@@ -1,0 +1,24 @@
+---
+import NewDocsLayout, { type AstroFile } from "@/layouts/NewDocsLayout.astro";
+
+const { frontmatter, headings } = Astro.props;
+// Get all the posts from this dir
+
+const posts = (await Astro.glob(
+	"./**/*.{md,mdx}",
+)) as unknown as Array<AstroFile>;
+
+// The base of every URL under this glob
+const version = "v0.0.1";
+const base_url = `/en/${version}/spec`;
+---
+
+<NewDocsLayout
+	base_url={base_url}
+	frontmatter={frontmatter}
+	headings={headings}
+	posts={posts}
+	version={version}
+>
+	<slot />
+</NewDocsLayout>

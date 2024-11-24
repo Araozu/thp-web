@@ -1,0 +1,235 @@
+---
+layout: "./_wrapper.astro"
+title: Welcome
+---
+import Info from "@/components/docs/Info.astro"
+import Code from "@/components/Code.astro";
+
+
+# The THP programming language specification
+
+This page (and following pages in the future) define the language.
+
+THP is a strong, statically typed programming language that is transpiled
+to PHP. It is designed to improve on PHP's shortcomings, mainly a better
+type system, better syntax and semantics, and better integration with tooling.
+
+
+## Compiler architecture
+
+<Info>
+This is subject to change. At this moment, only Lexical Analysis is
+being worked on.
+</Info>
+
+The compiler will have 5 phases:
+
+- Lexical analysis: converts source code into a stream of tokens.
+- Syntax analysis: converts a stream of tokens into an AST.
+- Semantic analysis: performs type-checking and validations on the AST.
+- IR transform: transforms the highlevel THP AST into a lower level representation. Unfolds syntax sugar.
+- Code generation: transforms the IR into PHP code.
+
+
+## Source code representation
+
+Source code must be ASCII encoded. However, bytes inside string literals
+are treated as-is, and send over to PHP without modification.
+
+## Grammar syntax
+
+This document uses a modified version of EBNF which allows the use of
+RegExp-like modifiers. An example is as follows:
+
+```abnf
+; single line comments
+
+literal       = "a"
+
+; ranges iterate over ASCII codepoints
+range         = "0".."9"
+
+production_1  = character
+concatenation = production_1, production_2
+
+alternation   = "a" | "b"
+
+alternation_2 = "abc"
+              | "jkl"
+              | "xyz"
+
+grouping      = ("123", "456")
+
+zero_or_one   = production?
+zero_or_more  = production*
+one_or_more   = production+
+```
+
+## Whitespace & Automatic Semicolon Insertion
+
+Altough not yet implemented, THP will not use semicolons as statements
+delimitors. Instead, new lines will serve as statement delimitors.
+
+THP is whitespace insensitive. However, THP has special rules
+when handling statement termination in order to not use
+semicolons.
+
+Certain statements have clearly defined markers of termination.
+For example, an `if` statement always has braces `{}`, so
+the closing brace `}` is the terminator. The same with
+parenthesis, square brackets, etc.
+
+Other statements require a explicit terminator. For example,
+the assignment statement:
+
+<Code
+  thpcode={`
+val computation = 123 + 456  // how to detect if the statement ends here
+* 789                        // or extends up to here?
+`}
+/>
+
+In other languages a semicolon would be used to signal the end of the
+statement:
+
+```c
+int computation = 123 + 456
+* 789;
+```
+
+THP does not use semicolons. Instead, THP has 1 strict rule and 1 exception
+to the rule:
+
+### All statements end with a newline
+
+No matter the indentation, whitespace or others, every statement ends
+with a newline.
+
+<Code
+  thpcode={`
+val compute = 1 + 2 * 3 / 4
+// statement ends here     ↑
+`}
+/>
+
+As mentioned before, this does not affect statements that have clear delimiters.
+For example, the following code will work as expected:
+
+<Code
+  thpcode={`
+val compute = my_function(
+    param1,
+    param2,
+) / 64
+//    ↑ statement ends here
+`}
+/>
+
+In a way, the parenthesis will "disable" the rule.
+
+But how to have an statement span multiple lines?
+
+### Exception: operator on the next line.
+
+If the next line begins with any operator, the statement of the previous line
+continues.
+
+For example:
+
+<Code
+  thpcode={`
+val computation = 123 + 456
+* 789
+//   ↑ statement ends here, and there is a single statement
+`}
+/>
+
+This is so no matter the indentation:
+
+<Code thpcode={`
+// weird indentation:
+
+    val computation = 123 + 456
+
+- 789
+  // ↑ statement still ends here
+  `} />
+
+What is important is that an operator begins the new line.
+If the operator is left on the previous line, this will not work:
+
+<Code
+  thpcode={`
+//       statement ends here ↓, and now there is a syntax error (dangling operator)
+val computation = 123 + 456 *
+789
+// ↑ this is a different statement
+`}
+/>
+
+For this the parser must do look-ahead of 1 token. This is the only place the parser
+does so.
+
+
+
+## Basic characters
+
+```abnf
+newline = "\n"
+character = '\0'..'\255' ; any ASCII character
+
+lowercase_letter = "a".."z"
+uppercase_letter = "A".."Z"
+underscore       = "_"
+dot              = "."
+comma            = ","
+
+decimal_digit    = "0".."9"
+binary_digit     = "0" | "1"
+octal_digit      = "0".."7"
+hex_digit        = "0".."9" | "a".."f" | "A".."F"
+```
+
+## Tokens
+
+### Number
+
+A decimal integer **cannot** have a leading zero. This: `0644` is
+a lexic error. Floating point numbers, however, can have leading zeros:
+`0.6782e+2`.
+
+In PHP an integer with a leading zero is not a decimal number, it's
+an octal number. So in PHP `0644 === 420`. To avoid any confusion,
+decimal numbers cannot have a leading zero. Instead, all octal
+numbers **must** begin with either `0o` or `0O`.
+
+
+```ebnf
+Number = Int | Float
+```
+
+```ebnf
+Int = hexadecimal_number
+    | octal_number
+    | binary_number
+    | decimal_number
+
+hexadecimal_number = "0", ("x" | "X"), hexadecimal_digit+
+octal_number       = "0", ("o" | "O"), octal_digit+
+binary_number      = "0", ("b" | "B"), binary_digit+
+decimal_number     = "1".."9", decimal_digit*
+```
+
+```ebnf
+Float = decimal_digit+, ".", decimal_digit+, scientific_notation?
+      | decimal_digit+, scientific_notation
+
+scientific_notation = "e", ("+" | "-"), decimal_digit+
+```
+
+
+
+
+
+
+
