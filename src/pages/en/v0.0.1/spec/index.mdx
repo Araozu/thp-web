@@ -33,8 +33,14 @@ The compiler will have 5 phases:
 
 ## Source code representation
 
-Source code must be ASCII encoded. However, bytes inside string literals
-are treated as-is, and send over to PHP without modification.
+Source code must be UTF-8 encoded.
+Any non-ASCII bytes appearing within a string literal in source code
+carry their UTF-8 meaning into the content of the string,
+the bytes are not modified by the compiler.
+
+Furthermore, THP only recognizes LF as line terminator.
+Using CRLF will lead to a compiler error.
+
 
 ## Grammar syntax
 
@@ -188,6 +194,10 @@ decimal_digit    = "0".."9"
 binary_digit     = "0" | "1"
 octal_digit      = "0".."7"
 hex_digit        = "0".."9" | "a".."f" | "A".."F"
+
+operator_char    = "+" | "-" | "=" | "*" | "!" | "/" | "|"
+                 | "@" | "#" | "$" | "~" | "%" | "&" | "?"
+                 | "<" | ">" | "^" | "." | ":"
 ```
 
 ## Tokens
@@ -227,9 +237,31 @@ Float = decimal_digit+, ".", decimal_digit+, scientific_notation?
 scientific_notation = "e", ("+" | "-"), decimal_digit+
 ```
 
+## Identifier & Datatypes
 
+```ebnf
+Identifier        = (underscore | lowercase_letter), identifier_letter*
 
+identifier_letter = underscore | lowercase_letter | uppercase_letter | decimal_digit
+```
 
+```ebnf
+Datatype = uppercase_letter, indentifier_letter*
+```
+
+## Operator
+
+If 2 or more operator chars are together, they count as a single operator. That is,
+`+-` always becomes a single token, not 2 `+` `-` tokens. The lexer is not aware of
+any operator.
+
+```ebnf
+Operator = operator_char+
+```
+
+## Comments
+
+At this time, only single line comments are allowed.
 
 
 
