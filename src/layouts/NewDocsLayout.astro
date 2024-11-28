@@ -52,9 +52,7 @@ const posts_2 = posts
 		// being `/spec/ast/tokens` would be `/ast/tokens`
 		path: post.url.substring(base_len),
 	}))
-	.sort((p1, p2) =>
-		p1.frontmatter.order > p2.frontmatter.order ? 1 : -1,
-	);
+	.sort((p1, p2) => (p1.frontmatter.order > p2.frontmatter.order ? 1 : -1));
 
 // build a hierarchy of the files
 const second_level: Record<string, Array<AstroFile>> = {
@@ -129,20 +127,13 @@ const rc = url_components[1] ?? "";
 			class="pt-12 h-screen lg:sticky top-0 fixed z-10 bg-c-bg w-60 lg:w-auto border-r-2 lg:border-0
                 border-c-border-1 -translate-x-64 lg:translate-x-0 transition-transform"
 		>
-			<nav
-				class="py-4 pr-2 overflow-x-scroll h-[calc(100vh-3rem)]"
-			>
-				<div
-					class="mb-2 relative"
-					x-data="{open: false}"
-				>
+			<nav class="py-4 pr-2 overflow-x-scroll h-[calc(100vh-3rem)]">
+				<div class="mb-2 relative" x-data="{open: false}">
 					<button
 						class="bg-c-bg text-c-text border border-c-primary rounded px-3 w-full font-mono mt-2 flex items-center hover:dark:bg-zinc-800 transition-colors cursor-pointer text-left"
 						@click="open = !open"
 					>
-						<span
-							class="inline-block w-full"
-						>
+						<span class="inline-block w-full">
 							{version}
 						</span>
 						<svg
@@ -166,18 +157,14 @@ const rc = url_components[1] ?? "";
 							class="absolute top-0 w-full bg-c-bg border border-c-primary rounded"
 						>
 							{
-								versions.map(
-									(x) => (
-										<a
-											class="px-3 py-1 hover:dark:bg-zinc-800 transition-colors font-mono inline-block w-full text-left"
-											href={`${lc}${x}${rc}`}
-										>
-											{
-												x
-											}
-										</a>
-									),
-								)
+								versions.map((x) => (
+									<a
+										class="px-3 py-1 hover:dark:bg-zinc-800 transition-colors font-mono inline-block w-full text-left"
+										href={`${lc}${x}${rc}`}
+									>
+										{x}
+									</a>
+								))
 							}
 						</div>
 					</div>
@@ -185,11 +172,7 @@ const rc = url_components[1] ?? "";
 
 				<hr class="my-6" />
 
-				{
-					entries.map((entry) => (
-						<Sidebar entry={entry} />
-					))
-				}
+				{entries.map((entry) => <Sidebar entry={entry} />)}
 			</nav>
 		</div>
 
@@ -203,9 +186,7 @@ const rc = url_components[1] ?? "";
 			class="lg:pt-12 hidden lg:block pt-4 max-h-screen overflow-x-scroll sticky top-0"
 		>
 			<nav class="rounded-md lg:mt-10">
-				<h2
-					class="font-display font-medium pb-2 text-c-text-2"
-				>
+				<h2 class="font-display font-medium pb-2 text-c-text-2">
 					On this page
 				</h2>
 

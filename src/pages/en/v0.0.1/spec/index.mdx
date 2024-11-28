@@ -264,4 +264,18 @@ Operator = operator_char+
 At this time, only single line comments are allowed.
 
 
+## Strings
+
+Strings in THP only use double quotes.
+
+As of the writing of this page, an escape character is a backslash followed
+by any byte, except newline.
+
+```ebnf
+String = double_quote, (escape_seq | string_char)*, double_quote
+escape_seq   = backslash, any_except_newline
+
+double_quote = '"'
+string_char  = any_except_newline_and_double_quote
+```
 
