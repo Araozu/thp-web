@@ -19,6 +19,9 @@
 
 :root {
   --c-thp: #f472b6;
+  --c-php: #4f5b93;
+  --c-html: #dc4a20;
+  --c-zig: #f7a41d;
 
   --font-display: "Atkinson Hyperlegible", sans-serif;
   --font-body: "Atkinson Hyperlegible", sans-serif;

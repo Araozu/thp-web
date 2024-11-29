@@ -11,12 +11,14 @@ export function highlightOnDom() {
 
     let indicator_bg_class = "";
     if (language === "php") {
-      indicator_bg_class = "bg-[#4f5b93]";
+      indicator_bg_class = "bg-[var(--c-php)] text-white";
     } else if (language === "html") {
-      indicator_bg_class = "bg-[#dc4a20]";
+      indicator_bg_class = "bg-[var(--c-html)] text-white";
+    } else if (language === "zig") {
+      indicator_bg_class = "bg-[var(--c-zig)] text-black";
     }
 
-    indicator.className = `absolute top-1 right-0 inline-block text-sm select-none opacity-85 ${indicator_bg_class} px-2 rounded-full`;
+    indicator.className = `absolute top-0 right-0 inline-block text-sm select-none opacity-85 ${indicator_bg_class} px-2 rounded-bl-md`;
     indicator.innerText = language;
     pre_el.appendChild(indicator);
   }

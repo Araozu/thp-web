@@ -18,8 +18,7 @@ type system, better syntax and semantics, and better integration with tooling.
 ## Compiler architecture
 
 <Info>
-This is subject to change. At this moment, only Lexical Analysis is
-being worked on.
+This is subject to change. We are still rewriting from Rust to Zig.
 </Info>
 
 The compiler will have 5 phases:
@@ -47,7 +46,7 @@ Using CRLF will lead to a compiler error.
 This document uses a modified version of EBNF which allows the use of
 RegExp-like modifiers. An example is as follows:
 
-```abnf
+```ebnf
 ; single line comments
 
 literal       = "a"
@@ -180,7 +179,7 @@ does so.
 
 ## Basic characters
 
-```abnf
+```ebnf
 newline = "\n"
 character = '\0'..'\255' ; any ASCII character
 
@@ -201,6 +200,32 @@ operator_char    = "+" | "-" | "=" | "*" | "!" | "/" | "|"
 ```
 
 ## Tokens
+
+This is a summary of all tokens:
+
+```zig
+pub const TokenType = enum {
+    Int,
+    Float,
+    Identifier,
+    Datatype,
+    Operator,
+    Comment,
+    String,
+    // grouping signs
+    LeftParen,
+    RightParen,
+    LeftBracket,
+    RightBracket,
+    LeftBrace,
+    RightBrace,
+    // punctiation that carries special meaning
+    Comma,
+    Newline,
+    // Each keyword will have its own token
+};
+```
+
 
 ### Number
 
@@ -237,7 +262,7 @@ Float = decimal_digit+, ".", decimal_digit+, scientific_notation?
 scientific_notation = "e", ("+" | "-"), decimal_digit+
 ```
 
-## Identifier & Datatypes
+### Identifier & Datatypes
 
 ```ebnf
 Identifier        = (underscore | lowercase_letter), identifier_letter*
@@ -249,7 +274,7 @@ identifier_letter = underscore | lowercase_letter | uppercase_letter | decimal_d
 Datatype = uppercase_letter, indentifier_letter*
 ```
 
-## Operator
+### Operator
 
 If 2 or more operator chars are together, they count as a single operator. That is,
 `+-` always becomes a single token, not 2 `+` `-` tokens. The lexer is not aware of
@@ -259,12 +284,12 @@ any operator.
 Operator = operator_char+
 ```
 
-## Comments
+### Comments
 
 At this time, only single line comments are allowed.
 
 
-## Strings
+### Strings
 
 Strings in THP only use double quotes.
 
@@ -278,4 +303,49 @@ escape_seq   = backslash, any_except_newline
 double_quote = '"'
 string_char  = any_except_newline_and_double_quote
 ```
+
+### Grouping signs
+
+Each grouping sign has its own token.
+
+```ebnf
+LeftParen = "("
+RightParen = ")"
+LeftBracket = "["
+RightBracket = "]"
+LeftBrace = "{"
+RightBrace = "}"
+```
+
+## Syntax & AST
+
+On this section of the grammar plain strings are used instead of
+keywords productions.
+
+### Variable binding
+
+Variable bindings have 2 forms: immutable & mutable.
+Immutable bindings use the `val` keyword, mutable bindings
+use `var`.
+
+Bindings can have type annotations, placed between the keyword and
+the identifier.
+
+If the binding is immutable and has a datatype, the `val` keyword
+can be dropped. Mutable bindings cannot drop the var keyword.
+
+
+
+```ebnf
+ImmutableBinding = "val", Datatype?, Identifier, "=", Expression
+                 |        Datatype,  Identifier, "=", Expression
+
+MutableBinding   = "var", Datatype?, Identifier, "=", Expression
+```
+
+### Expression
+
+
+
+
 

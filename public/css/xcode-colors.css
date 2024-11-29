@@ -27,6 +27,48 @@
   --code-theme-punctuation: #dedede;
 }
 
+.language-html {
+  --code-theme-border-color: var(--c-html);
+}
+
+.language-zig {
+  --code-theme-border-color: var(--c-zig);
+}
+
+.language-php {
+    --code-theme-bg-color: rgb(7, 9, 15);
+    --code-theme-border-color: var(--c-php);
+}
+
+.language-ebnf, .language-c {
+  --code-theme-bg-color: rgb(7, 9, 15);
+}
+
+@media (prefers-color-scheme: light) {
+  .language-ebnf, .language-c {
+    --code-theme-bg-color: #eff1f5;
+  }
+
+ .language-php {
+    --code-theme-bg-color: white;
+    --code-theme-border-color: var(--c-php);
+    --code-theme-comment: rgb(79,91,147);
+    /* number */
+    --code-theme-c1: #336699;
+    /* keyword */
+    --code-theme-c2: #669933;
+    --code-theme-c3: #39adb5;
+    /* string */
+    --code-theme-c4: #cc3333;
+    /* declaration */
+    --code-theme-c5: #336699;
+    /* function */
+    --code-theme-c7: #336699;
+
+    --code-theme-punctuation: #669933;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     --code-theme-color: #3a3a3a;
