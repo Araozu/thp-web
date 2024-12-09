@@ -322,6 +322,23 @@ RightBrace = "}"
 On this section of the grammar plain strings are used instead of
 keywords productions.
 
+### Source file & modules
+
+Each THP source file is a module.
+
+```ebnf
+Module = Statement*
+```
+
+### Statement
+
+For now there is only 1 type of statement.
+
+```ebnf
+Statement = VariableBinding
+```
+
+
 ### Variable binding
 
 Variable bindings have 2 forms: immutable & mutable.
@@ -337,6 +354,8 @@ can be dropped. Mutable bindings cannot drop the var keyword.
 
 
 ```ebnf
+VariableBinding = ImmutableBinding | MutableBinding
+
 ImmutableBinding = "val", Datatype?, Identifier, "=", Expression
                  |        Datatype,  Identifier, "=", Expression
 
@@ -345,6 +364,11 @@ MutableBinding   = "var", Datatype?, Identifier, "=", Expression
 
 ### Expression
 
+For now, the only expression recognized is a number.
+
+```ebnf
+Expression = Number
+```
 
 
 
