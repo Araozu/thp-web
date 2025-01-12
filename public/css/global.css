@@ -31,36 +31,65 @@
 [x-cloak] { display: none !important; }
 
 :root {
-  --c-bg: #121212;
-  --c-text: rgb(200, 200, 200);
-  --c-text-2: white;
-  --c-primary: #884b6a;
-  --c-purple: #7f669d;
-  --c-purple-light: #ba94d1;
-  --c-box-shadow: #fbfacd;
-  --c-pink: #ae508d;
-  --c-link: #38bdf8;
-
-  --c-nav-bg: rgb(18, 18, 18, 0.5);
-  --c-secondary: rgba(136, 75, 106, 0.5);
+  --c-bg: var(--c-bg-dark);
+  --c-text: var(--c-text-dark);
+  --c-border-1: var(--c-border-1-dark);
+  --c-text-2: var(--c-text-2-dark);
+  --c-primary: var(--c-primary-dark);
+  --c-purple: var(--c-purple-dark);
+  --c-purple-dark: var(--c-purple-light-dark);
+  --c-box-shadow: var(--c-box-shadow-dark);
+  --c-pink: var(--c-pink-dark);
+  --c-link: var(--c-link-dark);
+  --c-nav-bg: var(--c-nav-bg-dark);
+  --c-secondary: var(--c-secondary-dark);
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --c-bg: rgb(255, 253, 255);
-    --c-text: #121212;
-    --c-text-2: black;
-    --c-purple: #374259;
-    --c-purple-light: #ba94d1;
-    --c-box-shadow: #374259;
-    --c-primary: rgb(255, 180, 180);
-    --c-pink: #374259;
-    --c-link: #0284c7;
-    --c-border-1: #909090;
-
-    --c-nav-bg: rgb(255, 247, 255, 0.5);
-    --c-secondary: rgba(255, 255, 240, 0.5);
+    --c-bg: var(--c-bg-light);
+    --c-text: var(--c-text-light);
+    --c-text-2: var(--c-text-2-light);
+    --c-purple: var(--c-purple-light);
+    --c-purple-light: var(--c-purple-light-light);
+    --c-box-shadow: var(--c-box-shadow-light);
+    --c-primary: var(--c-primary-light);
+    --c-pink: var(--c-pink-light);
+    --c-link: var(--c-link-light);
+    --c-border-1: var(--c-border-1-light);
+    --c-nav-bg: var(--c-nav-bg-light);
+    --c-secondary: var(--c-secondary-light);
   }
+}
+
+body.dark {
+  --c-bg: var(--c-bg-dark);
+  --c-text: var(--c-text-dark);
+  --c-border-1: var(--c-border-1-dark);
+  --c-text-2: var(--c-text-2-dark);
+  --c-primary: var(--c-primary-dark);
+  --c-purple: var(--c-purple-dark);
+  --c-purple-dark: var(--c-purple-light-dark);
+  --c-box-shadow: var(--c-box-shadow-dark);
+  --c-pink: var(--c-pink-dark);
+  --c-link: var(--c-link-dark);
+  --c-nav-bg: var(--c-nav-bg-dark);
+  --c-secondary: var(--c-secondary-dark);
+}
+
+body.light {
+    --c-bg: var(--c-bg-light);
+    --c-text: var(--c-text-light);
+    --c-text-2: var(--c-text-2-light);
+    --c-purple: var(--c-purple-light);
+    --c-purple-light: var(--c-purple-light-light);
+    --c-box-shadow: var(--c-box-shadow-light);
+    --c-primary: var(--c-primary-light);
+    --c-pink: var(--c-pink-light);
+    --c-link: var(--c-link-light);
+    --c-border-1: var(--c-border-1-light);
+    --c-nav-bg: var(--c-nav-bg-light);
+    --c-secondary: var(--c-secondary-light);
 }
 
 html {

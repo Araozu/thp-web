@@ -1,7 +1,7 @@
 /* colors from: https://raw.githubusercontent.com/WhiteVermouth/XcodeTheme/master/assets/color-palette.png */
 :root {
-  --code-theme-color: #dedede;
-  --code-theme-bg-color: #1f1f24;
+  --code-theme-color: #f4f4f5;
+  --code-theme-bg-color: #18181b;
   --code-theme-bg-color_selection: #515b70;
   --code-theme-color_selection: inherit;
 

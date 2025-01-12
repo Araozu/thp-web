@@ -1,40 +1,53 @@
 ---
+import { Sun, Moon, Laptop } from "lucide-astro";
+
 const { showSidebarButton = true, version = "latest" } = Astro.props;
 ---
 
 <nav
-	class="fixed w-full top-0 h-12 border-b border-[rgba(150,150,150,0.25)] bg-c-nav-bg backdrop-blur-md z-20"
+	class="fixed w-full top-0 h-12 border-b border-c-border-1 bg-c-nav-bg backdrop-blur-md z-20"
 >
-	<div class="container mx-auto h-full w-full flex items-center">
-		{
-			showSidebarButton && (
-				<button id="sidebar-toggle" class="w-10 h-full lg:hidden">
-					<i class="ph-bold ph-list text-xl inline-block" />
-				</button>
-			)
-		}
+	<div class="container mx-auto h-full w-full grid grid-cols-[auto_3rem]">
+		<div class="flex items-center">
+			{
+				showSidebarButton && (
+					<button
+						id="sidebar-toggle"
+						class="w-10 h-full lg:hidden"
+					>
+						<i class="ph-bold ph-list text-xl inline-block" />
+					</button>
+				)
+			}
 
-		<a href="/" class="px-4 flex gap-2 items-center">
-			<img class="inline-block h-10" src="/img/thp_logo_exp.svg" alt="thp" />
-		</a>
-		<a
-			href={`/en/${version}/learn/`}
-			class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
-		>
-			Learn
-		</a>
-		<a
-			href={`/en/${version}/api/std/`}
-			class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
-		>
-			Standard Library
-		</a>
-		<a
-			href={`/en/${version}/spec/`}
-			class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
-		>
-			Language spec
-		</a>
+			<a href="/" class="px-4 flex gap-2 items-center">
+				<img
+					class="inline-block h-10"
+					src="/img/thp_logo_exp.svg"
+					alt="thp"
+				/>
+			</a>
+			<a
+				href={`/en/${version}/learn/`}
+				class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
+			>
+				Learn
+			</a>
+			<a
+				href={`/en/${version}/api/std/`}
+				class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
+			>
+				Standard Library
+			</a>
+			<a
+				href={`/en/${version}/spec/`}
+				class="hidden sm:inline-block px-4 font-display font-bold-text-xl hover:underline"
+			>
+				Language spec
+			</a>
+		</div>
+
+		<div class="flex items-center"></div>
 	</div>
 </nav>
 
@@ -52,7 +65,9 @@ const { showSidebarButton = true, version = "latest" } = Astro.props;
 
 		sidebarToggle.addEventListener("click", () => {
 			sidebar.classList.toggle("-translate-x-64");
-			console.log(sidebar.classList.contains("-translate-x-64"));
+			console.log(
+				sidebar.classList.contains("-translate-x-64"),
+			);
 		});
 	});
 </script>

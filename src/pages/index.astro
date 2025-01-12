@@ -45,8 +45,9 @@ const [thp_html] = await native_highlighter(
 					compiled to PHP
 				</h1>
 				<p class="text-c-text text-lg pt-6 lg:pr-12">
-					Inspired by Rust, Zig and Kotlin, THP has a modern syntax, semantics,
-					type system and stdlib.
+					Inspired by Rust, Zig and Kotlin, THP
+					has a modern syntax, semantics, type
+					system and stdlib.
 				</p>
 				<div class="text-center pb-4">
 					<a
@@ -85,32 +86,42 @@ const [thp_html] = await native_highlighter(
 						height="14"
 						viewBox="0 0 54 14"
 					>
-						<g fill="none" fill-rule="evenodd" transform="translate(1 1)">
+						<g
+							fill="none"
+							fill-rule="evenodd"
+							transform="translate(1 1)"
+						>
 							<circle
 								cx="6"
 								cy="6"
 								r="6"
 								fill="#FF5F56"
 								stroke="#E0443E"
-								stroke-width=".5"></circle>
+								stroke-width=".5"
+							></circle>
 							<circle
 								cx="26"
 								cy="6"
 								r="6"
 								fill="#FFBD2E"
 								stroke="#DEA123"
-								stroke-width=".5"></circle>
+								stroke-width=".5"
+							></circle>
 							<circle
 								cx="46"
 								cy="6"
 								r="6"
 								fill="#27C93F"
 								stroke="#1AAB29"
-								stroke-width=".5"></circle>
+								stroke-width=".5"
+							></circle>
 						</g>
 					</svg>
 					<div class="h-1"></div>
-					<div id="editor" class="font-mono language-thp">
+					<div
+						id="editor"
+						class="font-mono language-thp"
+					>
 						<pre set:html={thp_html} />
 					</div>
 				</div>
@@ -140,8 +151,8 @@ const [thp_html] = await native_highlighter(
     val result = mock() as String
     `}
 	>
-		Type safety is enforced at compile time. Everything has a specific type.
-		There is no `mixed`.
+		Type safety is enforced at compile time. Everything has a
+		specific type. There is no `mixed`.
 		<br />
 		<br />
 		You can use generics where neccesary.
@@ -195,8 +206,8 @@ const [thp_html] = await native_highlighter(
     }
     `}
 	>
-		Nulls are explicit and require handling. Types can be nullable, and they
-		must be checked before usage.
+		Nulls are explicit and require handling. Types can be nullable,
+		and they must be checked before usage.
 		<br />
 		The stdlib makes extensive use of them.
 	</HeroSection>

@@ -29,7 +29,7 @@ export default {
     container: false,
   },
   plugins: [
-    function ({ addComponents }) {
+    function({ addComponents }) {
       addComponents({
         ".container": {
           width: "98%",

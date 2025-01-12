@@ -1,0 +1,33 @@
+/* general site colors */
+:root {
+  /* dark */
+  --c-bg-dark: #09090b;
+  --c-text-dark: #fafafa;
+  --c-border-1-dark: #3f3f46;
+  --c-text-2-dark: white;
+  --c-primary-dark: #884b6a;
+  --c-purple-dark: #7f669d;
+  --c-purple-light-dark: #ba94d1;
+  --c-box-shadow-dark: #fbfacd;
+  --c-pink-dark: #ae508d;
+  --c-link-dark: #38bdf8;
+  --c-nav-bg-dark: rgb(9, 9, 11, 0.9);
+  --c-secondary-dark: rgba(136, 75, 106, 0.5);
+
+  /* light */
+  --c-bg-light: rgb(255, 253, 255);
+  --c-text-light: #121212;
+  --c-text-2-light: black;
+  --c-purple-light: #374259;
+  --c-purple-light-light: #ba94d1;
+  --c-box-shadow-light: #374259;
+  --c-primary-light: rgb(255, 180, 180);
+  --c-pink-light: #374259;
+  --c-link-light: #0284c7;
+  --c-border-1-light: #909090;
+  --c-nav-bg-light: rgb(255, 247, 255, 0.5);
+  --c-secondary-light: rgba(255, 255, 240, 0.5);
+}
+
+/* code snippets colors */
+
