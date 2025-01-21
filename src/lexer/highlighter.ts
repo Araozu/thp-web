@@ -311,7 +311,16 @@ const native_lex = (code: string, level: HighlightLevel) =>
     // Get binary path from .env
     const binary = import.meta.env.THP_BINARY;
     if (!binary) {
-      throw new Error("THP_BINARY not set in .env");
+      console.error("THP_BINARY not set in .env");
+      resolve({
+        Err: {
+          error_code: 0,
+          error_offset: 0,
+          labels: [],
+          note: null,
+          help: null,
+        }
+      })
     }
 
     const subprocess = spawn(binary, ["tokenize", "-l", level.toString()]);
