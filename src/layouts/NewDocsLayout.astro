@@ -15,13 +15,46 @@ export interface AstroFile {
 	__usesAstroImage: boolean;
 	url: string;
 	file: string;
-	relative_file: string;
 }
+
+export interface AstroFileP {
+	frontmatter: Frontmatter;
+	__usesAstroImage: boolean;
+	/**
+	 * Full URL in the filesystem's `pages` folder.
+	 * E.g.: `/en/latest/api/std/Array`
+	 */
+	url: string;
+	/**
+	 * Full URL in the filesystem
+	 * E.g.: `/home/user/project/src/pages/en/latest/api/std/Array`
+	 */
+	file: string;
+	/**
+	 * Title of the page, as found in the frontmatter
+	 * E.g.: `Array`
+	 */
+	title: string;
+	/**
+	 * URL of the file, relative to a `base_url`.
+	 * E.g.: if base_url=`/en/latest/api`, then path=`/std/Array/index.mdx`
+	 */
+	path: string;
+	/**
+	 * Whether or not this file has a children whose name is index.mdx
+	 */
+	has_index: boolean;
+}
+
+export type AstroFileHierarchy = AstroFileP & {
+	children: Array<AstroFileHierarchy>;
+};
 
 export interface Frontmatter {
 	layout: string;
 	title: string;
 	order: number;
+	mono?: boolean;
 }
 
 type Props = {
@@ -41,77 +74,108 @@ const {
 	version = "latest",
 }: Props = Astro.props;
 
-const base_len = base_url.length;
-
-const posts_2 = posts
+const posts_2: Array<AstroFileP> = posts
 	.map((post) => ({
 		...post,
 		title: post.frontmatter.title,
-		// this should be a path relative to the base url.
-		// e.g if base_url is `/spec`, then this instead of
-		// being `/spec/ast/tokens` would be `/ast/tokens`
-		path: post.url.substring(base_len),
+		path: post.file.split(base_url)[1]!,
+		has_index: false,
 	}))
 	.sort((p1, p2) =>
 		p1.frontmatter.order > p2.frontmatter.order ? 1 : -1,
 	);
 
-// build a hierarchy of the files
-const second_level: Record<string, Array<AstroFile>> = {
-	_: [],
-};
-for (const post of posts_2) {
-	const fragments = post.path.split("/");
-	if (fragments.length === 3) {
-		const folder_name = fragments[1]!;
+function buildFileTree(
+	flatPosts: Array<AstroFileP>,
+): Array<AstroFileHierarchy> {
+	// @ts-ignore
+	const root: AstroFileHierarchy = { path: "", children: [] };
 
-		// create if not exists
-		if (second_level[folder_name] === undefined) {
-			second_level[folder_name] = [];
-		}
-		second_level[folder_name].push(post);
-	} else {
-		// add to root folder
-		second_level["_"]!.push(post);
-	}
+	flatPosts.forEach((post) => {
+		// Remove leading/trailing slashes and split path
+		const parts = post.path.replace(/^\/|\/$/g, "").split("/");
+		let current = root;
+
+		// Build path segments
+		parts.forEach((part, index) => {
+			const path = "/" + parts.slice(0, index + 1).join("/");
+			let node = current.children?.find(
+				(child) => child.path === path,
+			);
+
+			if (!node) {
+				node = {
+					...post,
+					path,
+					title:
+						index === parts.length - 1
+							? post.title
+							: part,
+					children: [],
+				};
+				current.children?.push(node);
+			}
+			current = node;
+		});
+	});
+
+	return root.children || [];
 }
 
-// build a folder hierarchy (only 2 levels)
-
-const entries: Array<any> = [];
-const levels_keys = Object.keys(second_level).toSorted();
-
-// The key `_` contains the top level links. Always insert those
-const top_level_posts = second_level["_"]!;
-// sort
-const sorted_posts = top_level_posts.toSorted(sort_posts);
-entries.push(...sorted_posts);
-
-for (const levels_key of levels_keys) {
-	if (levels_key === "_") {
-		// top level, already inserted
-		continue;
-	} else {
-		const posts = second_level[levels_key]!;
-		const sorted_posts = posts.toSorted(sort_posts);
-		const parentEntry = {
-			path: "",
-			title: levels_key,
-			children: sorted_posts,
-			url: "",
-		};
-		entries.push(parentEntry);
-	}
+function sortFileTree(tree: AstroFileHierarchy[]): AstroFileHierarchy[] {
+	return tree
+		.map((node) => ({
+			...node,
+			children: node.children
+				? sortFileTree(node.children)
+				: [],
+		}))
+		.sort(sort_posts);
 }
 
-function sort_posts(p1, p2) {
-	if (!!p1.frontmatter.order && !!p2.frontmatter.order) {
+function sort_posts(p1: AstroFileP, p2: AstroFileP) {
+	if (p1.frontmatter.order !== p2.frontmatter.order) {
 		return p1.frontmatter.order > p2.frontmatter.order ? 1 : -1;
 	} else {
 		return p1.title > p2.title ? 1 : -1;
 	}
 }
 
+function markIndexPages(tree: AstroFileHierarchy[]): AstroFileHierarchy[] {
+	return tree.map((node) => {
+		const indexChild = node.children?.find((child) =>
+			child.path.endsWith("index.mdx"),
+		);
+
+		if (indexChild && node.children) {
+			// Keep children (except index) and has_index, replace everything else
+			const { children, ...indexProps } = indexChild;
+			return {
+				...indexProps,
+				children: markIndexPages(
+					node.children.filter(
+						(child) =>
+							!child.path.endsWith(
+								"index.mdx",
+							),
+					),
+				),
+				has_index: true,
+			};
+		}
+
+		return {
+			...node,
+			children: node.children
+				? markIndexPages(node.children)
+				: [],
+		};
+	});
+}
+
+const posts_hierarchy = sortFileTree(markIndexPages(buildFileTree(posts_2)));
+
+// FIXME: centralize somewhere else
 const versions = ["latest", "v0.0.1"].filter((x) => x !== version);
 const url_components = base_url.split(version);
 const lc = url_components[0] ?? "";
@@ -186,7 +250,7 @@ const rc = url_components[1] ?? "";
 				<hr class="my-6" />
 
 				{
-					entries.map((entry) => (
+					posts_hierarchy.map((entry) => (
 						<Sidebar entry={entry} />
 					))
 				}

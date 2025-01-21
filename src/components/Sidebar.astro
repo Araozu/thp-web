@@ -1,20 +1,63 @@
 ---
-import type { PageEntry } from "../layouts/PagesLayout.astro";
+import type { AstroFileHierarchy } from "@/layouts/NewDocsLayout.astro";
 
-const entry: PageEntry = Astro.props.entry;
+const entry: AstroFileHierarchy = Astro.props.entry;
 const post_url = entry.url + (entry.url.endsWith("/") ? "" : "/");
 
 // this may deal with folders.
 // if so, it will turn any `-` into whitespace,
 // and remove any leading number
 const entry_title = entry.title.replaceAll("-", " ").replaceAll(/\d+_/g, "");
+const mono_class = entry.frontmatter.mono === true ? "font-mono " : "";
 ---
 
 {
-	!entry.children && (
+	entry.children.length > 0 ? (
+		entry.has_index === true ? (
+			<>
+				<li>
+					<a
+						class={
+							mono_class +
+							"inline-block rounded-lg w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-1"
+						}
+						href={post_url}
+					>
+						{entry_title}
+					</a>
+				</li>
+
+				<ul class="my-1 ml-2 border-l border-c-border-1">
+					{entry.children!.map((nextEntry) => (
+						<Astro.self entry={nextEntry} />
+					))}
+				</ul>
+			</>
+		) : (
+			<>
+				<div
+					class={
+						mono_class +
+						"mt-6 px-3 py-1 uppercase font-display text-c-text-2 font-medium"
+					}
+				>
+					{entry_title}
+				</div>
+
+				<ul class="my-1">
+					{entry.children!.map((nextEntry) => (
+						<Astro.self entry={nextEntry} />
+					))}
+				</ul>
+			</>
+		)
+	) : (
 		<li>
 			<a
-				class="inline-block rounded-lg w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-1"
+				class={
+					mono_class +
+					"inline-block rounded-lg w-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors px-3 py-1"
+				}
 				href={post_url}
 			>
 				{entry.title}
@@ -22,7 +65,9 @@ const entry_title = entry.title.replaceAll("-", " ").replaceAll(/\d+_/g, "");
 		</li>
 	)
 }
+
 {
+	/*
 	entry.children && (
 		<>
 			<div class="mt-6 px-3 py-1 uppercase font-display text-c-text-2 font-medium">
@@ -36,4 +81,5 @@ const entry_title = entry.title.replaceAll("-", " ").replaceAll(/\d+_/g, "");
 			</ul>
 		</>
 	)
+*/
 }
