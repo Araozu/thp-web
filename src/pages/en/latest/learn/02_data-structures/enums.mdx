@@ -18,8 +18,7 @@ THP enums are a 1 to 1 map of PHP enums, with a slightly different syntax.
 Enums don't have a scalar value by default.
 
 <Code thpcode={`
-enum Suit
-{
+enum Suit {
     Hearts,
     Diamonds,
     Clubs,
@@ -36,8 +35,7 @@ Backed enums can have a scalar for each case. The scalar values can only be
 
 <Code
   thpcode={`
-enum Suit(String)
-{
+enum Suit(String) {
     Hearts = "H",
     Diamonds = "D",
     Clubs = "C",

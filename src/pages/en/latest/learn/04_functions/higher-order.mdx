@@ -10,8 +10,7 @@ import Code from "@/components/Code.astro";
 ## Function as parameters
 
 <Code thpcode={`
-fun map[A, B](Array[A] input, (A) -> (B) function) -> Array[B]
-{
+fun map[A, B](Array[A] input, (A) -> (B) function) -> Array[B] {
     // implementation
 }
 
@@ -20,8 +19,7 @@ fun map[A, B](Array[A] input, (A) -> (B) function) -> Array[B]
 ## Function as return
 
 <Code thpcode={`
-fun generate_generator() -> () -> Int
-{
+fun generate_generator() -> () -> Int {
     // code...
     return fun() {
         322

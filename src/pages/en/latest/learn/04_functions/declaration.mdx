@@ -17,8 +17,7 @@ The following code shows a function without parameters
 and without return type:
 
 <Code thpcode={`
-fun say_hello()
-{
+fun say_hello() {
     print("Hello")
 }
 
@@ -34,8 +33,7 @@ type is **mandatory**, and it's done by placing an
 arrow `->` followed by the return datatype:
 
 <Code thpcode={`
-fun get_random_number() -> Int
-{
+fun get_random_number() -> Int {
     return Random::get(0, 35_222)
 }
 
@@ -47,8 +45,7 @@ a return type:
 
 <Code
   thpcode={`
-fun get_random_number()
-{
+fun get_random_number() {
     // Error: the function does not define a return type
     return Random::get(0, 35_222)
 }
@@ -60,8 +57,7 @@ expression on the function:
 
 <Code
   thpcode={`
-fun get_random_number() -> Int
-{
+fun get_random_number() -> Int {
     // The last expression of a function is
     // automatically returned
     Random::get(0, 35_222)
@@ -75,8 +71,7 @@ Parameters are declared like C-style languages:
 `Type name`, separated by commas.
 
 <Code thpcode={`
-fun add(Int a, Int b) -> Int
-{
+fun add(Int a, Int b) -> Int {
     return a + b
 }
 
@@ -96,8 +91,7 @@ The following example declares a generic `T` and uses it
 in the parameters and return type:
 
 <Code thpcode={`
-fun get_first_item[T](Array[T] array) -> T
-{
+fun get_first_item[T](Array[T] array) -> T {
     array[0]
 }
 
@@ -134,8 +128,7 @@ fun html_special_chars(
     Int? flags,
     String? encoding,
     Bool? double_encoding,
-) -> String
-{
+) -> String {
     // ...
 }
 
@@ -150,8 +143,7 @@ TBD: If & how named arguments affect the order of the parameters
 fun greet(
     String name,
     String from: city,
-)
-{
+) {
     print("Hello {name} from {city}!")
 }
 

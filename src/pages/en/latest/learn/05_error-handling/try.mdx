@@ -13,42 +13,41 @@ and handled.
 
 ## Declare that a function returns an exception
 
-Possible errors have their own syntax: `Error!Type`.
-This means: This may be an `Error`, or a `Type`.
+Possible errors have their own syntax: `Type!Error`.
+This means: This may be a `Type`, or an `Error`.
 
 For example, a function that returned a `DivisionByZero`
 may be written like this:
 
 <Code thpcode={`
-fun invert(Int number) -> DivisionByZero!Int
-{
+fun invert(Int number) -> Int!DivisionByZero {
     if number == 0
     {
-        return DivisionByZero()
+        throw DivisionByZero()
     }
 
     return 1 / number
-
 }
 `} />
 
-In the previous segment, `DivisionByZero!Int` denotates
+In the previous segment, `Int!DivisionByZero` denotates
 that the function may return either a `DivisionByZero` error
 or an `Int`.
 
-There is no `throw` keyword, errors are just returned.
+The `throw` keyword is used to denotate that an error is being
+returned.
 
 ### Multiple error returns
 
 TODO: properly define syntax, how this interacts with type unions.
 
-Multiple errors are chained with `!`. The last one is always
-the success value.
+Multiple errors are chained with `!`.
 
 <Code
   thpcode={`
-fun sample() -> Error1!Error2!Error3!Int
-{ /* ... */}
+fun sample() -> Int!Error1!Error2!Error3 { 
+    /* ... */
+}
 `}
 />
 
@@ -66,14 +65,13 @@ Use a naked `try` when you want to rethrow an error, if there is any.
 
 <InteractiveCode 
     code={`
-    fun dangerous() -> Exception!Int
-    {   // May throw randomly
+    fun dangerous() -> Int!Exception {   // May throw randomly
         return if Math.random() < 0.5 { 50 }
         else { Exception("Unlucky") }
     }
 
-    fun run() -> Exception!
-    {   // If \`dangerous()\` throws, the function exits with the same error.
+    fun run() -> Void!Exception {   
+        // If \`dangerous()\` throws, the function exits with the same error.
         // Otherwise, continues
         val result = try dangerous()
         print("The result is {result}")

@@ -10,8 +10,7 @@ import Code from "@/components/Code.astro";
 Tagged unions can hold a value from a fixed selection of types.
 
 <Code thpcode={`
-union Shape
-{
+union Shape {
     Dot,
     Square(Int),
     Rectangle(Int, Int),
@@ -27,12 +26,10 @@ val rectangle1 = Shape::Rectangle(5, 15)
 <Code
   thpcode={`
 match shape_1
-case ::Square(side)
-{
+case ::Square(side) {
     print("Area of the square: {side * side}")
 }
-case ::Rectangle(length, height)
-{
+case ::Rectangle(length, height) {
     print("Area of the rectangle: {length * height}")
 }
 `}
@@ -47,8 +44,7 @@ are contained as part of an array.
 
 ```php
 // The first snippet is compiled to:
-enum Shape
-{
+enum Shape {
     case Dot;
     case Square;
     case Rectangle;

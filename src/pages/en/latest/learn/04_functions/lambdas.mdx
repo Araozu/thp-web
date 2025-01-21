@@ -64,7 +64,7 @@ By default closures **always** capture variables as **references**.
 var x = 20
 
 val f = fun() {
-print(x)
+    print(x)
 }
 
 f() // 20
@@ -87,7 +87,7 @@ fun(parameters) clone(variables) {
 var x = 20
 
 val f = fun() clone(x) {
-print(x)
+    print(x)
 }
 
 f() // 20
@@ -112,6 +112,6 @@ numbers.map() #{
 // the above lambda is equivalent to:
 
 numbers.map(fun(param1) {
-$1 \* 2
+    $1 \* 2
 })
 `} />
