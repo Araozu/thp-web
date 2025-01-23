@@ -5,14 +5,14 @@ pipeline {
 		stage('Build') {
 			agent {
 				docker {
-					image 'node:22'
+					image 'node:22-alpine'
 					reuseNode true
 				}
 			}
 			steps {
 				sh 'npm i -g pnpm'
 				sh 'pnpm i'
-				sh 'THP_BINARY=/var/bin/thp pnpm build'
+				sh 'THP_BINARY=/var/bin/thp-zig pnpm build'
 			}
 		}
 		stage('Deploy') {

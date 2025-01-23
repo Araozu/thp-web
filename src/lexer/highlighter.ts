@@ -1,13 +1,55 @@
 import { spawn } from "node:child_process";
 import { leftTrimDedent } from "../components/utils";
 import { HighlightLevel } from "./types";
-import type {
-  ErrorLabel,
-  MistiErr,
-  Token,
-  TokenizeResult,
-  TokenType,
-} from "./types";
+
+/**
+ * Output of running the thp-zig compiler
+ * with the lex option
+ */
+export interface THPZigOutput {
+  errors: ZigError[]
+  tokens: ZigToken[]
+}
+
+export interface ZigError {
+  reason: string
+  help?: string
+  start_position: number
+  end_position: number
+  labels: ZigErrorLabel[]
+}
+
+export interface ZigErrorLabel {
+  message: string
+  start: number
+  end: number
+}
+
+export interface ZigToken {
+  value: string
+  token_type: TokenType
+  start_pos: number
+}
+
+type TokenType =
+  | "Int"
+  | "Float"
+  | "Identifier"
+  | "Datatype"
+  | "Operator"
+  | "Comment"
+  | "String"
+  | "LeftParen"
+  | "RightParen"
+  | "LeftBracket"
+  | "RightBracket"
+  | "LeftBrace"
+  | "RightBrace"
+  | "Comma"
+  | "Newline"
+  | "K_Var"
+
+
 
 const error_classes =
   "underline underline-offset-4 decoration-wavy decoration-red-500";
@@ -29,7 +71,7 @@ export async function native_highlighter(
     let result = await native_lex(formatted_code, level);
     return highlight_syntax(formatted_code, result);
   } catch (error) {
-    return compiler_error(formatted_code, error as MistiErr);
+    return compiler_error(formatted_code, error);
   }
 }
 
@@ -40,34 +82,13 @@ export async function native_highlighter(
  * - The tokens as a list of <span /> elements
  * - An error message, if any
  */
-function highlight_syntax(
-  code: string,
-  result: TokenizeResult,
-): [string, string | null] {
-  if (result.Ok) {
-    const tokens_html = render_tokens(code, result.Ok);
-
-    return [tokens_html, null];
-  } else if (result.MixedErr) {
-    const [tokens, errors] = result.MixedErr;
-    // TODO: Implement error rendering, based on the new error schema
-
-    const tokens_html = render_tokens(code, tokens, errors.labels);
-    return [tokens_html, `error code ${errors.error_code}`];
-  } else if (result.Err) {
-    // TODO: Implement error rendering, based on the new error schema
-
-    return [code, `lexical error ${result.Err.error_code}`];
-  } else {
-    console.error(result);
-    throw new Error(
-      "Web page error: The compiler returned a case that wasn't handled.",
-    );
-  }
+function highlight_syntax(code: string, result: THPZigOutput): [string, string | null] {
+  const tokens_html = render_tokens(code, result.tokens, result.errors);
+  return [tokens_html, null];
 }
 
 /** A fatal error with the THP compiler */
-function compiler_error(code: string, error: MistiErr): [string, string] {
+function compiler_error(code: string, error: any): [string, string] {
   console.log(error);
   return [code, "Fatal compiler error"];
 }
@@ -83,23 +104,23 @@ function compiler_error(code: string, error: MistiErr): [string, string] {
  */
 function render_tokens(
   input: string,
-  tokens: Array<Token>,
-  error_labels: Array<ErrorLabel> = [],
+  tokens: Array<ZigToken>,
+  error_labels: Array<ZigError> = [],
 ): string {
   const input_chars = input.split("");
   let output = "";
 
   // Collects all the token ranges in all error labels
   const error_ranges: Array<[number, number]> = error_labels.map((l) => [
-    l.start,
-    l.end,
+    l.start_position,
+    l.end_position,
   ]);
 
   let current_pos = 0;
   for (let i = 0; i < tokens.length; i += 1) {
     const t = tokens[i]!;
-    const token_start = t.position;
-    const token_end = t.position + t.value.length;
+    const token_start = t.start_pos;
+    const token_end = t.start_pos + t.value.length;
 
     // check if the current token is in any error label
     let is_errored = false;
@@ -145,7 +166,7 @@ function render_tokens(
     // get the line number of the label
     const [line_number, col_number] = absolute_to_line_column(
       input,
-      label.start,
+      label.start_position,
     );
     let spaces_len = col_number - 1;
     if (spaces_len < 0) {
@@ -156,7 +177,7 @@ function render_tokens(
     lines.splice(
       line_number + offset,
       0,
-      create_inline_error_message(spaces, label.message),
+      create_inline_error_message(spaces, label.reason),
     );
     offset += 1;
   }
@@ -215,11 +236,13 @@ function process_token_value_and_end(
 ): [string, number] {
   let token_value = value;
   let new_end = first_end;
-  if (token_type === "MultilineComment") {
-    token_value = `/*${token_value}*/`;
-    new_end += 4;
-  } else if (token_type === "String") {
-    token_value = `"${token_value}"`;
+
+  //if (token_type === "MultilineComment") {
+  //  token_value = `/*${token_value}*/`;
+  //  new_end += 4;
+  // } else if (token_type === "String") {
+  if (token_type === "String") {
+    token_value = `${token_value}`;
     new_end += 2;
   }
 
@@ -287,43 +310,25 @@ function translate_token_type(tt: TokenType, value: string): string {
     case "String":
       return "string";
     case "Comment":
-    case "MultilineComment":
       return "comment";
     // keywords:
-    case "VAL":
-    case "VAR":
-    case "FUN":
-    case "IF":
-    case "ELSE":
-    case "FOR":
-    case "IN":
-    case "WHILE":
-    case "MATCH":
-    case "CASE":
+    case "K_Var":
       return "keyword";
     default:
       return tt;
   }
 }
 
-const native_lex = (code: string, level: HighlightLevel) =>
-  new Promise<TokenizeResult>((resolve, reject) => {
+const native_lex = (code: string, _level: HighlightLevel) =>
+  new Promise<THPZigOutput>((resolve, reject) => {
     // Get binary path from .env
     const binary = import.meta.env.THP_BINARY;
     if (!binary) {
       console.error("THP_BINARY not set in .env");
-      resolve({
-        Err: {
-          error_code: 0,
-          error_offset: 0,
-          labels: [],
-          note: null,
-          help: null,
-        }
-      })
+      resolve({ errors: [], tokens: [] })
     }
 
-    const subprocess = spawn(binary, ["tokenize", "-l", level.toString()]);
+    const subprocess = spawn(binary, ["lex"]);
     let response = "";
     let error = "";
 
