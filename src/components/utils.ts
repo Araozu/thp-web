@@ -1,62 +1,29 @@
 /**
- * Performs the following:
- * - Removes the first & last line, if they are empty
- * - Picks the indentation level from the first non-white line
- * - Dedents the following lines
+ * Removes leading/trailing empty lines,
+ * uses the first non-empty line to determine indentation level,
+ * and dedents all lines by that amount.
+ * (Tabs count as 1)
  */
-export function leftTrimDedent(input: string): Array<string> {
-  let lines = input.split("\n");
-  let output: Array<string> = [];
+export function leftTrimDedent(input: string): string[] {
+  let lines = input.split('\n');
 
-  // Ignore first line
-  if (lines[0] === "" && lines.length > 1) {
-    lines = lines.slice(1);
-  }
+  // Remove leading empty lines
+  while (lines.length && lines[0].trim() === "") lines.shift();
+  // Remove trailing empty lines
+  while (lines.length && lines[lines.length - 1].trim() === "") lines.pop();
 
-  // Get indentation level of the first line
-  let indentationLevel = 0;
-  for (const char of lines[0]!) {
-    if (char === " " || char === "\n") {
-      indentationLevel += 1;
-    } else {
-      break;
-    }
-  }
+  if (!lines.length) return [];
 
-  for (const line of lines) {
-    // Ignore empty lines
-    if (line === "") {
-      output.push("");
-      continue;
-    }
-    output.push(trimWhitespace(line, indentationLevel));
-  }
+  // Find indent of first non-empty line
+  const firstContentLine = lines.find(line => line.trim() !== "")!;
+  const indentMatch = firstContentLine.match(/^([ \t]*)/);
+  const minIndent = (indentMatch ? indentMatch[1] : "") ?? "";
 
-  if (output.length > 1 && output[output.length - 1] === "") {
-    output = output.slice(0, -1);
-  }
-
-  return output;
-}
-
-function trimWhitespace(input: string, count: number): string {
-  let indentCount = 0;
-
-  for (const char of input) {
-    if (char === " ") {
-      indentCount += 1;
-    } else {
-      break;
-    }
-  }
-
-  if (indentCount >= count || indentCount == input.length) {
-    return input.slice(count);
-  } else {
-    throw new Error(
-      `Invalid indentation while trimming: Expected ${count} spaces, got ${indentCount}`,
-    );
-  }
+  // Remove that indent from each line (if present)
+  return lines.map(line =>
+    // Only remove if line starts with minIndent
+    line.startsWith(minIndent) ? line.slice(minIndent.length) : line
+  );
 }
 
 export function splitAndLast(s: string): string {

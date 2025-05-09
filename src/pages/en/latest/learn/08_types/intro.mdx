@@ -1,0 +1,258 @@
+---
+layout: "../_wrapper.astro"
+title: Introduction
+---
+
+import Code from "@/components/Code.astro";
+import Info from "@/components/docs/Info.astro";
+
+# Type Manipulation
+
+Inspired by the [TypeScript Type Manipulation Handbook](https://www.typescriptlang.org/docs/handbook/2/types-from-types.html).
+
+## Type
+
+Like in Zig, THP has the `Type` datatype, which represents a Type at compile time. Those can be created, inspected, manipulated with THP code at compile time.
+
+
+## Type identity
+
+<Code thpcode={`
+fun Identity(Type t) -> Type {
+    return t
+}
+
+Type str_1 = String
+Type str_2 = Identity(String)
+assert_eq(str_1, str_2)
+
+Identity(String) name = "John"
+`} />
+
+
+## @typeName
+
+The builtin `@typeName` returns the name of a type as a string.
+
+<Code thpcode={`
+val name = @typeName(Int)
+assert_eq("Int", name)
+`} />
+
+<Code thpcode={`
+@typeName :: (Type) -> String
+`} />
+
+
+## @TypeOf
+
+The builtin `@TypeOf` returns the type of a value
+
+<Code thpcode={`
+val value = 322
+val value_type = @TypeOf(value)
+assert_eq(Int, value_type)
+`} />
+
+<Code thpcode={`
+@TypeOf :: (Any) -> Type
+`} />
+
+
+## @ReturnType
+
+The builtin `@ReturnType` returns the return type of a function.
+
+<Code thpcode={`
+fun to_float(Int) -> Float {
+    // ...
+}
+
+val return_type = @ReturnType(to_float)
+assert_eq(Float, value_type)
+`} />
+
+<Code thpcode={`
+@ReturnType :: [A](Fun(Any, A)) -> A
+`} />
+
+
+
+## Generics
+
+<Code thpcode={`
+fun identity[A](A arg) -> A {
+    return A
+}
+
+fun logging_identity[A](Array[A] arg) -> Array[A] {
+    print(arg.length)
+    return arg
+}
+
+fun get_property[Type, Key](Type obj, Key key) -> Key
+    where Key -> @KeyOf(Type)
+{}
+
+`} />
+
+
+## KeyOf
+
+<Code thpcode={`
+struct Point = {
+    Int x,
+    Int y,
+}
+
+type P = @KeyOf(Point)
+     P = "x" | "y"
+`} />
+
+## TypeOf
+
+<Code thpcode={`
+val s = "hello"
+val n: Type = @TypeOf(s)
+    n       = String
+
+val n: @TypeOf(s) = "hi"
+    n :: String
+
+
+fun add(Int x, Int y) -> Int {}
+type AddReturn = @ReturnTypeOf(@TypeOf(add))
+     AddReturn = Int
+`} />
+
+
+## Indexed Access Types
+
+<Code thpcode={`
+struct Person {
+    Int age,
+    String name,
+    Bool alive,
+}
+
+type Age = @PropertyType(Person, "age")
+     Age = Int
+
+`} />
+
+
+<Code thpcode={`
+type NumberArray = Array[Person]
+type PersonT = NumberArray[Int]
+     PersonT = Person
+
+type Age = NumberArray[Int]["age"]
+     Age = Int
+`} />
+
+
+## Conditional Types
+
+<Code thpcode={`
+interface Animal {
+    live: () -> Void
+}
+
+interface Dog -> Animal {
+    woof: () -> Void
+}
+
+type Example1 = if @Extends(Dog, Animal) { Int } else { String }
+     Example1 = Int
+
+type Example2 = if @Extends(RegExp, Animal) { Int } else { String }
+     Example2 = String
+
+fun NameOrId(Type t) Type {
+    if @Extends(t, Int) {
+        return IdLabel
+    }
+    else {
+        return NameLabel
+    }
+}
+
+fun create_label[A](A id_or_name) -> NameOrId(A)
+    where A -> Int|String
+{
+    // ...
+}
+
+val a = create_label("hello")
+    a :: NameLabel
+
+val b = create_label(322)
+    b :: IdLabel
+
+
+fun Flatten(Type t) Type {
+    if @TypeOf(t) == Array { t[Int] }
+    else { t }
+}
+
+type Str = Flatten(Array[String])
+     Str = String
+
+type Num = Flatten(Number)
+     Num = Number
+
+
+`} />
+
+
+## Mapped Types
+
+<Code thpcode={`
+fun OptionFlags(Type t) Map[String, Bool] {
+    return Map[@Property(t), Bool]
+}
+
+struct Person {
+    String name
+    Int age
+}
+
+fun capitalize(String s) = ...
+
+fun Getter(Type t) Map[String, (Void) -> Type] {
+    for #(type, type_name) in @Properties(t) {
+        @Map(Fun([], type), "get" ++ capitalize(prop))
+    }
+}
+
+type PersonGetters = Getter(Person)
+
+// @Properties(Person) -> [#(String, "name"), #(Int, "age")]
+// #(String, "name")
+//   @Map(Fun([], String), "get" ++ capitalize("name"))
+//   @Map(Fun([], String), "getName")
+// {
+    () -> (String) getName,
+    () -> (Int) getAge,
+}
+
+
+fun Setter(Type t) Map[String, Fun([Type], Void)] {
+    for #(type, type_name) in @Properties(t) {
+        @Map(Fun([type], Void), "set" ++ capitalize(prop))
+    }
+}
+
+
+type PersonSetters = Setter(Person)
+     PersonSetters = {
+         (String) -> (Void) setName,
+         (Int) -> (Void) setAge,
+     }
+`} />
+
+
+
+<Code thpcode={`
+`} />
+
