@@ -23,7 +23,7 @@ pipeline {
 		stage('Deploy') {
 			steps {
 				sh 'rm -rf /var/www/thp-lang.org/*'
-				sh 'mv -f dist/* /var/www/thp-lang.org/'
+				sh 'cp -r dist/* /var/www/thp-lang.org/'
 				sh 'docker-compose down || true'
 				sh 'docker-compose up -d'
 			}
