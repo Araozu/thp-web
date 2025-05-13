@@ -11,7 +11,7 @@ pipeline {
 				docker {
 					image 'node:22-alpine'
 					reuseNode true
-					args '-u 0:0'
+					args '-u 0:0 -v /var/bin:/var/bin'
 				}
 			}
 			steps {
