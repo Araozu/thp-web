@@ -97,32 +97,21 @@ fun get_property[Type, Key](Type obj, Key key) -> Key
 `} />
 
 
-## KeyOf
+## @KeyOf
+
+Given a map type, the `@KeyOf` builtin returns the names of its keys as a Sum type.
+
+That sum type contains every key as a string.
 
 <Code thpcode={`
 struct Point = {
-    Int x,
-    Int y,
+    Int age,
+    Int salary,
 }
 
-type P = @KeyOf(Point)
-     P = "x" | "y"
-`} />
-
-## TypeOf
-
-<Code thpcode={`
-val s = "hello"
-val n: Type = @TypeOf(s)
-    n       = String
-
-val n: @TypeOf(s) = "hi"
-    n :: String
-
-
-fun add(Int x, Int y) -> Int {}
-type AddReturn = @ReturnTypeOf(@TypeOf(add))
-     AddReturn = Int
+type PointKeys = @KeyOf(Point)
+type ExpectedType  = "age" | "salary"
+assert_eq(PointKeys, ExpectedType)
 `} />
 
 
