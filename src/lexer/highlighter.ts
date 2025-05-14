@@ -78,14 +78,24 @@ export async function native_highlighter(
 export function native_highlighter_sync(
   code: string,
   level = HighlightLevel.Semantic,
-): [string, string | null] {
+): [string, string | null, THPZigOutput] {
   let formatted_code = leftTrimDedent(code).join("\n");
 
+  if (import.meta.env.DEV) {
+    try {
+      let result = native_lex_sync(formatted_code, level);
+      return [...highlight_syntax(formatted_code, result), result];
+    } catch (error) {
+      return [...compiler_error(formatted_code, error), { errors: [], tokens: [] }];
+    }
+  }
+
+  const empty_result = { errors: [], tokens: [] };
   try {
     let result = native_lex_sync(formatted_code, level);
-    return highlight_syntax(formatted_code, result);
+    return [...highlight_syntax(formatted_code, result), empty_result];
   } catch (error) {
-    return compiler_error(formatted_code, error);
+    return [...compiler_error(formatted_code, error), empty_result];
   }
 }
 

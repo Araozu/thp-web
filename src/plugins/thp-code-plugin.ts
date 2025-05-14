@@ -10,9 +10,7 @@ export default function remarkCustomXyzCompiler() {
 			if (node.lang === 'thp') {
 				const codeContent: string = node.value;
 
-				const [native_html, error_message] = native_highlighter_sync(
-					codeContent,
-				);
+				const [native_html, error_message, zig_data] = native_highlighter_sync(codeContent);
 
 				if (error_message) {
 					console.error(`Error in code block: ${error_message}`);
@@ -29,6 +27,21 @@ export default function remarkCustomXyzCompiler() {
 `
 				}
 
+				if (import.meta.env.DEV) {
+					const tokens = JSON.stringify(zig_data.tokens, null, 2);
+					const errors = JSON.stringify(zig_data.errors, null, 2);
+					errorHtml += `
+<div x-data="{ open: false }">
+	<button @click="open = !open" class="bg-zinc-900 text-zinc-600 py-1 px-2 rounded text-sm">
+		Toggle compiler output
+	</button>
+	<div x-show="open" class="grid grid-cols-2">
+		<pre class="text-xs">${tokens}</pre>
+		<pre class="text-xs">${errors}</pre>
+	</div>
+</div>
+`;
+				}
 
 				// Create a new HTML node with the compiled output
 				const newNode = {
