@@ -24,8 +24,8 @@ pipeline {
 			steps {
 				sh 'rm -rf /var/www/thp-lang.org/*'
 				sh 'cp -r dist/* /var/www/thp-lang.org/'
-				sh 'docker-compose down || true'
-				sh 'docker-compose up -d'
+				sh 'docker compose down || true'
+				sh 'docker compose up -d'
 			}
 		}
 	}
