@@ -1,4 +1,4 @@
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { leftTrimDedent } from "../components/utils";
 import { HighlightLevel } from "./types";
 
@@ -69,6 +69,20 @@ export async function native_highlighter(
 
   try {
     let result = await native_lex(formatted_code, level);
+    return highlight_syntax(formatted_code, result);
+  } catch (error) {
+    return compiler_error(formatted_code, error);
+  }
+}
+
+export function native_highlighter_sync(
+  code: string,
+  level = HighlightLevel.Lexic,
+): [string, string | null] {
+  let formatted_code = leftTrimDedent(code).join("\n");
+
+  try {
+    let result = native_lex_sync(formatted_code, level);
     return highlight_syntax(formatted_code, result);
   } catch (error) {
     return compiler_error(formatted_code, error);
@@ -322,7 +336,7 @@ function translate_token_type(tt: TokenType, value: string): string {
 const native_lex = (code: string, _level: HighlightLevel) =>
   new Promise<THPZigOutput>((resolve, reject) => {
     // Get binary path from .env
-    const binary = import.meta.env.THP_BINARY;
+    const binary = import.meta.env.VITE_THP_BINARY;
     if (!binary) {
       console.error("THP_BINARY not set in .env");
       resolve({ errors: [], tokens: [] })
@@ -351,3 +365,27 @@ const native_lex = (code: string, _level: HighlightLevel) =>
       }
     });
   });
+
+function native_lex_sync(code: string, _level: HighlightLevel): THPZigOutput {
+  // Get binary path from .env
+  const binary = import.meta.env.VITE_THP_BINARY;
+  if (!binary) {
+    console.error("THP_BINARY not set in .env");
+    return ({ errors: [], tokens: [] })
+  }
+
+  const subprocess = spawnSync(binary, ["lex"], {
+    input: code,
+    encoding: 'utf-8',
+  });
+
+  let response = subprocess.stdout;
+  let error = subprocess.stderr;
+
+
+  if (!!error) {
+    throw (new Error(error));
+  }
+
+  return (JSON.parse(response));
+}

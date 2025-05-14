@@ -6,7 +6,14 @@ title: Introduction
 import Code from "@/components/Code.astro";
 import Info from "@/components/docs/Info.astro";
 
+
 # Type Manipulation
+
+```thp
+var prosor_prosor = 322
+```
+
+?
 
 Inspired by the [TypeScript Type Manipulation Handbook](https://www.typescriptlang.org/docs/handbook/2/types-from-types.html).
 
@@ -17,7 +24,7 @@ Like in Zig, THP has the `Type` datatype, which represents a Type at compile tim
 
 ## Type identity
 
-<Code thpcode={`
+```thp
 fun Identity(Type t) -> Type {
     return t
 }
@@ -27,60 +34,60 @@ Type str_2 = Identity(String)
 assert_eq(str_1, str_2)
 
 Identity(String) name = "John"
-`} />
+```
 
 
 ## @typeName
 
 The builtin `@typeName` returns the name of a type as a string.
 
-<Code thpcode={`
+```thp
 val name = @typeName(Int)
 assert_eq("Int", name)
-`} />
+```
 
-<Code thpcode={`
+```thp
 @typeName :: (Type) -> String
-`} />
+```
 
 
 ## @TypeOf
 
 The builtin `@TypeOf` returns the type of a value
 
-<Code thpcode={`
+```thp
 val value = 322
 val value_type = @TypeOf(value)
 assert_eq(Int, value_type)
-`} />
+```
 
-<Code thpcode={`
+```thp
 @TypeOf :: (Any) -> Type
-`} />
+```
 
 
 ## @ReturnType
 
 The builtin `@ReturnType` returns the return type of a function.
 
-<Code thpcode={`
+```thp
 fun to_float(Int) -> Float {
-    // ...
+	// ...
 }
 
 val return_type = @ReturnType(to_float)
 assert_eq(Float, value_type)
-`} />
+```
 
-<Code thpcode={`
+```thp
 @ReturnType :: [A](Fun(Any, A)) -> A
-`} />
+```
 
 
 
 ## Generics
 
-<Code thpcode={`
+```thp
 fun identity[A](A arg) -> A {
     return A
 }
@@ -94,7 +101,7 @@ fun get_property[Type, Key](Type obj, Key key) -> Key
     where Key -> @KeyOf(Type)
 {}
 
-`} />
+```
 
 
 ## @KeyOf
@@ -103,7 +110,7 @@ Given a map type, the `@KeyOf` builtin returns the names of its keys as a Sum ty
 
 That sum type contains every key as a string.
 
-<Code thpcode={`
+```thp
 struct Point = {
     Int age,
     Int salary,
@@ -112,12 +119,12 @@ struct Point = {
 type PointKeys = @KeyOf(Point)
 type ExpectedType  = "age" | "salary"
 assert_eq(PointKeys, ExpectedType)
-`} />
+```
 
 
 ## Indexed Access Types
 
-<Code thpcode={`
+```thp
 struct Person {
     Int age,
     String name,
@@ -127,22 +134,22 @@ struct Person {
 type Age = @PropertyType(Person, "age")
      Age = Int
 
-`} />
+```
 
 
-<Code thpcode={`
+```thp
 type NumberArray = Array[Person]
 type PersonT = NumberArray[Int]
      PersonT = Person
 
 type Age = NumberArray[Int]["age"]
      Age = Int
-`} />
+```
 
 
 ## Conditional Types
 
-<Code thpcode={`
+```thp
 interface Animal {
     live: () -> Void
 }
@@ -191,12 +198,12 @@ type Num = Flatten(Number)
      Num = Number
 
 
-`} />
+```
 
 
 ## Mapped Types
 
-<Code thpcode={`
+```thp
 fun OptionFlags(Type t) Map[String, Bool] {
     return Map[@Property(t), Bool]
 }
@@ -238,10 +245,5 @@ type PersonSetters = Setter(Person)
          (String) -> (Void) setName,
          (Int) -> (Void) setAge,
      }
-`} />
-
-
-
-<Code thpcode={`
-`} />
+```
 

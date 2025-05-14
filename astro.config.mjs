@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
+import remarkCustomXyzCompiler from "./src/plugins/thp-code-plugin.ts";
 
 import mdx from "@astrojs/mdx";
 
@@ -9,5 +10,6 @@ export default defineConfig({
   integrations: [tailwind(), mdx()],
   markdown: {
     syntaxHighlight: "prism",
+    remarkPlugins: [remarkCustomXyzCompiler]
   },
 });

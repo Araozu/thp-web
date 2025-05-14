@@ -17,7 +17,7 @@ pipeline {
 			steps {
 				sh 'npm i -g pnpm'
 				sh 'pnpm i'
-				sh 'THP_BINARY=/var/bin/thp-zig pnpm build'
+				sh 'VITE_THP_BINARY=/var/bin/thp-zig pnpm build'
 			}
 		}
 		stage('Deploy') {

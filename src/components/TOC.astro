@@ -21,7 +21,11 @@ function buildHierarchy(headings: any) {
 		} else if (heading.depth === 1) {
 			/** empty */
 		} else {
-			parentHeadings.get(heading.depth - 1).subheadings.push(heading);
+			const p = parentHeadings.get(heading.depth - 1);
+			if (!p) {
+				return;
+			}
+			p.subheadings.push(heading);
 		}
 	});
 
