@@ -14,44 +14,20 @@ THP supports single and multi line comments:
 
 Begin with double slash `//` and continue until the end of the line.
 
-<Code thpcode={`
+```thp
 // This is a single line comment
 print("hello!")
 
 print("the result is {5 + 5}") // This will print 10
-`} />
+```
 
-## Multi line
-
-These begin with `/*` and end with `*/`. Everything in between is ignored.
-
-Multi line comments can be nested in THP.
-
-<Code
-  thpcode={`
-/*
-    This is a
-    multiline comment
-*/
-`}
-/>
-
-<Code
-  thpcode={`
-/*
-    Multiline comments
-    can be /* nested */
-*/
-`}
-/>
 
 ## Documentation comments
 
 Documentation comments use triple slashes `///`.
 These use [CommonMark Markdown](https://commonmark.org/) syntax.
 
-<Code
-  thpcode={`
+```thp
 /// Transforms the format from A to B...
 ///
 /// ## Errors
@@ -61,5 +37,4 @@ These use [CommonMark Markdown](https://commonmark.org/) syntax.
 fun transform() {
     // ...
 }
-`}
-/>
+```

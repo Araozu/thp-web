@@ -77,7 +77,7 @@ export async function native_highlighter(
 
 export function native_highlighter_sync(
   code: string,
-  level = HighlightLevel.Lexic,
+  level = HighlightLevel.Semantic,
 ): [string, string | null] {
   let formatted_code = leftTrimDedent(code).join("\n");
 

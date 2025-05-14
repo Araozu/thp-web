@@ -12,98 +12,86 @@ Most of the PHP operators are present in THP.
 
 ## Numbers
 
-<Code thpcode={`
+```thp
 var number = 322
 
 number + 1
 number - 1
-number \* 1
+number * 1
 number / 1
 number % 2
 
 number += 1
 number -= 1
-number \*= 1
+number *= 1
 number /= 1
 number %= 2
-`} />
+```
 
 **There are no prefix/postfix increment operators** (`++`, `--`),
 use `+=` or `-=` instead.
 
-<Code thpcode={`
+```thp
 // Use
 number += 1
 
 // instead of
 number++ // This is a compile error
-`} />
+```
 
 ### Comparison
 
 These operators will not do implicit type conversion. They can
 only be used with same datatypes.
 
-<Code
-  thpcode={`
+```thp
 v1 < v2
 v1 <= v2
 v1 > v2
 v1 >= v2
-`}
-/>
+```
 
 There is only `==` and `!=`. They are equivalent to `===` and `!==`.
 
-<Code
-  thpcode={`
+```thp
 v1 == v2
 v1 != v2
-`}
-/>
+```
 
 ### Bitwise
 
 TBD
 
-<Code
-  thpcode={`
+```thp
 number and 1
 number or 2
 number xor 1
 number xand 1
-`}
-/>
+```
 
 ## Strings
 
 Strings **do not use `.`** for concatenation. They use `++`.
 
-<Code
-  thpcode={`
+```thp
 "Hello " ++ "world."
-`}
-/>
+```
 
 This new operator **implicitly converts** types to string
 
-<Code
-  thpcode={`
+```thp
 "Hello " ++ 322      // 322 will be converted to "322"
-`}
-/>
+```
 
 ## Boolean
 
 These operators work **only with booleans**, they do not perform
 type coercion.
 
-<Code
-  thpcode={`
+```thp
 c1 && c2
 c1 || c2
-`}
-/>
+```
 
 ## Ternary
 
@@ -113,7 +101,7 @@ There is no ternary operator. See [Conditionals](/learn/flow-control/conditional
 
 These are detailed in their section: [Nullable types](/learn/error-handling/null)
 
-<Code thpcode={`
+```thp
 val person = some_fun()
 
 person?.name
@@ -121,6 +109,6 @@ person?.name ?? "Jane"
 person?.greet?.()
 
 if person? {
-person.name
+	person.name
 }
-`} />
+```

@@ -17,7 +17,7 @@ The following are basic datatypes.
 
 Same as php int
 
-<Code thpcode={`
+```thp
 Int age = 32
 // Hexadecimal numbers start with 0x
 Int red = 0xff0000
@@ -30,50 +30,40 @@ Int char_code = 0b01000110
 // Since Octal starts with \`0o\`, using just a leading 0
 // will result in a decimal!
 Int not_octal = 032 // This is 32, not 26
-`} />
+```
 
-// TODO: Make it a compile error to have leading zeroes,
-and force users to use `0o` for octal
 
 ## Float
 
 Same as php float
 
-<Code
-  thpcode={`
+```thp
 Float pi = 3.141592
 Float light = 2.99e+8
-`}
-/>
+```
 
 ## String
 
 THP strings use **only** double quotes. Single quotes are
 used elsewhere.
 
-<Code
-  thpcode={`
+```thp
 String name = "Rose"
-`}
-/>
+```
 
 Strings have interpolation with `{}`.
 
-<Code
-  thpcode={`
+```thp
 print("Hello, {name}")      // Hello, Rose
-`}
-/>
+```
 
 Unlike PHP, THP strings are concatenated with `++`, not with `.`.
 This new operator implicitly converts any operator into a string.
 
-<Code
-  thpcode={`
+```thp
 val name = "John" ++ " " ++ "Doe"
 val greeting = "My name is " ++ name ++ " and I'm " ++ 32 ++ " years old"
-`}
-/>
+```
 
 The plus operator `+` is reserved for numbers.
 
@@ -82,10 +72,10 @@ The plus operator `+` is reserved for numbers.
 THP booleans are `true` and `false`. They are case sensitive,
 **only lowercase.**
 
-<Code thpcode={`
+```thp
 Bool is_true = true
 Bool is_false = false
 
 // This is a compile error
 val invalid = TRUE
-`} />
+```
