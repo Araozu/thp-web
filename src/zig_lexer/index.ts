@@ -37,17 +37,83 @@ export function native_highlighter_sync(
 	};
 }
 
+const ref = { start: 5, end: 9, info: ":: String" }
+const ref_q = [ref]
+
 function render_tokens(input: string, output_lines: OutputLines) {
-	const input_lines = input.split("\n");
-	for (let i = 0; i < input_lines.length; i++) {
-		let lines_array = output_lines.get(i);
-		if (!lines_array) {
-			lines_array = [];
-			output_lines.set(i, lines_array);
+	// iterate over every character
+	let current_pos = 0;
+	let line_number = 0;
+	let line_buffer: Array<string> = []
+
+	while (current_pos < input.length) {
+		const c = input[current_pos]!;
+
+		if (c === "\n") {
+			let lines = output_lines.get(line_number);
+			if (!lines) {
+				lines = [];
+				output_lines.set(line_number, lines);
+			}
+			lines.push(line_buffer.join(""));
+			line_buffer = [];
+
+			current_pos += 1;
+			line_number += 1;
+			continue;
 		}
 
-		lines_array.push(input_lines[i]!);
+		// FIXME: implement polymorphism
+		// peek ref queue, check if we are at the start of a ref
+		if (ref_q.length > 0) {
+			const r = ref_q[0]!;
+			if (current_pos === r.start) {
+				// process the ref
+				ref_q.shift();
+				const [html, new_pos] = process_ref(input, r);
+				current_pos = new_pos;
+				line_buffer.push(html);
+				continue;
+			}
+		}
+
+		line_buffer.push(c);
+		current_pos += 1;
 	}
+
+
+	if (line_buffer.length > 0) {
+		let lines = output_lines.get(line_number);
+		if (!lines) {
+			lines = [];
+			output_lines.set(line_number, lines);
+		}
+		lines.push(line_buffer.join(""));
+		line_buffer = [];
+	}
+
+	// const input_lines = input.split("\n");
+	// for (let i = 0; i < input_lines.length; i++) {
+	// 	let lines_array = output_lines.get(i);
+	// 	if (!lines_array) {
+	// 		lines_array = [];
+	// 		output_lines.set(i, lines_array);
+	// 	}
+	//
+	// 	lines_array.push(input_lines[i]!);
+	// }
+}
+
+// processes a single ref, sets styles as neccesary. assumes the current position is at the start of the ref.
+// returns the new position from which to conitinue
+function process_ref(input: string, r: typeof ref): [string, number] {
+	const ref_start_tag = `<span class="ref">`;
+	const text = input.slice(r.start, r.end);
+
+	return [
+		ref_start_tag + text + "</span>",
+		r.end,
+	]
 }
 
 
@@ -79,7 +145,7 @@ function render_error_lines(input: string, errors: Array<ZigError>, lines: Outpu
 		}
 
 		const error_msg = `<span>${spaces}╰╴${error.reason}</span>`;
-		const tooltip = `<span title="${error.help}" class="flex items-center"><i class="ph-bold ph-question"></i></span>`
+		const tooltip = error.help ? `<span title="${error.help}" class="flex items-center"><i class="ph-bold ph-question"></i></span>` : ""
 
 		lines_array.push(
 			error_base_span +
