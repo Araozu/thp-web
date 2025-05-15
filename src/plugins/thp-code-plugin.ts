@@ -32,12 +32,14 @@ export default function remarkCustomXyzCompiler() {
 					const errors = JSON.stringify(zig_data.errors, null, 2);
 					errorHtml += `
 <div x-data="{ open: false }">
-	<button @click="open = !open" class="bg-zinc-900 text-zinc-600 py-1 px-2 rounded text-sm">
-		Toggle compiler output
-	</button>
-	<div x-show="open" class="grid grid-cols-2">
-		<pre class="text-xs">${tokens}</pre>
-		<pre class="text-xs">${errors}</pre>
+	<div class="text-right">
+		<button @click="open = !open" class="inline-block bg-zinc-900 text-zinc-600 py-1 px-2 rounded text-sm">
+			Toggle compiler output
+		</button>
+	</div>
+	<div x-show="open" class="grid grid-cols-2 p-1 rounded border border-zinc-900">
+		<pre class="text-xs max-h-64 overflow-scroll">${tokens}</pre>
+		<pre class="text-xs max-h-64 overflow-scroll">${errors}</pre>
 	</div>
 </div>
 `;

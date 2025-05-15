@@ -1,20 +1,52 @@
 ---
-import { native_highlighter } from "../lexer/highlighter";
-import type { HighlightLevel } from "../lexer/types";
+import { native_highlighter_sync } from "../zig_lexer";
 import CodeError from "./docs/CodeError.astro";
 
 const { thpcode, no_warnings, level } = Astro.props;
 
-const [native_html, error_message] = await native_highlighter(
-	thpcode,
-	level as HighlightLevel,
-);
+const { html, error_message, raw_compiler_output } =
+	native_highlighter_sync(thpcode);
 ---
 
 <pre
-	class="language-thp"><code class="language-thp" set:html={native_html} /><span class="absolute top-1 right-1 text-right inline-block text-sm select-none opacity-75">thp</span></pre>
+	class="language-thp"><code class="language-thp" set:html={html} /><span class="absolute top-1 right-1 text-right inline-block text-sm select-none opacity-75">thp</span></pre>
 {
-	no_warnings !== true && error_message !== null && (
+	no_warnings !== true && !!error_message && (
 		<CodeError error_message={error_message} />
+	)
+}
+{
+	!!raw_compiler_output && (
+		<div x-data="{ open: false }">
+			<div class="text-right">
+				<button
+					@click="open = !open"
+					class="inline-block bg-zinc-900 text-zinc-600 py-1 px-2 rounded text-sm"
+				>
+					Toggle compiler output
+				</button>
+			</div>
+			<div
+				x-show="open"
+				class="grid grid-cols-2 p-1 rounded border border-zinc-900"
+			>
+				<pre
+					class="text-xs max-h-64 overflow-scroll"
+					set:text={JSON.stringify(
+						raw_compiler_output.tokens,
+						null,
+						2,
+					)}
+				/>
+				<pre
+					class="text-xs max-h-64 overflow-scroll"
+					set:text={JSON.stringify(
+						raw_compiler_output.errors,
+						null,
+						2,
+					)}
+				/>
+			</div>
+		</div>
 	)
 }

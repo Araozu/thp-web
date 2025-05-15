@@ -20,7 +20,7 @@ export interface ZigError {
 }
 
 export interface ZigErrorLabel {
-  message: string
+  message: { static: string }
   start: number
   end: number
 }
@@ -135,10 +135,11 @@ function render_tokens(
   let output = "";
 
   // Collects all the token ranges in all error labels
-  const error_ranges: Array<[number, number]> = error_labels.map((l) => [
-    l.start_position,
-    l.end_position,
-  ]);
+  const error_ranges: Array<[number, number]> = error_labels.flatMap((error_label) => error_label.labels.map((l): [number, number] => [l.start, l.end]));
+  // const error_ranges: Array<[number, number]> = error_labels.map((error_label) => [
+  //   error_label.start_position,
+  //   error_label.end_position,
+  // ]);
 
   let current_pos = 0;
   for (let i = 0; i < tokens.length; i += 1) {
@@ -148,16 +149,12 @@ function render_tokens(
 
     // check if the current token is in any error label
     let is_errored = false;
-    for (const range of error_ranges) {
-      const [error_start, error_end] = range;
-
+    for (const [error_start, error_end] of error_ranges) {
       if (token_start >= error_start && token_end <= error_end) {
         is_errored = true;
         break;
       }
     }
-
-    // Some tokens require processing (like multiline comments)
 
     // There are some tokens that are empty, ignore them
     if (t.value == "") {
@@ -180,30 +177,33 @@ function render_tokens(
   }
 
   // at this point `output` is a string with tokens
-  // now i want to append the label messages:
+  // now append the label messages:
   // - split the output by newlines
   // - for every label, append a new line after each error
 
   const lines = output.split("\n");
   let offset = 0;
   for (const label of error_labels) {
-    // get the line number of the label
-    const [line_number, col_number] = absolute_to_line_column(
-      input,
-      label.start_position,
-    );
-    let spaces_len = col_number - 1;
-    if (spaces_len < 0) {
-      spaces_len = 0;
-    }
+    for (const label2 of label.labels) {
 
-    const spaces = new Array(spaces_len).fill("&nbsp;").join("");
-    lines.splice(
-      line_number + offset,
-      0,
-      create_inline_error_message(spaces, label.reason),
-    );
-    offset += 1;
+      // get the line number of the label
+      const [line_number, col_number] = absolute_to_line_column(
+        input,
+        label2.start,
+      );
+      let spaces_len = col_number - 1;
+      if (spaces_len < 0) {
+        spaces_len = 0;
+      }
+
+      const spaces = new Array(spaces_len).fill("&nbsp;").join("");
+      lines.splice(
+        line_number + offset,
+        0,
+        create_inline_error_message(spaces, label2.message.static),
+      );
+      offset += 1;
+    }
   }
 
   return lines.join("\n");
@@ -376,7 +376,7 @@ const native_lex = (code: string, _level: HighlightLevel) =>
     });
   });
 
-function native_lex_sync(code: string, _level: HighlightLevel): THPZigOutput {
+export function native_lex_sync(code: string, _level: HighlightLevel): THPZigOutput {
   // Get binary path from .env
   const binary = import.meta.env.VITE_THP_BINARY;
   if (!binary) {
