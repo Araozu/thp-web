@@ -20,6 +20,7 @@ export function native_highlighter_sync(
 	let lines: OutputLines = new Map();
 
 	// add tokenized lines
+	render_tokens(code, lines);
 
 	// add error lines
 	render_error_lines(code, result.errors, lines);
@@ -36,6 +37,19 @@ export function native_highlighter_sync(
 	};
 }
 
+function render_tokens(input: string, output_lines: OutputLines) {
+	const input_lines = input.split("\n");
+	for (let i = 0; i < input_lines.length; i++) {
+		let lines_array = output_lines.get(i);
+		if (!lines_array) {
+			lines_array = [];
+			output_lines.set(i, lines_array);
+		}
+
+		lines_array.push(input_lines[i]!);
+	}
+}
+
 
 /// Given an array of THP errors,
 /// renders lines for each of them.
@@ -43,7 +57,6 @@ export function native_highlighter_sync(
 function render_error_lines(input: string, errors: Array<ZigError>, lines: OutputLines) {
 	const error_base_span = `<span class="relative inline-block w-full before:h-full before:block before:absolute before:left-0 before:w-[calc(100%+1.5rem)] before:-translate-x-3 before:bg-red-200 before:dark:bg-red-950" style="white-space: initial">`;
 	const error_message_span = `<span class="relative dark:text-red-200 text-red-900 font-bold">`;
-
 
 	for (const error of errors) {
 		const [line_number, col_number] = absolute_to_line_column(
@@ -58,7 +71,7 @@ function render_error_lines(input: string, errors: Array<ZigError>, lines: Outpu
 		}
 		const spaces = new Array(spaces_len).fill("&nbsp;").join("");
 
-		let lines_array = lines.get(line_number);
+		let lines_array = lines.get(line_number - 1);
 		if (!lines_array) {
 			lines_array = [];
 			lines.set(line_number, lines_array);
