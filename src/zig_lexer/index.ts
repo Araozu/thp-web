@@ -55,8 +55,9 @@ function render_tokens(input: string, output_lines: OutputLines) {
 /// renders lines for each of them.
 /// Mutates the passed lines array
 function render_error_lines(input: string, errors: Array<ZigError>, lines: OutputLines) {
-	const error_base_span = `<span class="relative inline-block w-full before:h-full before:block before:absolute before:left-0 before:w-[calc(100%+1.5rem)] before:-translate-x-3 before:bg-red-200 before:dark:bg-red-950" style="white-space: initial">`;
-	const error_message_span = `<span class="relative dark:text-red-200 text-red-900 font-bold">`;
+	const error_base_span = `<div class="relative inline-block w-full before:h-full before:block before:absolute before:left-0 before:w-[calc(100%+1.5rem)] before:-translate-x-3 before:bg-red-200 before:dark:bg-red-950" style="white-space: initial">`;
+	const error_message_span = `<div class="relative flex gap-2 dark:text-red-200 text-red-900 font-bold">`;
+
 
 	for (const error of errors) {
 		const [line_number, col_number] = absolute_to_line_column(
@@ -77,14 +78,16 @@ function render_error_lines(input: string, errors: Array<ZigError>, lines: Outpu
 			lines.set(line_number, lines_array);
 		}
 
-		const error_msg = `${spaces}╰╴${error.reason}`;
+		const error_msg = `<span>${spaces}╰╴${error.reason}</span>`;
+		const tooltip = `<span title="${error.help}" class="flex items-center"><i class="ph-bold ph-question"></i></span>`
 
 		lines_array.push(
 			error_base_span +
 			error_message_span +
 			error_msg +
-			"</span>" +
-			"</span>"
+			tooltip +
+			"</div>" +
+			"</div>"
 		)
 	}
 }
