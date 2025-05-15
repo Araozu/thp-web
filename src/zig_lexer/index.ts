@@ -37,10 +37,12 @@ export function native_highlighter_sync(
 	};
 }
 
-const ref = { start: 5, end: 9, info: ":: String" }
-const ref_q = [ref]
 
 function render_tokens(input: string, output_lines: OutputLines) {
+	// FIXME: receive from parent
+	const ref = { start: 5, end: 9, info: ":: String" }
+	const ref_q = [ref]
+
 	// iterate over every character
 	let current_pos = 0;
 	let line_number = 0;
@@ -91,23 +93,17 @@ function render_tokens(input: string, output_lines: OutputLines) {
 		lines.push(line_buffer.join(""));
 		line_buffer = [];
 	}
-
-	// const input_lines = input.split("\n");
-	// for (let i = 0; i < input_lines.length; i++) {
-	// 	let lines_array = output_lines.get(i);
-	// 	if (!lines_array) {
-	// 		lines_array = [];
-	// 		output_lines.set(i, lines_array);
-	// 	}
-	//
-	// 	lines_array.push(input_lines[i]!);
-	// }
 }
+
+type ref_t = { start: number, end: number, info: string }
 
 // processes a single ref, sets styles as neccesary. assumes the current position is at the start of the ref.
 // returns the new position from which to conitinue
-function process_ref(input: string, r: typeof ref): [string, number] {
-	const ref_start_tag = `<span class="ref">`;
+function process_ref(input: string, r: ref_t): [string, number] {
+	const ref_start_tag = `<span 
+		class="ref before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm before:border before:border-c-thp before:bg-zinc-950
+		border-b border-dotted"
+		lsp="${r.info}">`;
 	const text = input.slice(r.start, r.end);
 
 	return [
