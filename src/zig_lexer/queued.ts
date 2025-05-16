@@ -16,6 +16,7 @@ type ReferenceAnnotation = Reference & { type: "reference" }
 
 export class QueuedHighlighter {
 	private line_number = 0;
+	private text_buffer: Array<string> = [];
 	private readonly events: Array<AnnotationEvent>;
 
 	constructor(
@@ -69,6 +70,7 @@ export class QueuedHighlighter {
 
 		// Output any remaining text
 		this.outputText(this.code.substring(currentPos));
+		this.write_buffer_to_line()
 	}
 
 	private outputAnnotationStart(event: AnnotationEvent) {
@@ -76,29 +78,35 @@ export class QueuedHighlighter {
 		if (event.data.type === "token") {
 			token_class = translate_token_type(event.data.token_type, event.data.value)
 		}
-		this.push_to_current_line(`<span class="token ${token_class}">`);
+		this.push_to_buffer(`<span class="token ${token_class}">`);
 	}
 
 	private outputAnnotationEnd(event: AnnotationEvent) {
-		this.push_to_current_line(`</span>`)
+		this.push_to_buffer(`</span>`)
 	}
 
 	private outputText(text: string) {
 		if (text.length === 0) return;
 		const lines = text.split("\n");
 
-		this.push_to_current_line(lines.shift()!);
+		this.push_to_buffer(lines.shift()!);
 
 		// for all other lines, increase line counter and add
 		for (const l of lines) {
+			this.write_buffer_to_line()
 			this.line_number += 1;
-			this.push_to_current_line(l);
+			this.push_to_buffer(l);
 		}
 	}
 
-	private push_to_current_line(text: string) {
+	private push_to_buffer(text: string) {
+		this.text_buffer.push(text);
+	}
+
+	private write_buffer_to_line() {
 		const line = this.get_current_line();
-		line.push(text);
+		line.push(this.text_buffer.join(""));
+		this.text_buffer = [];
 	}
 
 	private get_current_line() {
