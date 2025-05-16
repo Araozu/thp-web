@@ -16,7 +16,7 @@ const { html, error_message, raw_compiler_output } =
 	)
 }
 {
-	!!raw_compiler_output && (
+	import.meta.env.DEV && !!raw_compiler_output && (
 		<div x-data="{ open: false }">
 			<div class="text-right">
 				<button

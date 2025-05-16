@@ -29,7 +29,7 @@ export function native_highlighter_sync(
 	const output_html = lines.entries()
 		.toArray()
 		.toSorted(([line_number_1], [line_number_2]) => line_number_1 - line_number_2)
-		.map(([, lines]) => lines.join("\n"))
+		.map(([, lines]) => lines.join(""))
 		.join("\n");
 
 	return {
