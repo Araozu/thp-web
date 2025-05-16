@@ -1,4 +1,4 @@
-import { native_lex_sync, type THPZigOutput, type ZigError } from "@/lexer/highlighter";
+import { native_lex_sync, translate_token_type, type THPZigOutput, type ZigError, type ZigToken } from "@/lexer/highlighter";
 import { HighlightLevel } from "@/lexer/types";
 import { absolute_to_line_column } from "./utils";
 
@@ -20,7 +20,7 @@ export function native_highlighter_sync(
 	let lines: OutputLines = new Map();
 
 	// add tokenized lines
-	render_tokens(code, lines);
+	render_tokens(code, result.tokens, lines);
 
 	// add error lines
 	render_error_lines(code, result.errors, lines);
@@ -38,10 +38,11 @@ export function native_highlighter_sync(
 }
 
 
-function render_tokens(input: string, output_lines: OutputLines) {
+function render_tokens(input: string, _tokens: ZigToken[], output_lines: OutputLines) {
 	// FIXME: receive from parent
 	const ref = { start: 5, end: 9, info: ":: String" }
 	const ref_q = [ref]
+	const tokens = _tokens.filter(t => t.token_type !== "Newline")
 
 	// iterate over every character
 	let current_pos = 0;
@@ -67,16 +68,21 @@ function render_tokens(input: string, output_lines: OutputLines) {
 
 		// FIXME: implement polymorphism
 		// peek ref queue, check if we are at the start of a ref
-		if (ref_q.length > 0) {
-			const r = ref_q[0]!;
-			if (current_pos === r.start) {
-				// process the ref
-				ref_q.shift();
-				const [html, new_pos] = process_ref(input, r);
-				current_pos = new_pos;
-				line_buffer.push(html);
-				continue;
-			}
+		if (!!ref_q[0] && current_pos === ref_q[0]!.start) {
+			// process the ref
+			const r = ref_q.shift()!;
+			const [html, new_pos] = process_ref(input, r);
+			current_pos = new_pos;
+			line_buffer.push(html);
+			continue;
+		}
+		// check for token
+		if (!!tokens[0] && tokens[0]!.start_pos === current_pos) {
+			const token = tokens.shift()!;
+			const [token_html, new_pos] = process_token(input, token);
+			current_pos = new_pos;
+			line_buffer.push(token_html);
+			continue;
 		}
 
 		line_buffer.push(c);
@@ -101,7 +107,7 @@ type ref_t = { start: number, end: number, info: string }
 // returns the new position from which to conitinue
 function process_ref(input: string, r: ref_t): [string, number] {
 	const ref_start_tag = `<span 
-		class="ref before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm before:border before:border-c-thp before:bg-zinc-950
+		class="ref before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm before:border before:border-c-thp before:dark:bg-zinc-950 before:bg-zinc-100
 		border-b border-dotted"
 		lsp="${r.info}">`;
 	const text = input.slice(r.start, r.end);
@@ -109,6 +115,19 @@ function process_ref(input: string, r: ref_t): [string, number] {
 	return [
 		ref_start_tag + text + "</span>",
 		r.end,
+	]
+}
+
+function process_token(input: string, t: ZigToken): [string, number] {
+	console.log("❤️")
+	const token_end = t.start_pos + t.value.length;
+	const token_type = translate_token_type(t.token_type, t.value);
+	const token_start_tag = `<span class="token ${token_type}">`;
+	const text = input.slice(t.start_pos, token_end);
+
+	return [
+		token_start_tag + text + "</span>",
+		token_end,
 	]
 }
 

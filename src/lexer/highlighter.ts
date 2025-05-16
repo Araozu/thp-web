@@ -277,7 +277,7 @@ function process_token_value_and_end(
   ];
 }
 
-function translate_token_type(tt: TokenType, value: string): string {
+export function translate_token_type(tt: TokenType, value: string): string {
   const keywords = [
     "throws",
     "extends",
