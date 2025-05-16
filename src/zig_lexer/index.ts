@@ -1,6 +1,7 @@
 import { native_lex_sync, translate_token_type, type THPZigOutput, type ZigError, type ZigToken } from "@/lexer/highlighter";
 import { HighlightLevel } from "@/lexer/types";
 import { absolute_to_line_column } from "./utils";
+import { QueuedHighlighter } from "./queued";
 
 type HighlightResult = {
 	html: string;
@@ -20,7 +21,7 @@ export function native_highlighter_sync(
 	let lines: OutputLines = new Map();
 
 	// add tokenized lines
-	render_tokens(code, result.tokens, lines);
+	new QueuedHighlighter(code, result.tokens, [], lines).process();
 
 	// add error lines
 	render_error_lines(code, result.errors, lines);
