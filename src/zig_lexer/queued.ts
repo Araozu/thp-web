@@ -1,4 +1,4 @@
-import { translate_token_type, type ZigToken } from "../lexer/highlighter";
+import { translate_token_type, type ZigToken, type ZigError } from "../lexer/highlighter";
 
 type Reference = { start: number, end: number, info: string }
 
@@ -7,12 +7,13 @@ type OutputLines = Map<number, Array<string>>
 type AnnotationEvent = {
 	position: number
 	is_start: boolean
-	data: TokenAnnotation | ReferenceAnnotation
+	data: TokenAnnotation | ReferenceAnnotation | ErrorLabelAnnotation
 	priority?: number
 }
 
 type TokenAnnotation = ZigToken & { type: "token" }
 type ReferenceAnnotation = Reference & { type: "reference" }
+type ErrorLabelAnnotation = ZigError["labels"][number] & { type: "error_label" }
 
 export class QueuedHighlighter {
 	private line_number = 0;
@@ -21,9 +22,10 @@ export class QueuedHighlighter {
 
 	constructor(
 		private readonly code: string,
+		private output_lines: OutputLines,
 		tokens: Array<ZigToken>,
 		references: Array<Reference>,
-		private output_lines: OutputLines
+		errors: Array<ZigError>,
 	) {
 		// build events from tokens/references
 		const events: Array<AnnotationEvent> = []
@@ -50,6 +52,20 @@ export class QueuedHighlighter {
 				is_start: false,
 				data: { type: "reference", ...ref },
 			});
+		}
+		for (const err of errors) {
+			for (const label of err.labels) {
+				events.push({
+					position: label.start,
+					is_start: true,
+					data: { type: "error_label", ...label },
+				});
+				events.push({
+					position: label.end,
+					is_start: false,
+					data: { type: "error_label", ...label },
+				});
+			}
 		}
 
 		// Sort by position, then by isStart (false before true for same position), 
@@ -92,9 +108,18 @@ export class QueuedHighlighter {
 		if (event.data.type === "token") {
 			token_class = translate_token_type(event.data.token_type, event.data.value)
 		}
+		else if (event.data.type === "error_label") {
+			token_class = `
+			before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm 
+			before:border before:border-red-500
+			before:dark:bg-red-950 before:bg-red-50
+			before:text-black before:dark:text-white before:z-10
+			border-b border-dotted dark:border-red-400 border-red-600`
+			lsp_attr = `lsp="${event.data.message.static}"`
+		}
 		else if (event.data.type === "reference") {
 			token_class = `
-			ref before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm before:border before:border-c-thp before:dark:bg-zinc-950 before:bg-zinc-100 before:text-black before:dark:text-white
+			before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm before:border before:border-c-thp before:dark:bg-zinc-950 before:bg-zinc-100 before:text-black before:dark:text-white
 			border-b border-dotted dark:border-zinc-400 border-zinc-600`
 			lsp_attr = `lsp="${event.data.info}"`
 		}

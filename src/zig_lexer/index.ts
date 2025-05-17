@@ -23,7 +23,7 @@ export function native_highlighter_sync(
 	let lines: OutputLines = new Map();
 
 	// add tokenized lines
-	new QueuedHighlighter(code, result.tokens, [ref], lines).process();
+	new QueuedHighlighter(code, lines, result.tokens, [ref], result.errors).process();
 
 	// add error lines
 	render_error_lines(code, result.errors, lines);
