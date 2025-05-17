@@ -1,4 +1,4 @@
-import { translate_token_type, type ZigToken } from "@/lexer/highlighter";
+import { translate_token_type, type ZigToken } from "../lexer/highlighter";
 
 type Reference = { start: number, end: number, info: string }
 
@@ -39,6 +39,18 @@ export class QueuedHighlighter {
 				data: { type: "token", ...token },
 			});
 		}
+		for (const ref of references) {
+			events.push({
+				position: ref.start,
+				is_start: true,
+				data: { type: "reference", ...ref },
+			});
+			events.push({
+				position: ref.end,
+				is_start: false,
+				data: { type: "reference", ...ref },
+			});
+		}
 
 		// Sort by position, then by isStart (false before true for same position), 
 		// then by priority (higher priority closes first, opens last)
@@ -75,10 +87,18 @@ export class QueuedHighlighter {
 
 	private outputAnnotationStart(event: AnnotationEvent) {
 		let token_class = ""
+		let lsp_attr: string | undefined = undefined;
+
 		if (event.data.type === "token") {
 			token_class = translate_token_type(event.data.token_type, event.data.value)
 		}
-		this.push_to_buffer(`<span class="token ${token_class}">`);
+		else if (event.data.type === "reference") {
+			token_class = `
+			ref before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm before:border before:border-c-thp before:dark:bg-zinc-950 before:bg-zinc-100
+			border-b border-dotted dark:border-zinc-400 border-zinc-600`
+			lsp_attr = `lsp="${event.data.info}"`
+		}
+		this.push_to_buffer(`<span class="token ${token_class}" ${lsp_attr ?? ''}>`);
 	}
 
 	private outputAnnotationEnd(event: AnnotationEvent) {

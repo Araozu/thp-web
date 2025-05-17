@@ -1,5 +1,5 @@
-import { native_lex_sync, translate_token_type, type THPZigOutput, type ZigError, type ZigToken } from "@/lexer/highlighter";
-import { HighlightLevel } from "@/lexer/types";
+import { native_lex_sync, translate_token_type, type THPZigOutput, type ZigError, type ZigToken } from "../lexer/highlighter";
+import { HighlightLevel } from "../lexer/types";
 import { absolute_to_line_column } from "./utils";
 import { QueuedHighlighter } from "./queued";
 
@@ -16,12 +16,14 @@ export function native_highlighter_sync(
 	level = HighlightLevel.Semantic,
 ): HighlightResult {
 	let result = native_lex_sync(code, level);
+	// FIXME: receive from compiler
+	const ref = { start: 5, end: 9, info: ":: String" }
 
 	// Each item in the array represents a line
 	let lines: OutputLines = new Map();
 
 	// add tokenized lines
-	new QueuedHighlighter(code, result.tokens, [], lines).process();
+	new QueuedHighlighter(code, result.tokens, [ref], lines).process();
 
 	// add error lines
 	render_error_lines(code, result.errors, lines);
@@ -109,7 +111,7 @@ type ref_t = { start: number, end: number, info: string }
 function process_ref(input: string, r: ref_t): [string, number] {
 	const ref_start_tag = `<span 
 		class="ref before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm before:border before:border-c-thp before:dark:bg-zinc-950 before:bg-zinc-100
-		border-b border-dotted"
+		border-b border-dotted border-b-red-400"
 		lsp="${r.info}">`;
 	const text = input.slice(r.start, r.end);
 
@@ -120,7 +122,6 @@ function process_ref(input: string, r: ref_t): [string, number] {
 }
 
 function process_token(input: string, t: ZigToken): [string, number] {
-	console.log("❤️")
 	const token_end = t.start_pos + t.value.length;
 	const token_type = translate_token_type(t.token_type, t.value);
 	const token_start_tag = `<span class="token ${token_type}">`;

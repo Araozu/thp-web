@@ -1,5 +1,5 @@
 import { visit, SKIP } from 'unist-util-visit';
-import { native_highlighter_sync } from "../lexer/highlighter";
+import { native_highlighter_sync } from "../zig_lexer";
 
 /**
  * A remark plugin to process 'thp' language code blocks.
@@ -10,7 +10,7 @@ export default function remarkCustomXyzCompiler() {
 			if (node.lang === 'thp') {
 				const codeContent: string = node.value;
 
-				const [native_html, error_message, zig_data] = native_highlighter_sync(codeContent);
+				const { html: native_html, error_message, raw_compiler_output: zig_data } = native_highlighter_sync(codeContent);
 
 				if (error_message) {
 					console.error(`Error in code block: ${error_message}`);
@@ -27,7 +27,7 @@ export default function remarkCustomXyzCompiler() {
 `
 				}
 
-				if (import.meta.env.DEV) {
+				if (import.meta.env.DEV && !!zig_data) {
 					const tokens = JSON.stringify(zig_data.tokens, null, 2);
 					const errors = JSON.stringify(zig_data.errors, null, 2);
 					errorHtml += `
