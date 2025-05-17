@@ -94,14 +94,14 @@ export class QueuedHighlighter {
 		}
 		else if (event.data.type === "reference") {
 			token_class = `
-			ref before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm before:border before:border-c-thp before:dark:bg-zinc-950 before:bg-zinc-100
+			ref before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm before:border before:border-c-thp before:dark:bg-zinc-950 before:bg-zinc-100 before:text-black before:dark:text-white
 			border-b border-dotted dark:border-zinc-400 border-zinc-600`
 			lsp_attr = `lsp="${event.data.info}"`
 		}
 		this.push_to_buffer(`<span class="token ${token_class}" ${lsp_attr ?? ''}>`);
 	}
 
-	private outputAnnotationEnd(event: AnnotationEvent) {
+	private outputAnnotationEnd(_event: AnnotationEvent) {
 		this.push_to_buffer(`</span>`)
 	}
 

@@ -1,4 +1,4 @@
-import { native_lex_sync, translate_token_type, type THPZigOutput, type ZigError, type ZigToken } from "../lexer/highlighter";
+import { native_lex_sync, type THPZigOutput, type ZigError } from "../lexer/highlighter";
 import { HighlightLevel } from "../lexer/types";
 import { absolute_to_line_column } from "./utils";
 import { QueuedHighlighter } from "./queued";
@@ -39,100 +39,6 @@ export function native_highlighter_sync(
 		raw_compiler_output: result,
 	};
 }
-
-
-function render_tokens(input: string, _tokens: ZigToken[], output_lines: OutputLines) {
-	// FIXME: receive from parent
-	const ref = { start: 5, end: 9, info: ":: String" }
-	const ref_q = [ref]
-	const tokens = _tokens.filter(t => t.token_type !== "Newline")
-
-	// iterate over every character
-	let current_pos = 0;
-	let line_number = 0;
-	let line_buffer: Array<string> = []
-
-	while (current_pos < input.length) {
-		const c = input[current_pos]!;
-
-		if (c === "\n") {
-			let lines = output_lines.get(line_number);
-			if (!lines) {
-				lines = [];
-				output_lines.set(line_number, lines);
-			}
-			lines.push(line_buffer.join(""));
-			line_buffer = [];
-
-			current_pos += 1;
-			line_number += 1;
-			continue;
-		}
-
-		// FIXME: implement polymorphism
-		// peek ref queue, check if we are at the start of a ref
-		if (!!ref_q[0] && current_pos === ref_q[0]!.start) {
-			// process the ref
-			const r = ref_q.shift()!;
-			const [html, new_pos] = process_ref(input, r);
-			current_pos = new_pos;
-			line_buffer.push(html);
-			continue;
-		}
-		// check for token
-		if (!!tokens[0] && tokens[0]!.start_pos === current_pos) {
-			const token = tokens.shift()!;
-			const [token_html, new_pos] = process_token(input, token);
-			current_pos = new_pos;
-			line_buffer.push(token_html);
-			continue;
-		}
-
-		line_buffer.push(c);
-		current_pos += 1;
-	}
-
-
-	if (line_buffer.length > 0) {
-		let lines = output_lines.get(line_number);
-		if (!lines) {
-			lines = [];
-			output_lines.set(line_number, lines);
-		}
-		lines.push(line_buffer.join(""));
-		line_buffer = [];
-	}
-}
-
-type ref_t = { start: number, end: number, info: string }
-
-// processes a single ref, sets styles as neccesary. assumes the current position is at the start of the ref.
-// returns the new position from which to conitinue
-function process_ref(input: string, r: ref_t): [string, number] {
-	const ref_start_tag = `<span 
-		class="ref before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm before:border before:border-c-thp before:dark:bg-zinc-950 before:bg-zinc-100
-		border-b border-dotted border-b-red-400"
-		lsp="${r.info}">`;
-	const text = input.slice(r.start, r.end);
-
-	return [
-		ref_start_tag + text + "</span>",
-		r.end,
-	]
-}
-
-function process_token(input: string, t: ZigToken): [string, number] {
-	const token_end = t.start_pos + t.value.length;
-	const token_type = translate_token_type(t.token_type, t.value);
-	const token_start_tag = `<span class="token ${token_type}">`;
-	const text = input.slice(t.start_pos, token_end);
-
-	return [
-		token_start_tag + text + "</span>",
-		token_end,
-	]
-}
-
 
 /// Given an array of THP errors,
 /// renders lines for each of them.
