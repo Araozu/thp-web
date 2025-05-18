@@ -1,6 +1,4 @@
-import { translate_token_type, type ZigToken, type ZigError } from "../lexer/highlighter";
-
-type Reference = { start: number, end: number, info: string }
+import { translate_token_type, type ZigToken, type ZigError, type ZigReference } from "../lexer/highlighter";
 
 type OutputLines = Map<number, Array<string>>
 
@@ -12,7 +10,7 @@ type AnnotationEvent = {
 }
 
 type TokenAnnotation = ZigToken & { type: "token" }
-type ReferenceAnnotation = Reference & { type: "reference" }
+type ReferenceAnnotation = ZigReference & { type: "reference" }
 type ErrorLabelAnnotation = ZigError["labels"][number] & { type: "error_label" }
 
 export class QueuedHighlighter {
@@ -24,7 +22,7 @@ export class QueuedHighlighter {
 		private readonly code: string,
 		private output_lines: OutputLines,
 		tokens: Array<ZigToken>,
-		references: Array<Reference>,
+		references: Array<ZigReference>,
 		errors: Array<ZigError>,
 	) {
 		// build events from tokens/references
@@ -109,19 +107,27 @@ export class QueuedHighlighter {
 			token_class = translate_token_type(event.data.token_type, event.data.value)
 		}
 		else if (event.data.type === "error_label") {
+			let err_msg = "";
+			if (event.data.message.static) {
+				err_msg = event.data.message.static
+			}
+			else if (event.data.message.dynamic) {
+				err_msg = event.data.message.dynamic
+			}
+
 			token_class = `
 			before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm 
 			before:border before:border-red-500
 			before:dark:bg-red-950 before:bg-red-50
 			before:text-black before:dark:text-white before:z-10
 			border-b border-dotted dark:border-red-400 border-red-600`
-			lsp_attr = `lsp="${event.data.message.static}"`
+			lsp_attr = `lsp="${err_msg}"`
 		}
 		else if (event.data.type === "reference") {
 			token_class = `
 			before:hidden hover:before:inline-block before:content-[attr(lsp)] before:absolute before:translate-y-5 before:whitespace-pre-wrap before:px-2 before:rounded-sm before:border before:border-c-thp before:dark:bg-zinc-950 before:bg-zinc-100 before:text-black before:dark:text-white
 			border-b border-dotted dark:border-zinc-400 border-zinc-600`
-			lsp_attr = `lsp="${event.data.info}"`
+			lsp_attr = `lsp="${event.data.t}"`
 		}
 		this.push_to_buffer(`<span class="token ${token_class}" ${lsp_attr ?? ''}>`);
 	}

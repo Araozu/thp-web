@@ -28,7 +28,7 @@ const { html, error_message, raw_compiler_output } =
 			</div>
 			<div
 				x-show="open"
-				class="grid grid-cols-2 p-1 rounded border border-zinc-900"
+				class="grid grid-cols-3 p-1 rounded border border-zinc-900"
 			>
 				<pre
 					class="text-xs max-h-64 overflow-scroll"
@@ -42,6 +42,14 @@ const { html, error_message, raw_compiler_output } =
 					class="text-xs max-h-64 overflow-scroll"
 					set:text={JSON.stringify(
 						raw_compiler_output.errors,
+						null,
+						2,
+					)}
+				/>
+				<pre
+					class="text-xs max-h-64 overflow-scroll"
+					set:text={JSON.stringify(
+						raw_compiler_output.references,
 						null,
 						2,
 					)}

@@ -16,15 +16,12 @@ export function native_highlighter_sync(
 	level = HighlightLevel.Semantic,
 ): HighlightResult {
 	let result = native_lex_sync(code, level);
-	// FIXME: obtain from compiler
-	// const ref = [{ start: 5, end: 9, info: ":: String" }]
-	const ref: Array<any> = []
 
 	// Each item in the array represents a line
 	let lines: OutputLines = new Map();
 
 	// add tokenized lines
-	new QueuedHighlighter(code, lines, result.tokens, ref, result.errors).process();
+	new QueuedHighlighter(code, lines, result.tokens, result.references, result.errors).process();
 
 	// add error lines
 	render_error_lines(code, result.errors, lines);

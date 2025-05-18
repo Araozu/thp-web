@@ -30,6 +30,7 @@ export default function remarkCustomXyzCompiler() {
 				if (import.meta.env.DEV && !!zig_data) {
 					const tokens = JSON.stringify(zig_data.tokens, null, 2);
 					const errors = JSON.stringify(zig_data.errors, null, 2);
+					const refs = JSON.stringify(zig_data.references, null, 2);
 					errorHtml += `
 <div x-data="{ open: false }">
 	<div class="text-right">
@@ -37,9 +38,10 @@ export default function remarkCustomXyzCompiler() {
 			Toggle compiler output
 		</button>
 	</div>
-	<div x-show="open" class="grid grid-cols-2 p-1 rounded border border-zinc-900">
+	<div x-show="open" class="grid grid-cols-3 p-1 rounded border border-zinc-900">
 		<pre class="text-xs max-h-64 overflow-scroll">${tokens}</pre>
 		<pre class="text-xs max-h-64 overflow-scroll">${errors}</pre>
+		<pre class="text-xs max-h-64 overflow-scroll">${refs}</pre>
 	</div>
 </div>
 `;
