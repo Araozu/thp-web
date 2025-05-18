@@ -1,9 +1,8 @@
 ---
-import { native_highlighter } from "../../lexer/highlighter";
-
+import { native_highlighter_sync } from "../../zig_lexer";
 const { thpcode, href } = Astro.props;
 
-const [native_html] = await native_highlighter(thpcode);
+const { html: native_html } = native_highlighter_sync(thpcode);
 ---
 
 <a
