@@ -23,7 +23,7 @@
   --c-html: #dc4a20;
   --c-zig: #f7a41d;
 
-  --font-display: "Atkinson Hyperlegible", sans-serif;
+  --font-display: "Playfair Display", "Atkinson Hyperlegible", sans-serif;
   --font-body: "Atkinson Hyperlegible", sans-serif;
   --font-code: "Iosevka Fixed Web", "Iosevka Nerd Font", Iosevka, monospace;
 }
