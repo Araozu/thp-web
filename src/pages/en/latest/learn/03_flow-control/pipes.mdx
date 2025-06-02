@@ -12,46 +12,42 @@ expression as input to another.
 
 For example, instead of writing:
 
-<Code
-  thpcode={`
+```thp
 val result = third_function(second_function(first_function(my_value)))
 `}
-/>
+```
 
 You can use pipes:
 
-<Code
-  thpcode={`
+```thp
 val result = my_value
     |> first_function
     |> second_function
     |> third_function
-`}
-/>
+```
 
 Or use it to group expressions:
 
-<Code
-  thpcode={`
+```thp
 print <| (2 + 3 * 4) / 7
-`}
-/>
+```
 
 TBD: How to handle piping to functions with more than 1 param
 
 ## Function composition
 
-<Code thpcode={`
+```thp
 fun add_one(x: Int) -> Int {
     x + 1
 }
 
 fun times_two(x: Int) -> Int {
-x \* 2
+    x * 2
 }
 
 // (Int) -> (Int)
 val plus_one_times_2 = add_one >> times_two
 
 print(plus_one_times_2(5)) // 12
-`} />
+```
+

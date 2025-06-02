@@ -10,7 +10,7 @@ const monoClass = parentMono ? " font-mono" : "";
 
 <li>
 	<a
-		class={"inline-block py-1 hover:underline" + monoClass}
+		class={"inline-block py-0.5 hover:underline" + monoClass}
 		href={"#" + heading.slug}
 	>
 		{heading.text}
@@ -19,7 +19,10 @@ const monoClass = parentMono ? " font-mono" : "";
 		heading.subheadings.length > 0 && (
 			<ul class="px-2">
 				{heading.subheadings.map((subheading: any) => (
-					<Astro.self heading={subheading} parentMono={isMono} />
+					<Astro.self
+						heading={subheading}
+						parentMono={isMono}
+					/>
 				))}
 			</ul>
 		)

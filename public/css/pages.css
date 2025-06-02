@@ -24,6 +24,7 @@
 }
 
 .markdown > h2::before {
+  font-family: var(--font-body);
   content: "#";
   display: block;
   height: 0;

@@ -134,21 +134,21 @@ const { html: thp_html } = native_highlighter_sync(
 	<HeroSection
 		title="Generics & Types"
 		thpcode={`
-    Array[Int] numbers = [0, 1, 2, 3, 4, 5]
+Array[Int] numbers = [0, 1, 2, 3, 4, 5]
 
-    numbers.push("7")  // Compile error: expected an Int, found a String
+numbers.push("7")  // Compile error: expected an Int, found a String
 
-    // Runtime type checking
-    val object = try JSON::decode(data)
-    val name = try object.get[String]("name")
+// Runtime type checking
+val object = try JSON::decode(data)
+val name = try object.get[String]("name")
 
-    // Any is available, but it's not usable without an explicit cast
-    fun mock() -> Any { ... }
+// Any is available, but it's not usable without an explicit cast
+fun mock() -> Any { ... }
 
-    // Compile error: Cannot use \`Any\` without an explicit cast
-    val result = mock()
-    // Ok
-    val result = mock() as String
+// Compile error: Cannot use \`Any\` without an explicit cast
+val result = mock()
+// Ok
+val result = mock() as String
     `}
 	>
 		Type safety is enforced at compile time. Everything has a
@@ -161,13 +161,13 @@ const { html: thp_html } = native_highlighter_sync(
 	<HeroSection
 		title="Tagged unions"
 		thpcode={`
-    union DirEntry {
-        File(String),
-        Dir(String),
-    }
+union DirEntry {
+	File(String),
+	Dir(String),
+}
 
-    val root = DirEntry::Dir("/")
-    val test_file = DirEntry::File("test.txt")
+val root = DirEntry::Dir("/")
+val test_file = DirEntry::File("test.txt")
     `}
 	>
 		Make invalid state irrepresentable.
@@ -180,15 +180,15 @@ const { html: thp_html } = native_highlighter_sync(
 	<HeroSection
 		title="Pattern matching"
 		thpcode={`
-    match test_file
-    case DirEntry::File(filename)
-    if !filename.starts_with(".") {
-        print(filename)
-    }
-    case _ {
-        print("A valid file was not found")
-    }
-    `}
+match test_file
+case DirEntry::File(filename)
+	if !filename.starts_with(".") {
+	print(filename)
+}
+case _ {
+	print("A valid file was not found")
+}
+`}
 	>
 		Match on values, tuples, enums, unions, types etc.
 		<br />
@@ -198,12 +198,12 @@ const { html: thp_html } = native_highlighter_sync(
 	<HeroSection
 		title="Null safety"
 		thpcode={`
-    String? username = Post::get("username")
+String? username = Post::get("username")
 
-    if username? {
-        // username is a \`String\` here
-        print("Hello, {username}")
-    }
+if username? {
+	// username is a \`String\` here
+	print("Hello, {username}")
+}
     `}
 	>
 		Nulls are explicit and require handling. Types can be nullable,
@@ -215,12 +215,12 @@ const { html: thp_html } = native_highlighter_sync(
 	<HeroSection
 		title="Errors as values"
 		thpcode={`
-            val user_id = POST::get("id")
-            val user = try User::find(user_id)
-            catch DBException e {
-                log_error(e.message)
-                return page(.{}, 404)
-            }
+val user_id = POST::get("id")
+val user = try User::find(user_id)
+catch DBException e {
+	log_error(e.message)
+	return page(.{}, 404)
+}
         `}
 	>
 		Exceptions are values and don't disrupt control flow.
